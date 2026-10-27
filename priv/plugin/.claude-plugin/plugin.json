@@ -1,7 +1,7 @@
 {
   "name": "noetic-harness",
   "displayName": "noetic-harness",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "A development harness for AI coding agents: route work to a workflow and the smallest team of roles, plan and run the gates a change must pass, keep a run ledger with evidence for every step, and keep a project memory. Thirty role subagents and five skills, and nothing else: no MCP server, no hooks, no binary. The engine, noetic-harness, is installed separately. Without it the subagents and the method skill still work, and each slash skill says the engine is missing and stops.",
   "author": {
     "name": "NoeticEcho",
