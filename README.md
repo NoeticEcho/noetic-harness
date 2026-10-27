@@ -31,8 +31,41 @@ the steps.
 
 ## Install
 
-Today the harness is built from source. It needs git, and the Erlang/OTP
-and Elixir versions in `.tool-versions`. On macOS, `brew install coreutils`
+**The quickest way is the single executable from the
+[latest Release](https://github.com/NoeticEcho/noetic-harness/releases/latest).**
+It needs no Erlang or Elixir:
+
+```sh
+# Linux x86_64; on Apple silicon take noetic-harness-macos-aarch64
+curl -fsSLO https://github.com/NoeticEcho/noetic-harness/releases/latest/download/noetic-harness-linux-x86_64
+curl -fsSLO https://github.com/NoeticEcho/noetic-harness/releases/latest/download/SHA256SUMS
+grep linux-x86_64 SHA256SUMS | sha256sum -c -     # on macOS: shasum -a 256 -c
+chmod +x noetic-harness-linux-x86_64
+mv noetic-harness-linux-x86_64 ~/.local/bin/noetic-harness
+```
+
+Then, in the repository you develop:
+
+```sh
+noetic-harness init      # the starter pack into .agents/
+noetic-harness sync      # Claude Code's subagents and MCP server, and the
+                         # Codex, Gemini and Cursor adapters
+```
+
+After `sync`, Claude Code in that repository has the whole harness: the
+routing, the gate lanes, the run ledger and the project memory through the
+MCP server, and the repository's own roles as subagents. The Claude plugin
+(`priv/plugin/`, below) is the part that also works where nothing can be
+installed, such as claude.ai and Cowork: the roles and the method, without
+the engine.
+
+The executable unpacks itself into `~/.local/share/.burrito/` on its first
+run, keyed by version, so a newer release unpacks beside the old one.
+
+### From source
+
+It needs git, and the Erlang/OTP and Elixir versions in `.tool-versions`.
+On macOS, `brew install coreutils`
 too, for `timeout`, which signed records need. Homebrew installs it as
 `gtimeout`; link that one command as `timeout` into a directory on your
 `PATH` (for example `ln -s "$(brew --prefix)/bin/gtimeout" ~/.local/bin/timeout`)

@@ -242,6 +242,9 @@ defmodule Noetic.Harness.PluginTest do
       assert m["name"] =~ ~r/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/
       assert String.length(m["name"]) <= 64
       assert m["version"] =~ ~r/^\d+\.\d+\.\d+$/
+      # Released together, so one version: the directory's page and the
+      # engine's Release must not disagree.
+      assert m["version"] == to_string(Mix.Project.config()[:version])
       assert is_binary(m["description"]) and m["description"] != ""
       assert is_binary(m["author"]["name"]) and m["author"]["name"] != ""
       assert m["license"] == "Apache-2.0"

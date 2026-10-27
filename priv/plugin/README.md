@@ -84,9 +84,17 @@ With the engine:
 Those repository agents sit beside this plugin's, which stay the starter
 pack's.
 
-The engine is built from source today (the repository's README says how). A
-single-file `noetic-harness` for Linux and macOS is configured, and not yet
-built.
+**Getting the engine.** Take the single executable for Linux x86_64 or
+macOS on Apple silicon from the engine's
+[latest Release](https://github.com/NoeticEcho/noetic-harness/releases/latest),
+check it against `SHA256SUMS`, and put it on the `PATH` as `noetic-harness`.
+The repository's README says how, and how to build it from source. Then run
+`noetic-harness init` and `noetic-harness sync` in your repository: in Claude
+Code that gives the whole harness, MCP server included, without this plugin.
+The plugin is for where the engine cannot be installed, and for the roles
+and the method anywhere.
+
+The plugin's version is the engine's: they are released together.
 
 ## Where it works
 
