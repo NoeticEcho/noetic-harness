@@ -1,5 +1,5 @@
 defmodule Noetic.Harness.Workspace do
-  alias Noetic.Harness.Tree
+  alias Noetic.Harness.{Realpath, Tree}
 
   @moduledoc """
   Where a dispatched run is allowed to write.
@@ -263,11 +263,25 @@ defmodule Noetic.Harness.Workspace do
   write, and confirmed by its `gitdir` file pointing back at this worktree;
   git is then given `--git-dir` and `--work-tree` explicitly, with fsmonitor
   and hooks off. A worktree whose admin directory cannot be found is refused.
+
+  **The comparison is of physical paths, and the leaf is never resolved.**
+  Git writes `gitdir` with every symlink resolved, so a worktree reached
+  through one — any temporary directory on macOS, where `/var` is a link to
+  `/private/var` — matched no admin directory, and everything that runs git
+  in a run's tree refused. So the worktree directory and the
+  directory part of `gitdir` are each resolved (`Noetic.Harness.Realpath`),
+  and `.git` is joined to both afterwards. Resolving the whole of
+  `path/.git` would follow the one entry the agent writes: a `.git` symlink
+  to another worktree's `.git` would resolve to that worktree's spelling,
+  match *its* admin directory, and hand the agent's tree another run's
+  index and `HEAD`. The leaf is compared by name, so whatever the agent put
+  there, this worktree is still found by the directory it is in.
   """
   @spec tree_git(Path.t()) :: {:ok, [String.t()]} | {:error, String.t()}
   def tree_git(path) do
-    with {:ok, common} <- common_dir_or_error() do
-      expected = Path.expand(Path.join(path, ".git"))
+    with {:ok, common} <- common_dir_or_error(),
+         {:ok, physical} <- Realpath.resolve(path) do
+      expected = Path.join(physical, ".git")
       admin_root = Path.join(common, "worktrees")
 
       found =
@@ -276,8 +290,12 @@ defmodule Noetic.Harness.Workspace do
             Enum.find_value(names, fn name ->
               admin = Path.join(admin_root, name)
 
-              case File.read(Path.join(admin, "gitdir")) do
-                {:ok, gitdir} -> if Path.expand(String.trim(gitdir)) == expected, do: admin
+              with {:ok, gitdir} <- File.read(Path.join(admin, "gitdir")),
+                   gitdir = Path.absname(String.trim(gitdir), admin),
+                   {:ok, dir} <- Realpath.resolve(Path.dirname(gitdir)),
+                   true <- Path.join(dir, Path.basename(gitdir)) == expected do
+                admin
+              else
                 _ -> nil
               end
             end)

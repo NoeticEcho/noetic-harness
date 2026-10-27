@@ -32,7 +32,10 @@ the steps.
 ## Install
 
 Today the harness is built from source. It needs git, and the Erlang/OTP
-and Elixir versions in `.tool-versions`.
+and Elixir versions in `.tool-versions`. On macOS, `brew install coreutils`
+too, for `timeout`, which signed records need, with
+`$(brew --prefix coreutils)/libexec/gnubin` on `PATH`: Homebrew names it
+`gtimeout` everywhere else.
 
 ```sh
 git clone https://github.com/NoeticEcho/noetic-harness

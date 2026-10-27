@@ -31,6 +31,14 @@ jobs:
           version-file: .tool-versions
           version-type: strict
 
+      # macOS has no timeout(1), and a signed record is not signed without
+      # it: the harness will not run aw unbounded. GNU coreutils has one.
+      - name: Put timeout on PATH
+        if: runner.os == 'macOS'
+        run: |
+          brew install coreutils
+          echo "$(brew --prefix coreutils)/libexec/gnubin" >> "$GITHUB_PATH"
+
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
