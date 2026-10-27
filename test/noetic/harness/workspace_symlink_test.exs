@@ -81,7 +81,58 @@ defmodule Noetic.Harness.WorkspaceSymlinkTest do
     refute "MINE.md" in other_paths
   end
 
+  # git's `worktree.useRelativePaths` writes `gitdir` relative to the admin
+  # directory; the lookup must take it against that, not the cwd.
+  test "a relative gitdir is taken against its admin directory" do
+    ws = open!()
+    own = admin(ws)
+    dir = String.replace_prefix(own, "--git-dir=", "")
+    gitdir = Path.join(dir, "gitdir")
+    {:ok, absolute} = File.read(gitdir)
+    # As git writes it: relative to the admin directory's physical path.
+    {:ok, physical_dir} = Realpath.resolve(dir)
+    relative = Path.relative_to(String.trim(absolute), physical_dir, force: true)
+    refute Path.type(relative) == :absolute
+    File.write!(gitdir, relative <> "\n")
+
+    assert admin(ws) == own
+  end
+
+  test "a worktree directory that is itself a link is refused" do
+    ws = open!()
+    moved = ws.path <> "-moved"
+    File.rename!(ws.path, moved)
+    File.ln_s!(moved, ws.path)
+    on_exit(fn -> File.rm(ws.path) end)
+
+    assert {:error, message} = Workspace.tree_git(ws.path)
+    assert message =~ "itself a symbolic link"
+  end
+
   describe "Realpath.resolve/1" do
+    test "the root, and a relative path from the current directory" do
+      assert Realpath.resolve("/") == {:ok, "/"}
+
+      dir = TestTmp.dir!("realpath-rel")
+      on_exit(fn -> File.rm_rf(dir) end)
+      File.mkdir_p!(Path.join(dir, "sub"))
+      {:ok, physical} = Realpath.resolve(dir)
+      assert File.cd!(dir, fn -> Realpath.resolve("sub") end) == {:ok, Path.join(physical, "sub")}
+    end
+
+    test "a chain of exactly 40 links resolves, and 41 do not" do
+      dir = TestTmp.dir!("realpath-chain")
+      on_exit(fn -> File.rm_rf(dir) end)
+      File.mkdir_p!(Path.join(dir, "end"))
+      link = fn i -> Path.join(dir, "l#{i}") end
+      File.ln_s!(Path.join(dir, "end"), link.(1))
+      for i <- 2..41, do: File.ln_s!(link.(i - 1), link.(i))
+
+      assert {:ok, _} = Realpath.resolve(link.(40))
+      assert {:error, message} = Realpath.resolve(link.(41))
+      assert message =~ "more than 40 symbolic links"
+    end
+
     test "resolves a link, and `..` after it from where the link points", %{
       real: real,
       root: root

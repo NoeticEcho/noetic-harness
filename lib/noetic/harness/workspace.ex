@@ -276,10 +276,16 @@ defmodule Noetic.Harness.Workspace do
   match *its* admin directory, and hand the agent's tree another run's
   index and `HEAD`. The leaf is compared by name, so whatever the agent put
   there, this worktree is still found by the directory it is in.
+
+  Only the worktree directory's *ancestors* may be links: the harness made
+  them, and the agent cannot write them. A worktree directory that is itself
+  a link is refused, so that a weaker sandbox in which an agent could swap
+  its root for a link to another run's tree still gets nothing from it.
   """
   @spec tree_git(Path.t()) :: {:ok, [String.t()]} | {:error, String.t()}
   def tree_git(path) do
     with {:ok, common} <- common_dir_or_error(),
+         :ok <- not_a_link(path),
          {:ok, physical} <- Realpath.resolve(path) do
       expected = Path.join(physical, ".git")
       admin_root = Path.join(common, "worktrees")
@@ -321,6 +327,16 @@ defmodule Noetic.Harness.Workspace do
              "core.hooksPath=/dev/null"
            ]}
       end
+    end
+  end
+
+  defp not_a_link(path) do
+    case File.lstat(path) do
+      {:ok, %File.Stat{type: :symlink}} ->
+        {:error, "the worktree #{path} is itself a symbolic link, so git is not run in it"}
+
+      _ ->
+        :ok
     end
   end
 

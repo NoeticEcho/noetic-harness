@@ -39,13 +39,13 @@ defmodule Noetic.Harness.Realpath do
   defp walk(done, ["." | rest], links, path), do: walk(done, rest, links, path)
   defp walk(done, [".." | rest], links, path), do: walk(Path.dirname(done), rest, links, path)
 
-  defp walk(_done, _rest, links, path) when links > @max_links,
-    do: {:error, "more than #{@max_links} symbolic links in #{path}"}
-
   defp walk(done, [name | rest], links, path) do
     next = Path.join(done, name)
 
     case File.lstat(next) do
+      {:ok, %File.Stat{type: :symlink}} when links >= @max_links ->
+        {:error, "more than #{@max_links} symbolic links in #{path}"}
+
       {:ok, %File.Stat{type: :symlink}} ->
         case File.read_link(next) do
           {:ok, target} ->

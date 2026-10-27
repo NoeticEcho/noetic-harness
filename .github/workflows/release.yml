@@ -49,12 +49,15 @@ jobs:
           version-type: strict
 
       # macOS has no timeout(1), and a signed record is not signed without
-      # it: the harness will not run aw unbounded. GNU coreutils has one.
+      # it: the harness does not run aw unbounded. Only coreutils' timeout goes on
+      # PATH, as `timeout`; the rest of macOS's tools stay as they are.
       - name: Put timeout on PATH
         if: runner.os == 'macOS'
         run: |
-          brew install coreutils
-          echo "$(brew --prefix coreutils)/libexec/gnubin" >> "$GITHUB_PATH"
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install coreutils
+          mkdir -p "$RUNNER_TEMP/timeout-bin"
+          ln -sf "$(brew --prefix coreutils)/bin/gtimeout" "$RUNNER_TEMP/timeout-bin/timeout"
+          echo "$RUNNER_TEMP/timeout-bin" >> "$GITHUB_PATH"
 
       - name: Install Zig ${{ env.ZIG_VERSION }}
         run: |
