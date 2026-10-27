@@ -121,8 +121,11 @@ defmodule Noetic.Harness.WorkspaceSymlinkTest do
     end
 
     test "a chain of exactly 40 links resolves, and 41 do not" do
-      dir = TestTmp.dir!("realpath-chain")
-      on_exit(fn -> File.rm_rf(dir) end)
+      made = TestTmp.dir!("realpath-chain")
+      on_exit(fn -> File.rm_rf(made) end)
+      # Physical first: on macOS the temporary directory is itself under a
+      # link (`/var`), which would make the chain one longer than it reads.
+      {:ok, dir} = Realpath.resolve(made)
       File.mkdir_p!(Path.join(dir, "end"))
       link = fn i -> Path.join(dir, "l#{i}") end
       File.ln_s!(Path.join(dir, "end"), link.(1))
