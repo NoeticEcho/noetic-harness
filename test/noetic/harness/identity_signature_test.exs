@@ -13,6 +13,22 @@ defmodule Noetic.Harness.IdentitySignatureTest do
   # async: false: `:sign_records` and `:aw` are application-global.
   use ExUnit.Case, async: false
 
+  # The fake signs with `openssl pkeyutl -rawin`, which OpenSSL 3 has and
+  # LibreSSL, macOS's own `openssl`, does not. Without it every signed case
+  # here fails for the fake's sake, not the harness's, so the module says so
+  # and steps aside. The public CI puts Homebrew's OpenSSL 3 on PATH.
+  {openssl, _} =
+    try do
+      System.cmd("openssl", ["version"], stderr_to_stdout: true)
+    rescue
+      ErlangError -> {"absent", 1}
+    end
+
+  unless openssl =~ ~r/^OpenSSL [3-9]/ do
+    @moduletag skip:
+                 "the fake aw needs OpenSSL 3's pkeyutl -rawin; `openssl version` says #{String.trim(openssl)}"
+  end
+
   alias Noetic.Harness.Identity
   alias Noetic.Harness.Identity.Signature
 
