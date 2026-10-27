@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "archetypes.schema.json",
+  "title": "Archetypes",
+  "description": "The five upstream mandate sentences, given the operational body the sentence lacks.",
+  "type": "object",
+  "required": ["version", "archetypes"],
+  "properties": {
+    "version": { "type": "integer" },
+    "doc": { "type": "string" },
+    "archetypes": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "upstream_mandate", "stance", "loop", "evidence_required", "prohibited", "completion", "default_trust", "terminal_states"],
+        "properties": {
+          "id": { "type": "string", "enum": ["owner", "steward", "coordinator", "adversary", "investigator"] },
+          "name": { "type": "string" },
+          "upstream_mandate": { "type": "string" },
+          "stance": { "type": "string" },
+          "loop": { "type": "array", "items": { "type": "string" }, "minItems": 3 },
+          "loop_notes": { "type": "object" },
+          "evidence_required": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "prohibited": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "completion": { "type": "string" },
+          "default_trust": { "type": "string", "enum": ["T0", "T1", "T2", "T3", "T4", "T5"] },
+          "terminal_states": { "type": "array", "items": { "type": "string", "enum": ["DONE", "FAILED", "BLOCKED", "UNCERTAIN", "NEEDS_REVIEW"] } },
+          "may_not_author_what_it_reviews": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

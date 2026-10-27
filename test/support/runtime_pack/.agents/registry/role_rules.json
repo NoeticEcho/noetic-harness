@@ -1,0 +1,22 @@
+{
+  "$schema": "../schemas/role_rules.schema.json",
+  "version": 1,
+  "doc": "One rule, which the schema asks for: the checking roles are adversaries. The roles themselves are written directly.",
+  "rules": [
+    {
+      "match": "proofreader|guardian",
+      "capabilities": [],
+      "skills": [],
+      "archetype": "adversary",
+      "tags": [
+        "checker"
+      ]
+    }
+  ],
+  "nucleus": {
+    "doc": "The schema asks for at least one id. A runtime pack generates no coding client's agent files, so the list means nothing here; validating a runtime pack by plane is R2's.",
+    "ids": [
+      "editorial.guardian"
+    ]
+  }
+}

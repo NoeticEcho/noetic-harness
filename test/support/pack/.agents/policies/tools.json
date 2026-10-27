@@ -1,0 +1,299 @@
+{
+  "$schema": "../schemas/tools.schema.json",
+  "version": 1,
+  "doc": "Every tool an agent may be granted, the minimum trust level that can hold it, and how the harness establishes whether it is actually present. `probe` is run by `mix harness.inspect`; a tool whose probe fails is reported unavailable and any gate depending on it reports `unavailable`, never `passed`. Tools marked `present: false` are documented-but-not-wired: the harness names them so an agent knows they were considered, and refuses to pretend they ran. `present` is the expectation for this repository's standard environment, not a claim about the machine you are on — the machine is asked by `probe`, and `probe` is what a gate believes. `mix harness.inspect --tools` prints both and marks every disagreement with `!`.",
+  "tools": [
+    {
+      "id": "read",
+      "kind": "builtin",
+      "min_trust": "T0",
+      "doc": "Read repository files.",
+      "present": true
+    },
+    {
+      "id": "search",
+      "kind": "builtin",
+      "min_trust": "T0",
+      "doc": "grep/glob over the repository and doc/.",
+      "present": true
+    },
+    {
+      "id": "edit",
+      "kind": "builtin",
+      "min_trust": "T2",
+      "doc": "Modify repository files.",
+      "present": true
+    },
+    {
+      "id": "git.read",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "git --version",
+      "doc": "status, log, diff, show, blame.",
+      "present": true
+    },
+    {
+      "id": "git.write",
+      "kind": "cli",
+      "min_trust": "T3",
+      "probe": "git --version",
+      "doc": "add, commit, branch, merge --no-ff. Never rewrite published history.",
+      "present": true
+    },
+    {
+      "id": "git.push",
+      "kind": "cli",
+      "min_trust": "T3",
+      "probe": "git --version",
+      "doc": "Push branches. Pushing to main is T4. Tag and delete refs are refused by this remote for every ref outside refs/heads/* — see docs/guides/github-access.md.",
+      "present": true
+    },
+    {
+      "id": "beads",
+      "kind": "cli",
+      "min_trust": "T1",
+      "probe": "bd --version",
+      "doc": "The canonical work graph. Create, claim, link, close, remember.",
+      "present": true
+    },
+    {
+      "id": "mix.compile",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix --version",
+      "doc": "Compile. --warnings-as-errors in precommit.",
+      "present": true
+    },
+    {
+      "id": "mix.test",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix --version",
+      "doc": "ExUnit. Needs a migrated acme_test database for the product apps; the harness app needs nothing.",
+      "present": true
+    },
+    {
+      "id": "mix.format",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "mix --version",
+      "present": true
+    },
+    {
+      "id": "mix.docs",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "mix --version",
+      "doc": "Builds doc/, which is also the prose search index.",
+      "present": true
+    },
+    {
+      "id": "mix.credo",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix help credo",
+      "doc": "Not currently a dependency of this umbrella. Reported unavailable until added.",
+      "present": true
+    },
+    {
+      "id": "mix.dialyzer",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix help dialyzer",
+      "present": true
+    },
+    {
+      "id": "mix.hex_audit",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix help hex.audit",
+      "doc": "Ships with Hex. Retired-package check.",
+      "present": true
+    },
+    {
+      "id": "sobelow",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "mix help sobelow",
+      "present": true
+    },
+    {
+      "id": "typeql.check",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "typeql-check --version",
+      "doc": "Deterministic TypeQL syntax gate from typedb/typedb-tools. Mandatory for any TypeQL change; see .agents/policies/typeql.md.",
+      "present": false,
+      "install": "scripts/install-tooling.sh typeql-check"
+    },
+    {
+      "id": "typedb.console",
+      "kind": "service",
+      "min_trust": "T2",
+      "probe": "curl -sSf localhost:8000/v1/version",
+      "doc": "Local TypeDB. Semantic truth; schema changes are migrations.",
+      "present": false
+    },
+    {
+      "id": "qdrant",
+      "kind": "service",
+      "min_trust": "T2",
+      "probe": "curl -sSf localhost:6333/",
+      "doc": "Retrieval accelerator only. Never an epistemic source of truth.",
+      "present": false
+    },
+    {
+      "id": "postgres",
+      "kind": "service",
+      "min_trust": "T2",
+      "probe": "pg_isready",
+      "doc": "Operational state. Runs natively in this sandbox, not in a container.",
+      "present": false
+    },
+    {
+      "id": "tidewave",
+      "kind": "mcp",
+      "min_trust": "T2",
+      "probe": "curl -sSf http://localhost:4000/tidewave/mcp",
+      "doc": "The running Phoenix application: evaluate in the live node, query the dev database, read logs, find real source. Requires `mix phx.server`. Prefer project_eval over a scratch script.",
+      "present": false
+    },
+    {
+      "id": "context7",
+      "kind": "mcp",
+      "min_trust": "T0",
+      "doc": "Version-exact dependency documentation. Use on version-sensitive work; not a general answer oracle.",
+      "present": true
+    },
+    {
+      "id": "playwright",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "npx --no-install playwright --version",
+      "doc": "Deterministic browser E2E. The verify-in-browser skill drives it with SwiftShader.",
+      "present": false
+    },
+    {
+      "id": "browser",
+      "kind": "builtin",
+      "min_trust": "T2",
+      "doc": "Agent-driven browser for looking at a rendered page. Evidence, not a test.",
+      "present": true
+    },
+    {
+      "id": "gltf.validator",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "gltf-validator --version",
+      "present": false
+    },
+    {
+      "id": "gltf.transform",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "npx --no-install @gltf-transform/cli --version",
+      "present": false
+    },
+    {
+      "id": "ktx",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "ktx --version",
+      "present": false
+    },
+    {
+      "id": "ffmpeg",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "ffmpeg -version",
+      "present": false
+    },
+    {
+      "id": "shellcheck",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "shellcheck --version",
+      "present": true
+    },
+    {
+      "id": "gitleaks",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "gitleaks version",
+      "present": true
+    },
+    {
+      "id": "osv-scanner",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "osv-scanner --version",
+      "present": true
+    },
+    {
+      "id": "trivy",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "trivy --version",
+      "present": true
+    },
+    {
+      "id": "semgrep",
+      "kind": "cli",
+      "min_trust": "T0",
+      "probe": "semgrep --version",
+      "doc": "Use the current supported CLI, not the archived standalone MCP repository.",
+      "present": true
+    },
+    {
+      "id": "github",
+      "kind": "cli",
+      "min_trust": "T3",
+      "probe": "gh --version",
+      "doc": "PRs, CI, releases. Write access stays narrow.",
+      "present": true
+    },
+    {
+      "id": "docker",
+      "kind": "cli",
+      "min_trust": "T2",
+      "probe": "docker --version",
+      "present": true
+    },
+    {
+      "id": "wrangler",
+      "kind": "cli",
+      "min_trust": "T4",
+      "probe": "npx --no-install wrangler --version",
+      "doc": "R2 and DNS. Infrastructure write; T4 and above only.",
+      "present": false
+    },
+    {
+      "id": "aiven",
+      "kind": "mcp",
+      "min_trust": "T4",
+      "doc": "Read-only by default, narrow service scope. Writes are explicit promotion actions.",
+      "present": false
+    },
+    {
+      "id": "sentry",
+      "kind": "mcp",
+      "min_trust": "T2",
+      "doc": "Read-first incident triage.",
+      "present": false
+    },
+    {
+      "id": "design.sync",
+      "kind": "mcp",
+      "min_trust": "T2",
+      "doc": "AcmeOrg UI upstream. Always uploads from disk with localPath; never re-transcribe source through a context window.",
+      "present": false
+    }
+  ],
+  "rules": [
+    "A tool not listed here may not be granted. Adding one is a change to this file with a reason.",
+    "A granted tool still obeys the agent's trust level: the effective permission is the stricter of the two.",
+    "Infrastructure-write tools (wrangler, aiven, github release) are never granted to a generic implementation role.",
+    "MCP servers are pinned by version or revision in committed configuration. No unpinned @latest.",
+    "A tool whose probe fails is unavailable. Work that needed it is partially verified, and the report says so."
+  ]
+}

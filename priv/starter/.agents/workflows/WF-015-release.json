@@ -1,0 +1,117 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-015",
+  "name": "Release",
+  "family": "release",
+  "intent": "Cut a release that says what is in it, and can be undone.",
+  "trigger": {
+    "kinds": [
+      "release"
+    ],
+    "keywords": [
+      "release",
+      "cut a release",
+      "publish",
+      "version",
+      "changelog"
+    ],
+    "risk": "high"
+  },
+  "artifacts": {
+    "in": [
+      "CodePatch"
+    ],
+    "out": [
+      "ReleaseCandidate"
+    ]
+  },
+  "default_lane": "full",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "scope",
+      "name": "List what is in the release",
+      "capabilities": [
+        "ops.release"
+      ],
+      "inputs": [
+        "merged changes"
+      ],
+      "outputs": [
+        "release notes"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "verify",
+      "name": "Run the full lane on the release candidate",
+      "capabilities": [
+        "qa.regression",
+        "qa.e2e"
+      ],
+      "inputs": [
+        "release notes"
+      ],
+      "outputs": [
+        "lane result"
+      ],
+      "trust": "T2",
+      "gates": [
+        "full"
+      ]
+    },
+    {
+      "id": "rollback",
+      "name": "Write down how the release is undone",
+      "capabilities": [
+        "ops.release"
+      ],
+      "inputs": [
+        "release notes"
+      ],
+      "outputs": [
+        "rollback plan"
+      ],
+      "trust": "T1",
+      "gates": [
+        "rollback.stated"
+      ]
+    },
+    {
+      "id": "publish",
+      "name": "Tag and publish",
+      "capabilities": [
+        "ops.release"
+      ],
+      "inputs": [
+        "lane result",
+        "rollback plan"
+      ],
+      "outputs": [
+        "release"
+      ],
+      "trust": "T4",
+      "gates": [
+        "human.approval"
+      ],
+      "independent_of": [
+        "verify"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the full lane is not green",
+      "to": "WF-003"
+    },
+    {
+      "when": "publishing needs a credential",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "the full lane passed on the released commit",
+    "the changelog names what changed",
+    "the way back is written down"
+  ]
+}

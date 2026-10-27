@@ -1,0 +1,217 @@
+{
+  "id": "WF-002",
+  "name": "RFC → Implementation",
+  "family": "feature",
+  "intent": "Build what was decided, with evidence, without widening the change.",
+  "trigger": {
+    "kinds": [
+      "feature",
+      "task"
+    ],
+    "keywords": [
+      "implement",
+      "add",
+      "build",
+      "support"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "RFC",
+      "ADR",
+      "Requirement"
+    ],
+    "out": [
+      "TaskGraph",
+      "CodePatch",
+      "EvaluationRun"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "context",
+      "name": "Assemble the context and map the subsystem",
+      "capabilities": [
+        "runtime.context",
+        "architecture.domain"
+      ],
+      "inputs": [
+        "RFC",
+        "repository",
+        "memory",
+        "beads"
+      ],
+      "outputs": [
+        "ArchitectureMap"
+      ],
+      "trust": "T0",
+      "note": "This is the READ and MAP of the working loop, done once for the whole workflow."
+    },
+    {
+      "id": "plan",
+      "name": "Decompose into a dependency-ordered task graph",
+      "capabilities": [
+        "governance.planning"
+      ],
+      "inputs": [
+        "RFC",
+        "ArchitectureMap"
+      ],
+      "outputs": [
+        "TaskGraph",
+        "beads filed"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "contracts",
+      "name": "State the contracts before touching them",
+      "capabilities": [
+        "architecture.api"
+      ],
+      "inputs": [
+        "ArchitectureMap",
+        "TaskGraph"
+      ],
+      "outputs": [
+        "contract list",
+        "semver consequence"
+      ],
+      "trust": "T1",
+      "optional": true,
+      "applies_when": "the change touches an API operation, channel topic, public function or resource attribute"
+    },
+    {
+      "id": "implement",
+      "name": "Implement the smallest coherent change",
+      "capabilities": [
+        "elixir.implementation"
+      ],
+      "inputs": [
+        "TaskGraph",
+        "contract list"
+      ],
+      "outputs": [
+        "CodePatch"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "compile"
+      ],
+      "on_failure": "route:qa.regression"
+    },
+    {
+      "id": "test",
+      "name": "Tests that fail before and pass after",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "CodePatch"
+      ],
+      "outputs": [
+        "EvaluationRun"
+      ],
+      "trust": "T2",
+      "gates": [
+        "test.touched"
+      ]
+    },
+    {
+      "id": "review",
+      "name": "Independent review of the diff",
+      "capabilities": [
+        "security.review",
+        "security.dependencies",
+        "architecture.domain"
+      ],
+      "note": "`security.dependencies` is here because WF-015 Release carried it alone, and a workflow that alone carries a capability is the only candidate for every work item that needs it — so every dependency-shaped task routed to the release lane at T4 behind the `protected` gate, whatever it actually was. An independent review of an earlier change found it by testing the diagnosis that had been written down instead (that the bare keyword `ship` was to blame, which was wrong: removing `ship` cost three real release routes, one of them to the Incident workflow, and left the misroute in place). Adding a dependency is ordinary implementation work and deserves a dependency-security review here; measured after, a dependency title has three candidate workflows instead of one and lands on WF-002.",
+      "archetype_preference": "adversary",
+      "inputs": [
+        "CodePatch",
+        "EvaluationRun"
+      ],
+      "outputs": [
+        "findings"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "implement"
+      ],
+      "gates": [
+        "review.independent"
+      ]
+    },
+    {
+      "id": "document",
+      "name": "Moduledocs, spec updates and the documentation the change made false",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "inputs": [
+        "CodePatch"
+      ],
+      "outputs": [
+        "documentation diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "docs"
+      ]
+    },
+    {
+      "id": "integrate",
+      "name": "Land it",
+      "capabilities": [
+        "ops.release"
+      ],
+      "inputs": [
+        "CodePatch",
+        "findings",
+        "documentation diff"
+      ],
+      "outputs": [
+        "commit"
+      ],
+      "trust": "T3",
+      "gates": [
+        "full"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "implementation requires a contract change the RFC did not anticipate",
+      "to": "architecture.systems_architect"
+    },
+    {
+      "when": "the same step fails three times",
+      "to": "WF-020",
+      "on": "retry_budget_exhausted"
+    },
+    {
+      "when": "a boundary in a design decision would have to move",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "the lane's gates are green or reported unavailable with what that leaves unverified",
+    "a test distinguishes the change from its absence",
+    "the diff contains nothing the task did not require",
+    "review findings are resolved or recorded",
+    "beads closed"
+  ],
+  "memory": [
+    "what the obvious implementation got wrong",
+    "any contract that turned out to be undocumented"
+  ],
+  "evaluation": [
+    "gate pass rate on first attempt",
+    "diff size against the plan"
+  ]
+}

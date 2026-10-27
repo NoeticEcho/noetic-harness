@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evolution_candidate.schema.json",
+  "title": "Evolution candidate",
+  "description": "A proposed change to an evolvable harness artifact, with its lineage and every evaluation stage. A candidate missing a stage cannot be promoted; that is enforced rather than documented.",
+  "type": "object",
+  "required": [
+    "id",
+    "target",
+    "hypothesis",
+    "created_by",
+    "created_at",
+    "lineage",
+    "stages",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^cand-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+$"
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "kind",
+        "ref"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "prompt",
+            "role",
+            "routing",
+            "skill",
+            "workflow",
+            "context",
+            "tool",
+            "evaluator",
+            "world",
+            "planner",
+            "signals",
+            "capability",
+            "gates_policy",
+            "constitution",
+            "trust",
+            "gate",
+            "security",
+            "policy"
+          ],
+          "description": "What Evolution.propose_from_cluster/1 writes (signals, capability, gates_policy, skill) as well as the older hand-proposed kinds. constitution, trust, gate, security and policy are here because proposing a change to them is allowed and landing one never is (Evolution.protected_target?/1, constitution §4); a schema that refused them would stop the proposal the harness wants to be able to make."
+        },
+        "ref": {
+          "type": "string"
+        }
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "required": [
+        "weakness",
+        "change",
+        "disconfirming_evidence"
+      ],
+      "properties": {
+        "weakness": {
+          "type": "string",
+          "description": "A task family, observed in telemetry. Not an anecdote."
+        },
+        "change": {
+          "type": "string",
+          "description": "One axis."
+        },
+        "disconfirming_evidence": {
+          "type": "string",
+          "description": "What result would tell you this is wrong."
+        }
+      }
+    },
+    "created_by": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "parents"
+      ],
+      "properties": {
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generation": {
+          "type": "integer"
+        }
+      }
+    },
+    "stages": {
+      "type": "object",
+      "description": "Each stage is absent until run. Promotion requires all of sandbox, benchmark, holdout, transfer, anti_goodhart and archive.",
+      "properties": {
+        "sandbox": {
+          "$ref": "#/definitions/stage"
+        },
+        "benchmark": {
+          "$ref": "#/definitions/stage"
+        },
+        "holdout": {
+          "$ref": "#/definitions/stage"
+        },
+        "transfer": {
+          "$ref": "#/definitions/stage"
+        },
+        "anti_goodhart": {
+          "$ref": "#/definitions/stage"
+        },
+        "archive": {
+          "$ref": "#/definitions/stage"
+        }
+      }
+    },
+    "fitness": {
+      "type": "object",
+      "description": "A vector, deliberately. A single scalar is something to optimise, and something will optimise it."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "running",
+        "evaluated",
+        "quarantined",
+        "archived",
+        "promoted",
+        "rejected"
+      ]
+    },
+    "quarantine_reason": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Declared at proposal and frozen there. `record_stage/3` refuses to change them: metrics an optimising agent can edit are metrics an optimising agent will edit, and the edit arrives looking like a result.",
+      "properties": {
+        "capability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "tolerance"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "tolerance": {
+                "type": "number"
+              }
+            }
+          },
+          "description": "What must not get worse, and by how much it may move first."
+        },
+        "efficiency": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "What the change is for."
+        }
+      }
+    },
+    "fitness_provenance": {
+      "type": "object",
+      "description": "Where each set-keyed fitness value came from, keyed by set name. A number typed on a command line and a number produced by running a candidate against the suite are indistinguishable in the file; this is what tells them apart, and `promotable?/1` refuses a set-keyed value without it.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "run",
+          "environments"
+        ],
+        "properties": {
+          "run": {
+            "type": "string",
+            "description": "The run ledger id of the scoring run. Something to go and read."
+          },
+          "at": {
+            "type": "string"
+          },
+          "environments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The environment ids actually scored. Checked against the set's currently verified members: a member that has since stopped verifying, or one added since, makes the number about a different suite."
+          },
+          "scored_by": {
+            "type": "object",
+            "description": "The adapter and model the scoring run used."
+          }
+        }
+      }
+    },
+    "application": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "How to make this candidate present in a working tree. `target` names what the candidate is about; this is what a scoring run checks out. Only `git_ref` can be run: a commit either exists or it does not, where a JSON field an agent can write means nothing.",
+      "required": [
+        "kind",
+        "ref",
+        "baseline"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "git_ref"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "description": "The commit carrying the candidate."
+        },
+        "baseline": {
+          "type": "string",
+          "description": "The commit it is measured against. Both arms run the same environments; the fitness value is the difference in solve rate."
+        }
+      }
+    },
+    "run": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The run this candidate was proposed in. It is taken from the ledger when the proposer is in a run, and it can also be supplied. A held-out measurement produced by this run, or by anything it dispatched, is refused. Both ids must name runs that exist, so a candidate claiming to have been proposed elsewhere has to name a run the ledger records — which makes a forgery a trace rather than an unfalsifiable claim. It does not prove who ran what; a signature does that."
+    }
+  },
+  "definitions": {
+    "stage": {
+      "type": "object",
+      "required": [
+        "run_at",
+        "by",
+        "outcome"
+      ],
+      "properties": {
+        "run_at": {
+          "type": "string"
+        },
+        "by": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "unavailable"
+          ]
+        },
+        "evidence": {
+          "type": "array"
+        },
+        "independent": {
+          "type": "boolean",
+          "description": "True when the runner is not the candidate's author. Required true for holdout and anti_goodhart."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7887 @@
+{
+  "agents": [
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.development_commander",
+      "legacy_id": "A001",
+      "max_trust": "T2",
+      "name": "Development Commander",
+      "nucleus": true,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.architecture_director",
+      "legacy_id": "A002",
+      "max_trust": "T2",
+      "name": "Architecture Director",
+      "nucleus": true,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.product_director",
+      "legacy_id": "A003",
+      "max_trust": "T2",
+      "name": "Product Director",
+      "nucleus": true,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.technical_program_manager",
+      "legacy_id": "A004",
+      "max_trust": "T2",
+      "name": "Technical Program Manager",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "governance.decision_record",
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "steward",
+        "rules": [
+          "archivist|decision log"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.decision_archivist",
+      "legacy_id": "A005",
+      "max_trust": "T2",
+      "name": "Decision Archivist",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "documentation",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "architecture.system",
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake",
+          "risk director|change impact|dependency cartographer"
+        ]
+      },
+      "domain": "governance",
+      "gates": [
+        "build"
+      ],
+      "id": "governance.risk_director",
+      "legacy_id": "A006",
+      "max_trust": "T2",
+      "name": "Risk Director",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "elixir-idioms",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "analysis",
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "architecture.system",
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "steward",
+        "rules": [
+          "risk director|change impact|dependency cartographer"
+        ]
+      },
+      "domain": "governance",
+      "gates": [
+        "build"
+      ],
+      "id": "governance.dependency_cartographer",
+      "legacy_id": "A007",
+      "max_trust": "T2",
+      "name": "Dependency Cartographer",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "elixir-idioms",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "analysis"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "architecture.system",
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "steward",
+        "rules": [
+          "risk director|change impact|dependency cartographer"
+        ]
+      },
+      "domain": "governance",
+      "gates": [
+        "build"
+      ],
+      "id": "governance.change_impact_analyst",
+      "legacy_id": "A008",
+      "max_trust": "T2",
+      "name": "Change Impact Analyst",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "elixir-idioms",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "analysis"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.work_intake_agent",
+      "legacy_id": "A009",
+      "max_trust": "T2",
+      "name": "Work Intake Agent",
+      "nucleus": true,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.planning",
+        "governance.risk",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "governance",
+        "mandate": "coordinator",
+        "rules": [
+          "escalation"
+        ]
+      },
+      "domain": "governance",
+      "gates": [],
+      "id": "governance.escalation_agent",
+      "legacy_id": "A010",
+      "max_trust": "T2",
+      "name": "Escalation Agent",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Governance & Command"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.system",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "systems architect|domain architect"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build"
+      ],
+      "id": "architecture.systems_architect",
+      "legacy_id": "A011",
+      "max_trust": "T2",
+      "name": "Systems Architect",
+      "nucleus": true,
+      "skills": [
+        "elixir-idioms",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.system",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "systems architect|domain architect"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build"
+      ],
+      "id": "architecture.domain_architect",
+      "legacy_id": "A012",
+      "max_trust": "T2",
+      "name": "Domain Architect",
+      "nucleus": false,
+      "skills": [
+        "elixir-idioms",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.data",
+        "architecture.domain",
+        "architecture.system",
+        "elixir.ecto",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "data architect"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "architecture.data_architect",
+      "legacy_id": "A013",
+      "max_trust": "T2",
+      "name": "Data Architect",
+      "nucleus": false,
+      "skills": [
+        "ecto-data-access",
+        "elixir-idioms",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.system",
+        "elixir.otp",
+        "governance.decision_record",
+        "runtime.agents"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "architecture.agent_architect",
+      "legacy_id": "A014",
+      "max_trust": "T2",
+      "name": "Agent Architect",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "elixir-idioms",
+        "otp-concurrency",
+        "supervision-design",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.system",
+        "evolution.evaluation",
+        "evolution.promotion",
+        "governance.decision_record",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "benchmark.recorded",
+        "review.independent"
+      ],
+      "id": "architecture.evolution_architect",
+      "legacy_id": "A016",
+      "max_trust": "T2",
+      "name": "Evolution Architect",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "elixir-idioms",
+        "working-with-the-harness",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "architecture.domain",
+        "architecture.system",
+        "governance.decision_record",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "architecture.api_architect",
+      "legacy_id": "A017",
+      "max_trust": "T2",
+      "name": "API Architect",
+      "nucleus": false,
+      "skills": [
+        "elixir-idioms",
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.security",
+        "architecture.system",
+        "governance.decision_record",
+        "security.review"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "adversary",
+        "rules": [
+          "security architect|threat modeler"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "secrets.scan"
+      ],
+      "id": "architecture.security_architect",
+      "legacy_id": "A018",
+      "max_trust": "T2",
+      "name": "Security Architect",
+      "nucleus": false,
+      "skills": [
+        "elixir-idioms",
+        "security-baseline",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.performance",
+        "architecture.system",
+        "governance.decision_record",
+        "qa.performance"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "performance architect|performance auditor|capacity planner"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build"
+      ],
+      "id": "architecture.performance_architect",
+      "legacy_id": "A019",
+      "max_trust": "T2",
+      "name": "Performance Architect",
+      "nucleus": false,
+      "skills": [
+        "ecto-data-access",
+        "elixir-idioms",
+        "otp-concurrency",
+        "testing-strategy",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.domain",
+        "architecture.integration",
+        "architecture.system",
+        "elixir.http",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "architecture",
+        "mandate": "owner",
+        "rules": [
+          "integration architect|webhook engineer"
+        ]
+      },
+      "domain": "architecture",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "architecture.integration_architect",
+      "legacy_id": "A020",
+      "max_trust": "T2",
+      "name": "Integration Architect",
+      "nucleus": false,
+      "skills": [
+        "elixir-idioms",
+        "finch-pools",
+        "mint-escape-hatch",
+        "req-client",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Architecture"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.synthesis",
+        "product.narrative",
+        "product.ux",
+        "research.discovery",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "investigator",
+        "rules": [
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "product",
+      "gates": [],
+      "id": "product.product_researcher",
+      "legacy_id": "A021",
+      "max_trust": "T2",
+      "name": "Product Researcher",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "frontend.accessibility",
+        "frontend.web",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "owner",
+        "rules": [
+          "ux architect|interaction designer|onboarding designer|mobile experience"
+        ]
+      },
+      "domain": "product",
+      "gates": [
+        "build"
+      ],
+      "id": "product.ux_architect",
+      "legacy_id": "A022",
+      "max_trust": "T2",
+      "name": "UX Architect",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "frontend.accessibility",
+        "frontend.web",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "steward",
+        "rules": [
+          "ux architect|interaction designer|onboarding designer|mobile experience"
+        ]
+      },
+      "domain": "product",
+      "gates": [
+        "build"
+      ],
+      "id": "product.interaction_designer",
+      "legacy_id": "A023",
+      "max_trust": "T2",
+      "name": "Interaction Designer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "frontend.design_system",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "owner",
+        "rules": [
+          "design system engineer"
+        ]
+      },
+      "domain": "product",
+      "gates": [
+        "build"
+      ],
+      "id": "product.design_system_engineer",
+      "legacy_id": "A025",
+      "max_trust": "T2",
+      "name": "Design System Engineer",
+      "nucleus": false,
+      "skills": [],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "frontend.accessibility",
+        "frontend.web",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "owner",
+        "rules": [
+          "ux architect|interaction designer|onboarding designer|mobile experience"
+        ]
+      },
+      "domain": "product",
+      "gates": [
+        "build"
+      ],
+      "id": "product.mobile_experience_engineer",
+      "legacy_id": "A026",
+      "max_trust": "T2",
+      "name": "Mobile Experience Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "frontend.accessibility",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "adversary",
+        "rules": [
+          "accessibility"
+        ]
+      },
+      "domain": "product",
+      "gates": [],
+      "id": "product.accessibility_engineer",
+      "legacy_id": "A027",
+      "max_trust": "T2",
+      "name": "Accessibility Engineer",
+      "nucleus": false,
+      "skills": [
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "frontend.accessibility",
+        "frontend.web",
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "steward",
+        "rules": [
+          "ux architect|interaction designer|onboarding designer|mobile experience"
+        ]
+      },
+      "domain": "product",
+      "gates": [
+        "build"
+      ],
+      "id": "product.onboarding_designer",
+      "legacy_id": "A028",
+      "max_trust": "T2",
+      "name": "Onboarding Designer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "adversary",
+        "rules": [
+          "cognitive load auditor"
+        ]
+      },
+      "domain": "product",
+      "gates": [],
+      "id": "product.cognitive_load_auditor",
+      "legacy_id": "A029",
+      "max_trust": "T2",
+      "name": "Cognitive Load Auditor",
+      "nucleus": false,
+      "skills": [],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "product.narrative",
+        "product.ux"
+      ],
+      "derived_from": {
+        "domain": "product",
+        "mandate": "steward",
+        "rules": [
+          "narrative experience|visual art director"
+        ]
+      },
+      "domain": "product",
+      "gates": [],
+      "id": "product.narrative_experience_designer",
+      "legacy_id": "A030",
+      "max_trust": "T2",
+      "name": "Narrative Experience Designer",
+      "nucleus": false,
+      "skills": [],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Product / UX / Interaction"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.knowledge_architect",
+      "legacy_id": "A041",
+      "max_trust": "T2",
+      "name": "Knowledge Architect",
+      "nucleus": true,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "steward",
+        "rules": [
+          "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.entity_modeler",
+      "legacy_id": "A042",
+      "max_trust": "T2",
+      "name": "Entity Modeler",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "steward",
+        "rules": [
+          "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.relation_modeler",
+      "legacy_id": "A043",
+      "max_trust": "T2",
+      "name": "Relation Modeler",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "provenance"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.provenance_engineer",
+      "legacy_id": "A044",
+      "max_trust": "T2",
+      "name": "Provenance Engineer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "adversary",
+        "rules": [
+          "epistemic|evidence evaluator|hypothesis"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.epistemic_auditor",
+      "legacy_id": "A045",
+      "max_trust": "T2",
+      "name": "Epistemic Auditor",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "adversary",
+        "rules": [
+          "contradiction|anomaly hunter"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.contradiction_hunter",
+      "legacy_id": "A046",
+      "max_trust": "T2",
+      "name": "Contradiction Hunter",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "steward",
+        "rules": [
+          "epistemic|evidence evaluator|hypothesis"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.hypothesis_manager",
+      "legacy_id": "A047",
+      "max_trust": "T2",
+      "name": "Hypothesis Manager",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "steward",
+        "rules": [
+          "epistemic|evidence evaluator|hypothesis"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.evidence_evaluator",
+      "legacy_id": "A048",
+      "max_trust": "T2",
+      "name": "Evidence Evaluator",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "investigator",
+        "rules": [
+          "synthesizer|unknowns cartographer"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.knowledge_synthesizer",
+      "legacy_id": "A049",
+      "max_trust": "T2",
+      "name": "Knowledge Synthesizer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "investigator",
+        "rules": [
+          "synthesizer|unknowns cartographer"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.unknowns_cartographer",
+      "legacy_id": "A050",
+      "max_trust": "T2",
+      "name": "Unknowns Cartographer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.belief_state_engineer",
+      "legacy_id": "A051",
+      "max_trust": "T2",
+      "name": "Belief-State Engineer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.knowledge_revision_engineer",
+      "legacy_id": "A052",
+      "max_trust": "T2",
+      "name": "Knowledge Revision Engineer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "repository query|semantic search"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.repository_query_engineer",
+      "legacy_id": "A053",
+      "max_trust": "T2",
+      "name": "Repository Query Engineer",
+      "nucleus": false,
+      "skills": [
+        "qdrant",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "owner",
+        "rules": [
+          "repository query|semantic search",
+          "semantic search"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "repository.semantic_search_engineer",
+      "legacy_id": "A054",
+      "max_trust": "T2",
+      "name": "Semantic Search Engineer",
+      "nucleus": false,
+      "skills": [
+        "qdrant",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "knowledge.epistemics",
+        "knowledge.modeling",
+        "knowledge.synthesis",
+        "qa.regression"
+      ],
+      "derived_from": {
+        "domain": "repository",
+        "mandate": "adversary",
+        "rules": [
+          "knowledge regression"
+        ]
+      },
+      "domain": "repository",
+      "gates": [
+        "test.all",
+        "test.touched"
+      ],
+      "id": "repository.knowledge_regression_agent",
+      "legacy_id": "A055",
+      "max_trust": "T2",
+      "name": "Knowledge Regression Agent",
+      "nucleus": false,
+      "skills": [
+        "research-method",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Repository / Knowledge"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.data",
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "data fabric architect"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.data_fabric_architect",
+      "legacy_id": "A056",
+      "max_trust": "T2",
+      "name": "Data Fabric Architect",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "decision-records",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "research.discovery",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "investigator",
+        "rules": [
+          "source discovery|source registry|tooling scout|architecture scout"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.source_discovery_agent",
+      "legacy_id": "A057",
+      "max_trust": "T2",
+      "name": "Source Discovery Agent",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "research-method",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "research.discovery",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "investigator",
+        "rules": [
+          "source discovery|source registry|tooling scout|architecture scout"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.source_registry_curator",
+      "legacy_id": "A058",
+      "max_trust": "T2",
+      "name": "Source Registry Curator",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "research-method",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "elixir.http"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "connector engineer"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.connector_engineer",
+      "legacy_id": "A059",
+      "max_trust": "T2",
+      "name": "Connector Engineer",
+      "nucleus": true,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "mint-escape-hatch",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "elixir.oban"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "ingestion pipeline"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.ingestion_pipeline_engineer",
+      "legacy_id": "A060",
+      "max_trust": "T2",
+      "name": "Ingestion Pipeline Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "oban-workflows",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "qa.property"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "data quality|data test"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.data_quality_engineer",
+      "legacy_id": "A061",
+      "max_trust": "T2",
+      "name": "Data Quality Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.entity_resolution",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "entity resolution|data reconciliation|merge / reconciliation"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.entity_resolution_engineer",
+      "legacy_id": "A062",
+      "max_trust": "T2",
+      "name": "Entity Resolution Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "data.temporal"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "temporal data"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.temporal_data_engineer",
+      "legacy_id": "A063",
+      "max_trust": "T2",
+      "name": "Temporal Data Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "data.spatial"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "spatial data"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.spatial_data_engineer",
+      "legacy_id": "A064",
+      "max_trust": "T2",
+      "name": "Spatial Data Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "knowledge.modeling"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "observation model|indicator engineer|data lineage"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.observation_model_engineer",
+      "legacy_id": "A065",
+      "max_trust": "T2",
+      "name": "Observation Model Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "knowledge.modeling"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "observation model|indicator engineer|data lineage"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.indicator_engineer",
+      "legacy_id": "A066",
+      "max_trust": "T2",
+      "name": "Indicator Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "knowledge.modeling"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "owner",
+        "rules": [
+          "observation model|indicator engineer|data lineage"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.data_lineage_engineer",
+      "legacy_id": "A067",
+      "max_trust": "T2",
+      "name": "Data Lineage Engineer",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "security.privacy"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "adversary",
+        "rules": [
+          "license|data rights|rights auditor"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "data_fabric.license_data_rights_auditor",
+      "legacy_id": "A068",
+      "max_trust": "T2",
+      "name": "License / Data Rights Auditor",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "security-baseline",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality",
+        "knowledge.contradiction"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "adversary",
+        "rules": [
+          "contradiction|anomaly hunter"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.data_anomaly_hunter",
+      "legacy_id": "A069",
+      "max_trust": "T2",
+      "name": "Data Anomaly Hunter",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "research-method",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "data.connector",
+        "data.entity_resolution",
+        "data.ingestion",
+        "data.provenance",
+        "data.quality"
+      ],
+      "derived_from": {
+        "domain": "data_fabric",
+        "mandate": "coordinator",
+        "rules": [
+          "entity resolution|data reconciliation|merge / reconciliation"
+        ]
+      },
+      "domain": "data_fabric",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "data_fabric.data_reconciliation_agent",
+      "legacy_id": "A070",
+      "max_trust": "T2",
+      "name": "Data Reconciliation Agent",
+      "nucleus": false,
+      "skills": [
+        "broadway-ingestion",
+        "dependency-usage-rules",
+        "finch-pools",
+        "oban-workers",
+        "property-testing",
+        "req-client",
+        "testing-strategy",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Data Fabric"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "evolution.promotion",
+        "governance.escalation",
+        "governance.planning",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "commander|director|program manager|intake",
+          "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded",
+        "review.independent"
+      ],
+      "id": "evolution.evolution_director",
+      "legacy_id": "A109",
+      "max_trust": "T2",
+      "name": "Evolution Director",
+      "nucleus": true,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [
+        "command",
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.mutation_designer",
+      "legacy_id": "A110",
+      "max_trust": "T2",
+      "name": "Mutation Designer",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.recombination_designer",
+      "legacy_id": "A111",
+      "max_trust": "T2",
+      "name": "Recombination Designer",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.parent_selection_agent",
+      "legacy_id": "A112",
+      "max_trust": "T2",
+      "name": "Parent Selection Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "archive manager|lineage archivist|pareto archive"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.archive_manager",
+      "legacy_id": "A113",
+      "max_trust": "T2",
+      "name": "Archive Manager",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "archivist|decision log",
+          "archive manager|lineage archivist|pareto archive"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.lineage_archivist",
+      "legacy_id": "A114",
+      "max_trust": "T2",
+      "name": "Lineage Archivist",
+      "nucleus": false,
+      "skills": [
+        "documentation",
+        "working-with-the-harness",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "qa.performance"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "owner",
+        "rules": [
+          "fitness vector|benchmark"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.fitness_vector_engineer",
+      "legacy_id": "A115",
+      "max_trust": "T2",
+      "name": "Fitness Vector Engineer",
+      "nucleus": false,
+      "skills": [
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "archive manager|lineage archivist|pareto archive"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.pareto_archive_manager",
+      "legacy_id": "A116",
+      "max_trust": "T2",
+      "name": "Pareto Archive Manager",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.novelty_analyst",
+      "legacy_id": "A117",
+      "max_trust": "T2",
+      "name": "Novelty Analyst",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.diversity_guardian",
+      "legacy_id": "A118",
+      "max_trust": "T2",
+      "name": "Diversity Guardian",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.stepping_stone_detector",
+      "legacy_id": "A119",
+      "max_trust": "T2",
+      "name": "Stepping-Stone Detector",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "evolution.transfer"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "adversary",
+        "rules": [
+          "transfer tester"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.transfer_tester",
+      "legacy_id": "A120",
+      "max_trust": "T2",
+      "name": "Transfer Tester",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "qa.performance"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "fitness vector|benchmark"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.benchmark_evolution_agent",
+      "legacy_id": "A121",
+      "max_trust": "T2",
+      "name": "Benchmark Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "evolution.anti_goodhart",
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "adversary",
+        "rules": [
+          "anti-goodhart|adversarial evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.anti_goodhart_agent",
+      "legacy_id": "A122",
+      "max_trust": "T2",
+      "name": "Anti-Goodhart Agent",
+      "nucleus": true,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "independent"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "evolution.anti_goodhart",
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "adversary",
+        "rules": [
+          "anti-goodhart|adversarial evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.adversarial_evolution_agent",
+      "legacy_id": "A123",
+      "max_trust": "T2",
+      "name": "Adversarial Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "independent"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "evolution.promotion",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "adversary",
+        "rules": [
+          "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded",
+        "review.independent"
+      ],
+      "id": "evolution.evolution_safety_auditor",
+      "legacy_id": "A124",
+      "max_trust": "T2",
+      "name": "Evolution Safety Auditor",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "evolution.promotion",
+        "governance.routing"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "steward",
+        "rules": [
+          "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded",
+        "review.independent"
+      ],
+      "id": "evolution.evolution_budget_manager",
+      "legacy_id": "A125",
+      "max_trust": "T2",
+      "name": "Evolution Budget Manager",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "evolution.promotion",
+        "governance.routing",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "investigator",
+        "rules": [
+          "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect",
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded",
+        "review.independent"
+      ],
+      "id": "evolution.evolution_meta_researcher",
+      "legacy_id": "A126",
+      "max_trust": "T2",
+      "name": "Evolution Meta-Researcher",
+      "nucleus": false,
+      "skills": [
+        "beads",
+        "working-with-the-harness",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.skill_evolution_agent",
+      "legacy_id": "A127",
+      "max_trust": "T2",
+      "name": "Skill Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.workflow_evolution_agent",
+      "legacy_id": "A128",
+      "max_trust": "T2",
+      "name": "Workflow Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "evolution.tool_evolution_agent",
+      "legacy_id": "A129",
+      "max_trust": "T2",
+      "name": "Tool Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.archive",
+        "evolution.evaluation",
+        "evolution.mutation",
+        "runtime.memory"
+      ],
+      "derived_from": {
+        "domain": "evolution",
+        "mandate": "coordinator",
+        "rules": [
+          "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution",
+          "memory architect|memory evolution|agent runtime"
+        ]
+      },
+      "domain": "evolution",
+      "gates": [
+        "benchmark.recorded",
+        "harness.validate"
+      ],
+      "id": "evolution.memory_evolution_agent",
+      "legacy_id": "A130",
+      "max_trust": "T2",
+      "name": "Memory Evolution Agent",
+      "nucleus": false,
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "the product Evolution"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.agent_runtime_architect",
+      "legacy_id": "A131",
+      "max_trust": "T2",
+      "name": "Agent Runtime Architect",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.jido_integration_engineer",
+      "legacy_id": "A132",
+      "max_trust": "T2",
+      "name": "Jido Integration Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.signal_routing_engineer",
+      "legacy_id": "A133",
+      "max_trust": "T2",
+      "name": "Signal Routing Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.directive_action_engineer",
+      "legacy_id": "A134",
+      "max_trust": "T2",
+      "name": "Directive / Action Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.agent_state_engineer",
+      "legacy_id": "A135",
+      "max_trust": "T2",
+      "name": "Agent State Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "memory architect|memory evolution|agent runtime"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.memory_architect",
+      "legacy_id": "A136",
+      "max_trust": "T2",
+      "name": "Memory Architect",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "memory architect|memory evolution|agent runtime"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.agent_runtime_engineer",
+      "legacy_id": "A137",
+      "max_trust": "T2",
+      "name": "Agent Runtime Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "context assembly"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.context_assembly_engineer",
+      "legacy_id": "A138",
+      "max_trust": "T2",
+      "name": "Context Assembly Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing",
+        "runtime.tools"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "model router|tool use engineer"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.model_router_engineer",
+      "legacy_id": "A139",
+      "max_trust": "T2",
+      "name": "Model Router Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "security-baseline",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing",
+        "runtime.tools"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "model router|tool use engineer"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.tool_use_engineer",
+      "legacy_id": "A140",
+      "max_trust": "T2",
+      "name": "Tool Use Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "security-baseline",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "planner engineer|critic agent|reflection engineer"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.planner_engineer",
+      "legacy_id": "A141",
+      "max_trust": "T2",
+      "name": "Planner Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "mirror|reflection|causal self",
+          "planner engineer|critic agent|reflection engineer"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.reflection_engineer",
+      "legacy_id": "A142",
+      "max_trust": "T2",
+      "name": "Reflection Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "property-testing",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "planner engineer|critic agent|reflection engineer"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.critic_agent_engineer",
+      "legacy_id": "A143",
+      "max_trust": "T2",
+      "name": "Critic Agent Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.multi_agent_coordination_engineer",
+      "legacy_id": "A144",
+      "max_trust": "T2",
+      "name": "Multi-Agent Coordination Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.otp",
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "derived_from": {
+        "domain": "runtime",
+        "mandate": "owner",
+        "rules": [
+          "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect"
+        ]
+      },
+      "domain": "runtime",
+      "gates": [
+        "build",
+        "format",
+        "harness.validate",
+        "test.touched"
+      ],
+      "id": "runtime.agent_identity_persona_engineer",
+      "legacy_id": "A145",
+      "max_trust": "T2",
+      "name": "Agent Identity / Persona Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "working-with-the-harness",
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Agent Runtime / Cognition"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "phoenix architect|liveview|ui components|web interaction"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.phoenix_architect",
+      "legacy_id": "A171",
+      "max_trust": "T2",
+      "name": "Phoenix Architect",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "phoenix architect|liveview|ui components|web interaction"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.liveview_engineer",
+      "legacy_id": "A172",
+      "max_trust": "T2",
+      "name": "LiveView Engineer",
+      "nucleus": true,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "phoenix architect|liveview|ui components|web interaction"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.web_interaction_engineer",
+      "legacy_id": "A173",
+      "max_trust": "T2",
+      "name": "Web Interaction Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "phoenix architect|liveview|ui components|web interaction"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.ui_components_engineer",
+      "legacy_id": "A174",
+      "max_trust": "T2",
+      "name": "UI Components Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "webgl|information visualization|mobile web|offline / edge"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.information_visualization_engineer",
+      "legacy_id": "A175",
+      "max_trust": "T2",
+      "name": "Information Visualization Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "webgl|information visualization|mobile web|offline / edge"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.webgl_integration_engineer",
+      "legacy_id": "A176",
+      "max_trust": "T2",
+      "name": "WebGL Integration Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "webgl|information visualization|mobile web|offline / edge"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.mobile_web_engineer",
+      "legacy_id": "A177",
+      "max_trust": "T2",
+      "name": "Mobile Web Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "webgl|information visualization|mobile web|offline / edge"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.offline_edge_engineer",
+      "legacy_id": "A178",
+      "max_trust": "T2",
+      "name": "Offline / Edge Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.channels",
+        "elixir.liveview",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "owner",
+        "rules": [
+          "realtime engineer"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.realtime_engineer",
+      "legacy_id": "A179",
+      "max_trust": "T2",
+      "name": "Realtime Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.accessibility",
+        "frontend.design_system",
+        "frontend.web"
+      ],
+      "derived_from": {
+        "domain": "frontend",
+        "mandate": "adversary",
+        "rules": [
+          "accessibility"
+        ]
+      },
+      "domain": "frontend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "frontend.accessibility_qa_engineer",
+      "legacy_id": "A180",
+      "max_trust": "T2",
+      "name": "Accessibility QA Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-liveview",
+        "tidewave-runtime",
+        "typescript-client"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Frontend / Phoenix / Web"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "qa.types"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "elixir platform"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.elixir_platform_engineer",
+      "legacy_id": "A181",
+      "max_trust": "T2",
+      "name": "Elixir Platform Engineer",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime",
+        "typespec-dialyzer"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "otp architect|distributed systems"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.otp_architect",
+      "legacy_id": "A182",
+      "max_trust": "T2",
+      "name": "OTP Architect",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "distributed-beam",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "ecto engineer|postgresql engineer|caching engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.ecto_engineer",
+      "legacy_id": "A183",
+      "max_trust": "T2",
+      "name": "Ecto Engineer",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "ecto engineer|postgresql engineer|caching engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.postgresql_engineer",
+      "legacy_id": "A184",
+      "max_trust": "T2",
+      "name": "PostgreSQL Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "semantic.modeling"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "typedb engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "backend.typedb_engineer",
+      "legacy_id": "A185",
+      "max_trust": "T2",
+      "name": "TypeDB Engineer",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.integration",
+        "data.provenance",
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "object storage"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.object_storage_engineer",
+      "legacy_id": "A186",
+      "max_trust": "T2",
+      "name": "Object Storage Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "req-client",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.oban",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "queue / job"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.queue_job_engineer",
+      "legacy_id": "A187",
+      "max_trust": "T2",
+      "name": "Queue / Job Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "oban-workers",
+        "oban-workflows",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "otp architect|distributed systems"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.distributed_systems_engineer",
+      "legacy_id": "A188",
+      "max_trust": "T2",
+      "name": "Distributed Systems Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "distributed-beam",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "ecto engineer|postgresql engineer|caching engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.caching_engineer",
+      "legacy_id": "A189",
+      "max_trust": "T2",
+      "name": "Caching Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "backend.api_gateway_engineer",
+      "legacy_id": "A190",
+      "max_trust": "T2",
+      "name": "API Gateway Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.integration",
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.http",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "integration architect|webhook engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.webhook_engineer",
+      "legacy_id": "A191",
+      "max_trust": "T2",
+      "name": "Webhook Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "finch-pools",
+        "igniter-codegen",
+        "mint-escape-hatch",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "req-client",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "security.review"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "authentication|authorization|api abuse|quota"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.authentication_engineer",
+      "legacy_id": "A192",
+      "max_trust": "T2",
+      "name": "Authentication Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "security-baseline",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "security.review"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "authentication|authorization|api abuse|quota"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.authorization_engineer",
+      "legacy_id": "A193",
+      "max_trust": "T2",
+      "name": "Authorization Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "security-baseline",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "platform.api"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "billing|metering|revenue instrumentation"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "backend.billing_metering_engineer",
+      "legacy_id": "A194",
+      "max_trust": "T2",
+      "name": "Billing / Metering Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "dormant",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.ash",
+        "elixir.ecto",
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.phoenix",
+        "ops.observability"
+      ],
+      "derived_from": {
+        "domain": "backend",
+        "mandate": "owner",
+        "rules": [
+          "observability engineer"
+        ]
+      },
+      "domain": "backend",
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "id": "backend.observability_engineer",
+      "legacy_id": "A195",
+      "max_trust": "T2",
+      "name": "Observability Engineer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "ecto-data-access",
+        "elixir-idioms",
+        "igniter-codegen",
+        "observability",
+        "otp-concurrency",
+        "package-aware-routing",
+        "phoenix-contexts-routing",
+        "simplify",
+        "supervision-design",
+        "tidewave-runtime"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "architecture.api",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "steward",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.public_api_product_manager",
+      "legacy_id": "A196",
+      "max_trust": "T2",
+      "name": "Public API Product Manager",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "owner",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.sdk_engineer",
+      "legacy_id": "A197",
+      "max_trust": "T2",
+      "name": "SDK Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "owner",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.mcp_server_engineer",
+      "legacy_id": "A198",
+      "max_trust": "T2",
+      "name": "MCP Server Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "architecture.api",
+        "docs.authoring",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "coordinator",
+        "rules": [
+          "developer experience|example app|api documentation|developer relations"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.api_documentation_agent",
+      "legacy_id": "A199",
+      "max_trust": "T2",
+      "name": "API Documentation Agent",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy",
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "architecture.api",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "coordinator",
+        "rules": [
+          "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.api_compatibility_agent",
+      "legacy_id": "A200",
+      "max_trust": "T2",
+      "name": "API Compatibility Agent",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "docs.authoring",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "owner",
+        "rules": [
+          "developer experience|example app|api documentation|developer relations"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.developer_experience_engineer",
+      "legacy_id": "A201",
+      "max_trust": "T2",
+      "name": "Developer Experience Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy",
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "docs.authoring",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "owner",
+        "rules": [
+          "developer experience|example app|api documentation|developer relations"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.example_app_engineer",
+      "legacy_id": "A202",
+      "max_trust": "T2",
+      "name": "Example App Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "decision-records",
+        "testing-strategy",
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "architecture.api",
+        "elixir.phoenix",
+        "platform.api",
+        "platform.sdk",
+        "security.review"
+      ],
+      "derived_from": {
+        "domain": "platform",
+        "mandate": "adversary",
+        "rules": [
+          "authentication|authorization|api abuse|quota"
+        ]
+      },
+      "domain": "platform",
+      "gates": [
+        "build",
+        "format",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "platform.api_abuse_quota_auditor",
+      "legacy_id": "A203",
+      "max_trust": "T2",
+      "name": "API Abuse / Quota Auditor",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "security-baseline",
+        "tidewave-runtime",
+        "decision-records",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "API / Platform / Dev Ecosystem"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "qa architect|unit test|integration test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.qa_architect",
+      "legacy_id": "A204",
+      "max_trust": "T2",
+      "name": "QA Architect",
+      "nucleus": true,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "qa architect|unit test|integration test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.unit_test_engineer",
+      "legacy_id": "A205",
+      "max_trust": "T2",
+      "name": "Unit Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "qa architect|unit test|integration test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.integration_test_engineer",
+      "legacy_id": "A206",
+      "max_trust": "T2",
+      "name": "Integration Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing",
+        "qa.types"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "contract test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.contract_test_engineer",
+      "legacy_id": "A207",
+      "max_trust": "T2",
+      "name": "Contract Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy",
+        "typespec-dialyzer",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "property-based|mutation test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.property_based_test_engineer",
+      "legacy_id": "A208",
+      "max_trust": "T2",
+      "name": "Property-Based Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "property-based|mutation test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.mutation_test_engineer",
+      "legacy_id": "A209",
+      "max_trust": "T2",
+      "name": "Mutation Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "adversary",
+        "rules": [
+          "regression hunter|reliability engineer"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.regression_hunter",
+      "legacy_id": "A210",
+      "max_trust": "T2",
+      "name": "Regression Hunter",
+      "nucleus": true,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "adversary",
+        "rules": [
+          "regression hunter|reliability engineer"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.reliability_engineer",
+      "legacy_id": "A211",
+      "max_trust": "T2",
+      "name": "Reliability Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.performance",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "load test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.load_test_engineer",
+      "legacy_id": "A212",
+      "max_trust": "T2",
+      "name": "Load Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "product.ux",
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "coordinator",
+        "rules": [
+          "ux test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.ux_test_agent",
+      "legacy_id": "A213",
+      "max_trust": "T2",
+      "name": "UX Test Agent",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "data.quality",
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "data quality|data test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.data_test_engineer",
+      "legacy_id": "A215",
+      "max_trust": "T2",
+      "name": "Data Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "semantic test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.semantic_test_engineer",
+      "legacy_id": "A216",
+      "max_trust": "T2",
+      "name": "Semantic Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "evolution.holdout",
+        "evolution.transfer",
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "owner",
+        "rules": [
+          "evolution test"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "holdout.recorded",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.evolution_test_engineer",
+      "legacy_id": "A217",
+      "max_trust": "T2",
+      "name": "Evolution Test Engineer",
+      "nucleus": false,
+      "skills": [
+        "property-testing",
+        "testing-phoenix",
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "governance.escalation",
+        "ops.release",
+        "qa.e2e",
+        "qa.property",
+        "qa.regression",
+        "qa.testing"
+      ],
+      "derived_from": {
+        "domain": "qa",
+        "mandate": "adversary",
+        "rules": [
+          "release gatekeeper"
+        ]
+      },
+      "domain": "qa",
+      "gates": [
+        "build",
+        "full",
+        "test.all",
+        "test.touched"
+      ],
+      "id": "qa.release_gatekeeper",
+      "legacy_id": "A218",
+      "max_trust": "T2",
+      "name": "Release Gatekeeper",
+      "nucleus": true,
+      "skills": [
+        "property-testing",
+        "release",
+        "testing-phoenix",
+        "testing-strategy",
+        "working-with-the-harness",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "high_risk"
+      ],
+      "tools": [
+        "browser",
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "QA / Testing / Verification"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "architecture.security",
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "security architect|threat modeler"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.threat_modeler",
+      "legacy_id": "A219",
+      "max_trust": "T2",
+      "name": "Threat Modeler",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "secure coding|dependency security|secret leakage|sandbox auditor|mcp security"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.secure_coding_auditor",
+      "legacy_id": "A220",
+      "max_trust": "T2",
+      "name": "Secure Coding Auditor",
+      "nucleus": true,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "secure coding|dependency security|secret leakage|sandbox auditor|mcp security"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.dependency_security_agent",
+      "legacy_id": "A221",
+      "max_trust": "T2",
+      "name": "Dependency Security Agent",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "secure coding|dependency security|secret leakage|sandbox auditor|mcp security"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.secret_leakage_auditor",
+      "legacy_id": "A222",
+      "max_trust": "T2",
+      "name": "Secret Leakage Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "secure coding|dependency security|secret leakage|sandbox auditor|mcp security"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.agent_sandbox_auditor",
+      "legacy_id": "A223",
+      "max_trust": "T2",
+      "name": "Agent Sandbox Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "secure coding|dependency security|secret leakage|sandbox auditor|mcp security"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.mcp_security_auditor",
+      "legacy_id": "A224",
+      "max_trust": "T2",
+      "name": "MCP Security Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "privacy",
+          "data privacy auditor"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.data_privacy_auditor",
+      "legacy_id": "A225",
+      "max_trust": "T2",
+      "name": "Data Privacy Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.epistemics",
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "provenance",
+          "provenance trust auditor|license auditor"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.provenance_trust_auditor",
+      "legacy_id": "A226",
+      "max_trust": "T2",
+      "name": "Provenance Trust Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.epistemics",
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "license|data rights|rights auditor",
+          "provenance trust auditor|license auditor"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.license_auditor",
+      "legacy_id": "A227",
+      "max_trust": "T2",
+      "name": "License Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline",
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "abuse case"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "review.independent"
+      ],
+      "id": "security.abuse_case_designer",
+      "legacy_id": "A228",
+      "max_trust": "T2",
+      "name": "Abuse Case Designer",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies",
+        "security.privacy",
+        "security.review",
+        "security.secrets"
+      ],
+      "derived_from": {
+        "domain": "security",
+        "mandate": "adversary",
+        "rules": [
+          "agency auditor|behavior safety"
+        ]
+      },
+      "domain": "security",
+      "gates": [
+        "secrets.scan",
+        "deps.scan",
+        "human.approval",
+        "review.independent"
+      ],
+      "id": "security.ai_behavior_safety_auditor",
+      "legacy_id": "A229",
+      "max_trust": "T2",
+      "name": "AI Behavior Safety Auditor",
+      "nucleus": false,
+      "skills": [
+        "dependency-usage-rules",
+        "security-baseline"
+      ],
+      "status": "active",
+      "tags": [
+        "gatekeeper",
+        "high_risk"
+      ],
+      "tools": [
+        "git.read",
+        "gitleaks",
+        "osv-scanner",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Security / Privacy / Trust"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.fundamental_researcher",
+      "legacy_id": "A230",
+      "max_trust": "T1",
+      "name": "Fundamental Researcher",
+      "nucleus": true,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "evolution.evaluation",
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "qa.performance",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "fitness vector|benchmark",
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry",
+          "experiment scientist|benchmark researcher"
+        ]
+      },
+      "domain": "research",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "research.benchmark_researcher",
+      "legacy_id": "A231",
+      "max_trust": "T1",
+      "name": "Benchmark Researcher",
+      "nucleus": false,
+      "skills": [
+        "research-method",
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "source discovery|source registry|tooling scout|architecture scout"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.tooling_scout",
+      "legacy_id": "A232",
+      "max_trust": "T1",
+      "name": "Tooling Scout",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "source discovery|source registry|tooling scout|architecture scout"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.architecture_scout",
+      "legacy_id": "A233",
+      "max_trust": "T1",
+      "name": "Architecture Scout",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "synthesizer|unknowns cartographer",
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.literature_synthesizer",
+      "legacy_id": "A234",
+      "max_trust": "T1",
+      "name": "Literature Synthesizer",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.patent_prior_art_scout",
+      "legacy_id": "A235",
+      "max_trust": "T1",
+      "name": "Patent / Prior-Art Scout",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.market_research_agent",
+      "legacy_id": "A236",
+      "max_trust": "T1",
+      "name": "Market Research Agent",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.product_signal_analyst",
+      "legacy_id": "A237",
+      "max_trust": "T1",
+      "name": "Product Signal Analyst",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "evolution.evaluation",
+        "knowledge.contradiction",
+        "knowledge.synthesis",
+        "qa.performance",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "steward",
+        "rules": [
+          "experiment scientist|benchmark researcher"
+        ]
+      },
+      "domain": "research",
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "id": "research.experiment_scientist",
+      "legacy_id": "A238",
+      "max_trust": "T1",
+      "name": "Experiment Scientist",
+      "nucleus": false,
+      "skills": [
+        "research-method",
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "knowledge.contradiction",
+        "knowledge.epistemics",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "epistemic|evidence evaluator|hypothesis",
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.hypothesis_registry_agent",
+      "legacy_id": "A239",
+      "max_trust": "T1",
+      "name": "Hypothesis Registry Agent",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "investigator",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.contradiction",
+        "knowledge.epistemics",
+        "knowledge.synthesis",
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "derived_from": {
+        "domain": "research",
+        "mandate": "investigator",
+        "rules": [
+          "provenance",
+          "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry"
+        ]
+      },
+      "domain": "research",
+      "gates": [],
+      "id": "research.research_provenance_agent",
+      "legacy_id": "A240",
+      "max_trust": "T1",
+      "name": "Research Provenance Agent",
+      "nucleus": false,
+      "skills": [
+        "research-method"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Research / Intelligence / Strategy"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "owner",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.documentation_architect",
+      "legacy_id": "A241",
+      "max_trust": "T2",
+      "name": "Documentation Architect",
+      "nucleus": true,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "owner",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.handoff_engineer",
+      "legacy_id": "A242",
+      "max_trust": "T2",
+      "name": "Handoff Engineer",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "steward",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.rfc_writer",
+      "legacy_id": "A243",
+      "max_trust": "T2",
+      "name": "RFC Writer",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "coordinator",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.changelog_agent",
+      "legacy_id": "A244",
+      "max_trust": "T2",
+      "name": "Changelog Agent",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "coordinator",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.tutorial_agent",
+      "legacy_id": "A245",
+      "max_trust": "T2",
+      "name": "Tutorial Agent",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "coordinator",
+        "rules": [
+          "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.api_reference_agent",
+      "legacy_id": "A246",
+      "max_trust": "T2",
+      "name": "API Reference Agent",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "owner",
+        "rules": [
+          "code comment auditor|architecture diagram"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.architecture_diagram_agent",
+      "legacy_id": "A247",
+      "max_trust": "T2",
+      "name": "Architecture Diagram Agent",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift",
+        "governance.decision_record"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "steward",
+        "rules": [
+          "archivist|decision log"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.decision_log_agent",
+      "legacy_id": "A248",
+      "max_trust": "T2",
+      "name": "Decision Log Agent",
+      "nucleus": false,
+      "skills": [
+        "documentation",
+        "decision-records"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "adversary",
+        "rules": [
+          "code comment auditor|architecture diagram"
+        ]
+      },
+      "domain": "docs",
+      "gates": [],
+      "id": "docs.code_comment_auditor",
+      "legacy_id": "A249",
+      "max_trust": "T2",
+      "name": "Code Comment Auditor",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift",
+        "knowledge.modeling"
+      ],
+      "derived_from": {
+        "domain": "docs",
+        "mandate": "steward",
+        "rules": [
+          "knowledge graph curator"
+        ]
+      },
+      "domain": "docs",
+      "gates": [
+        "test.touched"
+      ],
+      "id": "docs.knowledge_graph_curator",
+      "legacy_id": "A250",
+      "max_trust": "T2",
+      "name": "Knowledge Graph Curator",
+      "nucleus": false,
+      "skills": [
+        "documentation"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Documentation / Knowledge Transfer"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "ci/cd|build reproducibility"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.ci_cd_engineer",
+      "legacy_id": "A251",
+      "max_trust": "T3",
+      "name": "CI/CD Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "ci/cd|build reproducibility",
+          "build reproducibility"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.build_reproducibility_engineer",
+      "legacy_id": "A252",
+      "max_trust": "T3",
+      "name": "Build Reproducibility Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "environment engineer|container engineer"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.environment_engineer",
+      "legacy_id": "A253",
+      "max_trust": "T3",
+      "name": "Environment Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "environment engineer|container engineer",
+          "container engineer"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.container_engineer",
+      "legacy_id": "A254",
+      "max_trust": "T3",
+      "name": "Container Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "deployment engineer|release manager|rollback engineer"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.deployment_engineer",
+      "legacy_id": "A255",
+      "max_trust": "T3",
+      "name": "Deployment Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "steward",
+        "rules": [
+          "deployment engineer|release manager|rollback engineer"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.release_manager",
+      "legacy_id": "A256",
+      "max_trust": "T3",
+      "name": "Release Manager",
+      "nucleus": true,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "coordinator",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release",
+        "qa.regression"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "coordinator",
+        "rules": [
+          "incident response"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.incident_response_agent",
+      "legacy_id": "A257",
+      "max_trust": "T3",
+      "name": "Incident Response Agent",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "testing-strategy",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "owner",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "owner",
+        "rules": [
+          "deployment engineer|release manager|rollback engineer"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.rollback_engineer",
+      "legacy_id": "A258",
+      "max_trust": "T3",
+      "name": "Rollback Engineer",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "adversary",
+      "capabilities": [
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release",
+        "qa.performance"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "adversary",
+        "rules": [
+          "cost auditor"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.cost_auditor",
+      "legacy_id": "A259",
+      "max_trust": "T3",
+      "name": "Cost Auditor",
+      "nucleus": false,
+      "skills": [
+        "observability",
+        "release",
+        "testing-strategy",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    },
+    {
+      "archetype": "steward",
+      "capabilities": [
+        "architecture.performance",
+        "ops.ci",
+        "ops.deploy",
+        "ops.incident",
+        "ops.observability",
+        "ops.release",
+        "qa.performance"
+      ],
+      "derived_from": {
+        "domain": "release",
+        "mandate": "steward",
+        "rules": [
+          "performance architect|performance auditor|capacity planner"
+        ]
+      },
+      "domain": "release",
+      "gates": [
+        "test.all",
+        "full",
+        "review.independent",
+        "test.touched"
+      ],
+      "id": "release.capacity_planner",
+      "legacy_id": "A260",
+      "max_trust": "T3",
+      "name": "Capacity Planner",
+      "nucleus": false,
+      "skills": [
+        "ecto-data-access",
+        "observability",
+        "otp-concurrency",
+        "release",
+        "testing-strategy",
+        "tidewave-runtime",
+        "release-practice"
+      ],
+      "status": "active",
+      "tags": [
+        "high_risk"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.read",
+        "git.write",
+        "github",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "upstream_domain": "Release / DevOps / Operations"
+    }
+  ]
+}

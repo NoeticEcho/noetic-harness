@@ -1,0 +1,26 @@
+{
+  "id": "WF-016",
+  "name": "Incident",
+  "family": "operations",
+  "intent": "Contain first, preserve the evidence, then find out why — and change something so it cannot recur.",
+  "trigger": { "kinds": ["incident"], "keywords": ["incident", "outage", "down", "alert", "data loss", "production"], "risk": "high" },
+  "artifacts": { "in": ["IncidentReport"], "out": ["IncidentReport", "Postmortem", "CodePatch"] },
+  "default_lane": "focused",
+  "retry_budget": 1,
+  "steps": [
+    { "id": "triage", "name": "What is affected and how badly", "capabilities": ["ops.incident"], "inputs": ["alert", "telemetry", "logs"], "outputs": ["impact"], "trust": "T2" },
+    { "id": "preserve", "name": "Preserve evidence before changing anything", "capabilities": ["ops.incident", "ops.observability"], "inputs": ["impact"], "outputs": ["captured state"], "trust": "T2", "note": "Restarting the thing destroys the reason it broke." },
+    { "id": "contain", "name": "Stop the bleeding", "capabilities": ["ops.deploy", "ops.incident"], "inputs": ["impact"], "outputs": ["containment"], "trust": "T4", "gates": ["human.approval"] },
+    { "id": "diagnose", "name": "Root cause from the captured evidence", "capabilities": ["qa.regression", "ops.incident"], "inputs": ["captured state"], "outputs": ["diagnosis"], "trust": "T2" },
+    { "id": "fix", "name": "Roll back or fix forward, whichever is reversible", "capabilities": ["elixir.implementation", "ops.deploy"], "inputs": ["diagnosis"], "outputs": ["CodePatch"], "trust": "T3" },
+    { "id": "verify", "name": "Verify against the original symptom, not against the diagnosis", "capabilities": ["qa.e2e", "qa.regression"], "inputs": ["CodePatch"], "outputs": ["verification"], "trust": "T2" },
+    { "id": "postmortem", "name": "Postmortem with a prevention that is a change, not an intention", "capabilities": ["docs.authoring", "governance.decision_record"], "inputs": ["diagnosis", "verification"], "outputs": ["Postmortem", "beads"], "trust": "T2" }
+  ],
+  "escalations": [
+    { "when": "containment requires a production credential or an irreversible action", "to": "human_architect" },
+    { "when": "data may have been lost or exposed", "to": "human_architect", "note": "Immediately, before diagnosis continues." }
+  ],
+  "completion": ["symptom gone, verified against the original report", "evidence retained", "postmortem filed", "a prevention bead exists with a concrete change"],
+  "memory": ["the incident, its cause, and the signal that would have caught it earlier"],
+  "evaluation": ["recurrence", "time to containment"]
+}

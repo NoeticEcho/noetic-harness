@@ -1,0 +1,28 @@
+{
+  "id": "WF-015",
+  "name": "Release",
+  "family": "release",
+  "intent": "Move finished work to main with the full evidence, and a rollback path that exists before it is needed.",
+  "trigger": { "kinds": ["release"], "keywords": ["cut a release", "cut the release", "cut a version", "release v", "tag v", "tag the release", "ship it", "deploy to"], "risk": "high" },
+  "artifacts": { "in": ["CodePatch"], "out": ["ReleaseCandidate", "EvaluationRun"] },
+  "default_lane": "release",
+  "retry_budget": 1,
+  "steps": [
+    { "id": "candidate", "name": "Assemble the release candidate", "capabilities": ["ops.release"], "inputs": ["develop", "changelog"], "outputs": ["ReleaseCandidate"], "trust": "T3" },
+    { "id": "gates", "name": "The full lane, locally, as CI runs it", "capabilities": ["ops.ci"], "inputs": ["ReleaseCandidate"], "outputs": ["EvaluationRun"], "trust": "T2", "gates": ["ci.local", "full"] },
+    { "id": "security", "name": "Independent scanners", "capabilities": ["security.review", "security.secrets", "security.dependencies"], "archetype_preference": "adversary", "inputs": ["ReleaseCandidate"], "outputs": ["security verdict"], "trust": "T1", "gates": ["gitleaks", "osv", "trivy", "semgrep", "sobelow"] },
+    { "id": "migration", "name": "Migration safety: forward and back", "capabilities": ["elixir.ecto", "typedb.migration"], "inputs": ["ReleaseCandidate"], "outputs": ["migration verdict"], "trust": "T2", "optional": true, "applies_when": "the candidate contains a migration" },
+    { "id": "docs", "name": "Changelog and documentation", "capabilities": ["docs.authoring", "docs.drift"], "inputs": ["ReleaseCandidate"], "outputs": ["changelog entry"], "trust": "T2", "gates": ["docs"] },
+    { "id": "rollback", "name": "State the rollback path", "capabilities": ["ops.deploy"], "inputs": ["ReleaseCandidate", "migration verdict"], "outputs": ["rollback plan"], "trust": "T3", "gates": ["rollback.stated"] },
+    { "id": "merge", "name": "Release branch, version bump, merge to main, back-merge to develop", "capabilities": ["ops.release"], "inputs": ["ReleaseCandidate", "rollback plan"], "outputs": ["commit", "tag request"], "trust": "T4", "gates": ["protected"], "note": "All six mix.exs — the umbrella root and the five apps; it said five until an earlier change counted them. Merge --no-ff. The tag and the GitHub Release go through release.yml; this remote refuses every ref outside refs/heads/*." },
+    { "id": "smoke", "name": "Smoke test after deploy", "capabilities": ["qa.e2e", "ops.deploy"], "inputs": ["deployment"], "outputs": ["smoke result"], "trust": "T2", "optional": true },
+    { "id": "observe", "name": "Watch it", "capabilities": ["ops.observability"], "inputs": ["deployment"], "outputs": ["observations"], "trust": "T2", "optional": true }
+  ],
+  "escalations": [
+    { "when": "any blocking gate is unavailable", "to": "human_architect", "note": "A release lane with a hole is not a release lane." },
+    { "when": "a migration has no tested down path", "to": "human_architect" }
+  ],
+  "completion": ["release lane green with no unavailable blocking gate", "rollback stated", "changelog written", "main and develop both carry the release merge"],
+  "memory": ["anything the release lane caught that earlier lanes did not"],
+  "evaluation": ["defects found after release that a lane should have caught"]
+}

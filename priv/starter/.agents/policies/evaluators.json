@@ -1,0 +1,40 @@
+{
+  "$schema": "../schemas/evaluators.schema.json",
+  "version": 1,
+  "doc": "What a dispatched run may not change: the things that decide whether its own work passes. An agent may propose a change to any of these; it may not make one in the same run as the work that change would judge. A dispatched run's diff that touches a path here is refused before it reaches a branch.",
+  "paths": [
+    {
+      "glob": ".agents/policies/**",
+      "why": "Gates, trust, tools, models and this list itself."
+    },
+    {
+      "glob": ".agents/constitution.md",
+      "why": "The rules every prompt starts with."
+    },
+    {
+      "glob": ".agents/bin/**",
+      "why": "The project's format, lint, build and test commands are what the gates run. Changing one changes what passing means."
+    },
+    {
+      "glob": ".agents/roles/**",
+      "why": "A role's overlay says what that role must show before its work counts as done."
+    },
+    {
+      "glob": ".agents/evolution/environments/**",
+      "why": "The tasks an evolution candidate is scored on."
+    },
+    {
+      "glob": ".agents/schemas/**",
+      "why": "What the definitions are checked against."
+    },
+    {
+      "glob": ".github/workflows/**",
+      "why": "Continuous integration decides what passing means on the main line."
+    },
+    {
+      "glob": ".gitlab-ci.yml",
+      "why": "The same, for GitLab."
+    }
+  ],
+  "note": "Add the paths of your own evaluators: benchmark data, golden files, CI scripts."
+}

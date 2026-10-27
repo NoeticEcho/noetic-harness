@@ -1,0 +1,132 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-001",
+  "name": "Idea → Proposal",
+  "family": "feature",
+  "intent": "Turn a loose idea into a proposal someone can accept or reject, before anyone builds it.",
+  "trigger": {
+    "kinds": [
+      "feature",
+      "epic",
+      "idea"
+    ],
+    "keywords": [
+      "idea",
+      "proposal",
+      "should we",
+      "what if",
+      "rfc"
+    ],
+    "risk": "low"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "RFC",
+      "TaskGraph"
+    ]
+  },
+  "default_lane": "fast",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "intake",
+      "name": "Say what is being asked, and what is not",
+      "capabilities": [
+        "governance.routing"
+      ],
+      "inputs": [
+        "request"
+      ],
+      "outputs": [
+        "problem statement"
+      ],
+      "trust": "T1",
+      "note": "A request that cannot be stated in two sentences is not ready to be designed."
+    },
+    {
+      "id": "prior_art",
+      "name": "Find what already exists here and elsewhere",
+      "capabilities": [
+        "research.prior_art",
+        "research.discovery"
+      ],
+      "inputs": [
+        "problem statement"
+      ],
+      "outputs": [
+        "prior art"
+      ],
+      "trust": "T1",
+      "parallel_group": "explore"
+    },
+    {
+      "id": "risks",
+      "name": "Name what could go wrong",
+      "capabilities": [
+        "governance.risk"
+      ],
+      "inputs": [
+        "problem statement"
+      ],
+      "outputs": [
+        "risks"
+      ],
+      "trust": "T1",
+      "parallel_group": "explore"
+    },
+    {
+      "id": "proposal",
+      "name": "Write the proposal",
+      "capabilities": [
+        "governance.planning",
+        "architecture.system"
+      ],
+      "inputs": [
+        "problem statement",
+        "prior art",
+        "risks"
+      ],
+      "outputs": [
+        "proposal"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "review",
+      "name": "Read the proposal as its critic",
+      "capabilities": [
+        "governance.risk"
+      ],
+      "inputs": [
+        "proposal"
+      ],
+      "outputs": [
+        "review notes"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "proposal"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the proposal changes an interface others depend on",
+      "to": "WF-014"
+    },
+    {
+      "when": "the decision is the human's to make",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "a proposal with a problem statement, options, a recommendation and its risks",
+    "a critic who did not write it has read it"
+  ],
+  "memory": [
+    "options that were rejected, and why"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-014",
+  "name": "API change",
+  "family": "platform",
+  "intent": "Change an interface others depend on without surprising them.",
+  "trigger": {
+    "kinds": [
+      "feature"
+    ],
+    "keywords": [
+      "api",
+      "endpoint",
+      "breaking change",
+      "public interface",
+      "sdk"
+    ],
+    "risk": "high"
+  },
+  "artifacts": {
+    "in": [
+      "RFC"
+    ],
+    "out": [
+      "ADR",
+      "CodePatch"
+    ]
+  },
+  "default_lane": "full",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "contract",
+      "name": "Write the new contract and who it affects",
+      "capabilities": [
+        "architecture.api"
+      ],
+      "inputs": [
+        "proposal"
+      ],
+      "outputs": [
+        "contract"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "decision",
+      "name": "Record the decision and the compatibility promise",
+      "capabilities": [
+        "governance.decision_record"
+      ],
+      "inputs": [
+        "contract"
+      ],
+      "outputs": [
+        "decision record"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "implement",
+      "name": "Implement it, with the old contract's tests still passing or deliberately changed",
+      "capabilities": [
+        "code.implementation"
+      ],
+      "inputs": [
+        "contract"
+      ],
+      "outputs": [
+        "diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "focused"
+      ]
+    },
+    {
+      "id": "review",
+      "name": "Review the change as a consumer would",
+      "capabilities": [
+        "architecture.api"
+      ],
+      "inputs": [
+        "diff"
+      ],
+      "outputs": [
+        "review notes"
+      ],
+      "trust": "T2",
+      "gates": [
+        "review.independent"
+      ],
+      "independent_of": [
+        "implement"
+      ]
+    },
+    {
+      "id": "document",
+      "name": "Document the change for its consumers",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "inputs": [
+        "diff",
+        "decision record"
+      ],
+      "outputs": [
+        "documentation"
+      ],
+      "trust": "T2"
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the change breaks existing consumers",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "the decision and its compatibility promise are recorded",
+    "consumers can read what changed and what to do"
+  ]
+}

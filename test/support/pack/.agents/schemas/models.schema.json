@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dispatch model policy",
+  "type": "object",
+  "required": [
+    "version",
+    "doc",
+    "default",
+    "adapters",
+    "by_trust",
+    "review"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "default": {
+      "type": "string"
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "needs",
+          "why"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "probe": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "planner": {
+            "type": "object",
+            "required": [
+              "provider",
+              "url",
+              "model",
+              "why"
+            ],
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "ollama"
+                ]
+              },
+              "url": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "max_turns": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 32
+              },
+              "turn_ms": {
+                "type": "integer",
+                "minimum": 1000,
+                "maximum": 600000
+              },
+              "budget_ms": {
+                "type": "integer",
+                "minimum": 1000,
+                "maximum": 3600000
+              },
+              "why": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "models",
+        "why"
+      ],
+      "properties": {
+        "models": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string"
+          },
+          "description": "Review models in order of preference; a review step gets the first one whose family the reviewed step did not use. At least two, from two families: Validation checks the families."
+        },
+        "why": {
+          "type": "string"
+        }
+      }
+    },
+    "by_trust": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "trust",
+          "model",
+          "restricted",
+          "why"
+        ],
+        "properties": {
+          "trust": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "restricted": {
+            "type": "boolean"
+          },
+          "why": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

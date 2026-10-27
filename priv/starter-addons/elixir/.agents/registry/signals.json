@@ -1,0 +1,27 @@
+{
+  "signals": [
+    {
+      "id": "elixir",
+      "text": "\\belixir\\b|\\bmix\\b|\\bhex\\b|genserver|\\bmodule\\b.*\\.ex\\b",
+      "path": "\\.exs?$|(^|/)mix\\.(exs|lock)$",
+      "capabilities": [
+        "elixir.implementation"
+      ]
+    },
+    {
+      "id": "otp",
+      "text": "\\botp\\b|genserver|supervis|process crash|\\bagent\\b.*state|registry|task\\.async",
+      "capabilities": [
+        "elixir.otp"
+      ]
+    },
+    {
+      "id": "ecto",
+      "text": "\\becto\\b|migration|changeset|\\brepo\\b|schema field|database query",
+      "path": "(^|/)priv/repo/migrations/",
+      "capabilities": [
+        "elixir.data"
+      ]
+    }
+  ]
+}

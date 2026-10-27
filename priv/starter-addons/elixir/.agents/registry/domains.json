@@ -1,0 +1,25 @@
+{
+  "domains": [
+    {
+      "id": "elixir",
+      "slug": "elixir",
+      "upstream": "Elixir",
+      "summary": "Elixir and OTP code: modules, processes, supervision, and the data layer.",
+      "owns": [],
+      "capabilities": [
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.data"
+      ],
+      "skills": [
+        "elixir-idioms",
+        "elixir-testing"
+      ],
+      "context": [
+        "tests",
+        "dependency_manifests"
+      ],
+      "trust_ceiling": "T2"
+    }
+  ]
+}

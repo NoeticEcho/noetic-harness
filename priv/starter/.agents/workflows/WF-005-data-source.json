@@ -1,0 +1,128 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-005",
+  "name": "Data source onboarding",
+  "family": "data",
+  "intent": "Bring in data from outside with its terms of use known and its shape checked.",
+  "trigger": {
+    "kinds": [
+      "data"
+    ],
+    "keywords": [
+      "data source",
+      "dataset",
+      "import",
+      "ingest",
+      "connector"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "DatasetManifest",
+      "CodePatch",
+      "ProvenanceRecord"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "terms",
+      "name": "Find the source's terms of use",
+      "capabilities": [
+        "data.provenance"
+      ],
+      "inputs": [
+        "source"
+      ],
+      "outputs": [
+        "terms"
+      ],
+      "trust": "T1",
+      "note": "No terms, no import."
+    },
+    {
+      "id": "sample",
+      "name": "Record a sample and describe its shape",
+      "capabilities": [
+        "data.quality"
+      ],
+      "inputs": [
+        "source"
+      ],
+      "outputs": [
+        "sample"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "connector",
+      "name": "Build the connector against the sample",
+      "capabilities": [
+        "data.connector"
+      ],
+      "inputs": [
+        "sample",
+        "terms"
+      ],
+      "outputs": [
+        "diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "quality",
+      "name": "Check the data is what it claims",
+      "capabilities": [
+        "data.quality"
+      ],
+      "inputs": [
+        "diff",
+        "sample"
+      ],
+      "outputs": [
+        "checks"
+      ],
+      "trust": "T2",
+      "independent_of": [
+        "connector"
+      ]
+    },
+    {
+      "id": "provenance",
+      "name": "Record where the data came from and on what terms",
+      "capabilities": [
+        "data.provenance"
+      ],
+      "inputs": [
+        "terms"
+      ],
+      "outputs": [
+        "provenance record"
+      ],
+      "trust": "T1",
+      "gates": [
+        "review.independent"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the terms are unclear",
+      "to": "human_architect",
+      "note": "Stop until they are clear."
+    }
+  ],
+  "completion": [
+    "the terms are recorded",
+    "the connector is tested against a recorded sample"
+  ]
+}

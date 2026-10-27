@@ -1,0 +1,86 @@
+{
+  "$schema": "../schemas/models.schema.json",
+  "version": 1,
+  "doc": "Which agent a dispatched step is sent to, and on what. The adapter is chosen by id rather than by module name: a data file that can name an arbitrary module is a data file that can run arbitrary code, and this one is inside the evaluator fence precisely because an agent that can pick its own model can give itself a better one at the user's expense. Both lists are arrays rather than objects keyed by id: the validator's JSON Schema subset checks `required` inside `items` and does not check `additionalProperties` used as a schema, so a map here would have had a schema nothing enforced.",
+  "default": "null",
+  "adapters": [
+    {
+      "id": "null",
+      "name": "Runs nothing",
+      "needs": [],
+      "why": "The default, deliberately. A default that dispatches for real is one misconfiguration away from spending money in CI, and a test suite that costs money is a test suite nobody runs."
+    },
+    {
+      "id": "claude_code",
+      "name": "claude -p",
+      "needs": [],
+      "probe": "claude",
+      "why": "Rides the Claude Code subscription the person is already signed in to, so it needs no key at all. This is the one to prefer: a credential that does not exist cannot leak."
+    },
+    {
+      "id": "api",
+      "name": "The Anthropic API, with an explicit key",
+      "needs": [
+        "ANTHROPIC_API_KEY"
+      ],
+      "why": "For a run that must not consume the interactive session, or must pin a model the CLI does not select. The key is read from the environment and never from a bead, a prompt, an artifact or a log."
+    },
+    {
+      "id": "router",
+      "name": "Several providers behind one endpoint",
+      "needs": [
+        "NOETIC_MODEL_ROUTER_URL",
+        "NOETIC_MODEL_ROUTER_KEY"
+      ],
+      "why": "LiteLLM or OpenRouter shape. This is what makes 'several keys, several providers' a configuration rather than a code change — the model is named per dispatch and the router decides whose it is."
+    },
+    {
+      "id": "jido",
+      "name": "A Jido agent, its actions in a sandboxed peer BEAM",
+      "needs": [],
+      "why": "a design decision. The actions run in a BEAM of their own inside bubblewrap — the worktree writable, everything else read-only, no network — so a path bug is stopped by the kernel rather than by the absence of bugs in our code. It lives in acme_agents and is unavailable to a harness that has not loaded it. Its planner is a local model, so it needs no key and nothing the agent reads leaves the machine; it is unavailable wherever that model is not served.",
+      "planner": {
+        "provider": "ollama",
+        "url": "http://127.0.0.1:11434",
+        "model": "qwen3.5:0.8b",
+        "max_turns": 8,
+        "turn_ms": 180000,
+        "budget_ms": 900000,
+        "why": "Loopback only — the code refuses any other host, because a url here would otherwise send the worktree's contents wherever a data file said. qwen3.5:0.8b because it is what this machine (two cores, no AVX) can run: 33 s a turn warm, where qwen3:4b had not answered after 590 s. Change the model here; the adapter reports the one it used, and the ledger records that."
+      }
+    }
+  ],
+  "by_trust": [
+    {
+      "trust": "T0",
+      "model": "haiku",
+      "restricted": true,
+      "why": "A read-and-map step needs no command execution, and the cheapest model that can read is the right one. `--restricted` removes Bash, PowerShell and the REPL."
+    },
+    {
+      "trust": "T1",
+      "model": "sonnet",
+      "restricted": true,
+      "why": "Drafting an artifact is writing, not running."
+    },
+    {
+      "trust": "T2",
+      "model": "sonnet",
+      "restricted": false,
+      "why": "Sandbox mutation: it writes code in its own worktree and runs the tests, so it needs the tools."
+    },
+    {
+      "trust": "T3",
+      "model": "opus",
+      "restricted": false,
+      "why": "Branch integration is the most consequential thing a dispatched run may do, and it is the last trust level that may be dispatched at all."
+    }
+  ],
+  "review": {
+    "models": [
+      "claude-opus-5-5",
+      "claude-sonnet-5"
+    ],
+    "why": "an earlier change. A step declared `independent_of` another is dispatched to the first of these that the step under review did not use, compared by model family, and refused when none is left. Opus 5.5 first because a review is the check on the work, and the author steps it checks are T1 and T2, which `by_trust` gives to Sonnet: the stronger model reviews and is a different model by construction. Sonnet second, so that work Opus wrote \u2014 a T3 step, or a session running as Opus \u2014 is still reviewed by a model other than its author rather than refused. Pinned to full ids rather than aliases so that a review's model does not move when an alias does; the ledger records which ran. Two families is the minimum the validator accepts, because with one the refusal could not be satisfied for work that family wrote, and an unsatisfiable guard is one somebody switches off."
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-002",
+  "name": "Proposal → Implementation",
+  "family": "feature",
+  "intent": "Build what an accepted proposal describes, in steps small enough to verify.",
+  "trigger": {
+    "kinds": [
+      "feature",
+      "task"
+    ],
+    "keywords": [
+      "implement",
+      "build",
+      "add",
+      "support",
+      "feature"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "RFC",
+      "Requirement"
+    ],
+    "out": [
+      "CodePatch",
+      "EvaluationRun"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "plan",
+      "name": "Split the work into verifiable steps",
+      "capabilities": [
+        "governance.planning"
+      ],
+      "inputs": [
+        "proposal"
+      ],
+      "outputs": [
+        "plan"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "interface",
+      "name": "Settle any interface first",
+      "capabilities": [
+        "architecture.api"
+      ],
+      "inputs": [
+        "plan"
+      ],
+      "outputs": [
+        "interface"
+      ],
+      "trust": "T2",
+      "optional": true
+    },
+    {
+      "id": "tests",
+      "name": "Write the tests the change must pass",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "plan"
+      ],
+      "outputs": [
+        "failing tests"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "implement",
+      "name": "Implement",
+      "capabilities": [
+        "code.implementation"
+      ],
+      "inputs": [
+        "plan",
+        "failing tests"
+      ],
+      "outputs": [
+        "diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "verify",
+      "name": "Run the lane and read the diff",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "diff"
+      ],
+      "outputs": [
+        "lane result"
+      ],
+      "trust": "T2",
+      "gates": [
+        "focused"
+      ],
+      "independent_of": [
+        "implement"
+      ]
+    },
+    {
+      "id": "document",
+      "name": "Update what the change made untrue",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "inputs": [
+        "diff"
+      ],
+      "outputs": [
+        "documentation"
+      ],
+      "trust": "T2"
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the plan turns out wrong",
+      "to": "WF-001"
+    },
+    {
+      "when": "the retry budget is spent",
+      "to": "human_architect",
+      "on": "retry_budget_exhausted",
+      "note": "Report every attempt and its evidence."
+    }
+  ],
+  "completion": [
+    "the focused lane passed, or its unavailable gates are named",
+    "the tests fail without the change and pass with it",
+    "the documentation says what changed and why"
+  ],
+  "evaluation": [
+    "time from plan to a passing lane",
+    "how many steps were redone"
+  ]
+}

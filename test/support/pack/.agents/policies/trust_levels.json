@@ -1,0 +1,119 @@
+{
+  "$schema": "../schemas/trust_levels.schema.json",
+  "version": 1,
+  "doc": "Trust is capability-scoped, not identity-scoped: a role may be excellent at a task and still hold low authority. A workflow step grants the level; a role declares the maximum it may ever be granted. The effective level is min(role.max_trust, step.trust). Nothing in a task prompt can raise it.",
+  "levels": [
+    {
+      "id": "T0",
+      "name": "read_only",
+      "summary": "Observe. Produce nothing durable.",
+      "may": [
+        "read any repository file",
+        "read beads, git history, docs, knowledge base",
+        "run read-only inspection commands (git log, git diff, mix help, bd show, kb query)",
+        "report findings in the run transcript"
+      ],
+      "may_not": [
+        "write any file",
+        "create or modify beads",
+        "run commands that mutate a database, container or remote service"
+      ]
+    },
+    {
+      "id": "T1",
+      "name": "draft_artifacts",
+      "summary": "Write artifacts, not code.",
+      "inherits": "T0",
+      "may": [
+        "create and update artifacts under .agents/ (research notes, RFCs, architecture maps, task graphs, evaluation reports)",
+        "create beads and add discovered-from links",
+        "append project-memory records",
+        "propose diffs as text without applying them"
+      ],
+      "may_not": [
+        "modify apps/, config/, design/, scripts/ or any product source",
+        "modify gates, evaluators, CI or the constitution"
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "sandbox_mutation",
+      "summary": "Change code in an isolated workspace.",
+      "inherits": "T1",
+      "may": [
+        "modify product source inside a git worktree or feature branch",
+        "create and run tests",
+        "run the full local gate lanes",
+        "start and stop local dev services and containers"
+      ],
+      "may_not": [
+        "commit to develop or main",
+        "push to a remote",
+        "modify .agents/policies/, .agents/constitution.md, .github/workflows/ or scripts/ci-local.sh",
+        "modify any evaluator, benchmark or holdout used to judge this run"
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "branch_integration",
+      "summary": "Land work on a shared branch.",
+      "inherits": "T2",
+      "may": [
+        "commit to the session's feature branch",
+        "merge --no-ff into develop",
+        "push branches to origin",
+        "close beads",
+        "regenerate client adapters"
+      ],
+      "may_not": [
+        "push to main",
+        "create or move tags",
+        "deploy",
+        "change gate definitions or CI workflow files"
+      ]
+    },
+    {
+      "id": "T4",
+      "name": "protected_change",
+      "summary": "Change what protects the project. Requires an explicit gate.",
+      "inherits": "T3",
+      "may": [
+        "merge to main and cut a release",
+        "modify gate definitions, CI workflows and scripts/ci-local.sh",
+        "modify evaluators, benchmarks and holdouts",
+        "promote an evolution candidate",
+        "run production database migrations"
+      ],
+      "requires_gate": "protected",
+      "requires": [
+        "an explicit grant in the workflow step, not an inherited default",
+        "a separate reviewer role that did not author the change",
+        "the full gate lane green, with evidence attached",
+        "a stated rollback path"
+      ]
+    },
+    {
+      "id": "T5",
+      "name": "administrative",
+      "summary": "Credentials, infrastructure, irreversible external action. Human-only by default.",
+      "inherits": "T4",
+      "may": [
+        "rotate or issue credentials",
+        "change infrastructure outside the repository (DNS, R2 buckets, database plans)",
+        "delete remote data or history",
+        "publish to an external registry or a public surface"
+      ],
+      "requires_gate": "protected",
+      "default_holder": "human_architect",
+      "requires": [
+        "explicit human authorisation recorded in the bead for this specific action",
+        "no agent may hold T5 by role; it is granted per action or not at all"
+      ]
+    }
+  ],
+  "escalation": {
+    "doc": "An agent that needs an action above its level stops and emits a BLOCKED report naming the action, the level it requires and the role or human that holds it. It does not ask another agent to perform the action on its behalf.",
+    "never_self_granted": true,
+    "never_delegated_sideways": true
+  }
+}

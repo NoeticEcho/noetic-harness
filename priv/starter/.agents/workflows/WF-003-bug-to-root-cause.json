@@ -1,0 +1,146 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-003",
+  "name": "Bug → Root cause",
+  "family": "bug",
+  "intent": "Find what is actually wrong before changing anything, and leave a test that would have caught it.",
+  "trigger": {
+    "kinds": [
+      "bug",
+      "test_failure"
+    ],
+    "keywords": [
+      "bug",
+      "fails",
+      "broken",
+      "regression",
+      "crash",
+      "wrong",
+      "error"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "IncidentReport",
+      "Requirement"
+    ],
+    "out": [
+      "CodePatch",
+      "EvaluationRun",
+      "Postmortem"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "reproduce",
+      "name": "Reproduce it as a failing test",
+      "capabilities": [
+        "qa.regression",
+        "qa.testing"
+      ],
+      "inputs": [
+        "symptom"
+      ],
+      "outputs": [
+        "failing test"
+      ],
+      "trust": "T2",
+      "note": "A bug that cannot be reproduced is a hypothesis about a bug. Stop until it fails on demand.",
+      "on_failure": "escalate"
+    },
+    {
+      "id": "diagnose",
+      "name": "Find the cause, with evidence",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "inputs": [
+        "failing test"
+      ],
+      "outputs": [
+        "root cause"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "patch",
+      "name": "Fix the cause, not the symptom",
+      "capabilities": [
+        "code.implementation"
+      ],
+      "inputs": [
+        "root cause",
+        "failing test"
+      ],
+      "outputs": [
+        "diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "regression",
+      "name": "Run everything the fix could have broken",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "inputs": [
+        "diff"
+      ],
+      "outputs": [
+        "lane result"
+      ],
+      "trust": "T2",
+      "gates": [
+        "test.all"
+      ]
+    },
+    {
+      "id": "verify",
+      "name": "Check the fix as someone who did not write it",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "diff",
+        "lane result"
+      ],
+      "outputs": [
+        "review notes"
+      ],
+      "trust": "T2",
+      "independent_of": [
+        "patch"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the bug is in code nobody on the team knows",
+      "to": "the owner of that code"
+    },
+    {
+      "when": "the fix would change an interface",
+      "to": "WF-001"
+    },
+    {
+      "when": "it still does not reproduce after three attempts",
+      "to": "human_architect",
+      "on": "retry_budget_exhausted",
+      "note": "Report what was tried. Do not patch a symptom you cannot reproduce."
+    }
+  ],
+  "completion": [
+    "a test that failed before the fix and passes after it is in the suite",
+    "the cause is named, not only the fix"
+  ],
+  "memory": [
+    "a diagnosis that looked right and was not"
+  ]
+}

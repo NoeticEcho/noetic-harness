@@ -1,0 +1,185 @@
+{
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "AgentSpec",
+      "CodePatch",
+      "EvaluationRun"
+    ]
+  },
+  "completion": [
+    "AgentSpec complete including forbidden actions",
+    "supervision and restart behaviour tested",
+    "failure suite run"
+  ],
+  "default_lane": "focused",
+  "escalations": [
+    {
+      "to": "security.mcp_security_auditor",
+      "when": "the agent would need a tool above its trust level"
+    },
+    {
+      "to": "WF-001",
+      "when": "the agent port would have to change"
+    }
+  ],
+  "evaluation": [
+    "production failure rate against the sandbox suite"
+  ],
+  "family": "runtime",
+  "id": "WF-009",
+  "intent": "Add or change a runtime agent — one of the Jido agents behind the agent port — with its permissions, memory and failure behaviour decided rather than inherited.",
+  "memory": [
+    "failure modes found in the sandbox"
+  ],
+  "name": "Agent build",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "capabilities": [
+        "runtime.agents",
+        "architecture.domain"
+      ],
+      "id": "spec",
+      "inputs": [
+        "requirement",
+        "adr_005"
+      ],
+      "name": "AgentSpec: purpose, inputs, outputs, forbidden actions, escalation",
+      "outputs": [
+        "AgentSpec"
+      ],
+      "trust": "T1"
+    },
+    {
+      "capabilities": [
+        "architecture.api"
+      ],
+      "id": "port",
+      "inputs": [
+        "AgentSpec"
+      ],
+      "name": "Does it fit behind the agent port, or does the port change",
+      "note": "a design decision puts Jido behind a port precisely so the domain does not learn about Jido. A port change is an ADR.",
+      "outputs": [
+        "port verdict"
+      ],
+      "trust": "T1"
+    },
+    {
+      "capabilities": [
+        "runtime.context"
+      ],
+      "id": "context",
+      "inputs": [
+        "AgentSpec"
+      ],
+      "name": "What context it gets, and what it must not see",
+      "outputs": [
+        "context contract"
+      ],
+      "trust": "T1"
+    },
+    {
+      "capabilities": [
+        "runtime.tools"
+      ],
+      "id": "permissions",
+      "inputs": [
+        "AgentSpec"
+      ],
+      "name": "Tools and trust level",
+      "outputs": [
+        "permission set"
+      ],
+      "trust": "T1"
+    },
+    {
+      "capabilities": [
+        "runtime.memory"
+      ],
+      "id": "memory",
+      "inputs": [
+        "AgentSpec"
+      ],
+      "name": "What it remembers and for how long",
+      "outputs": [
+        "memory policy"
+      ],
+      "trust": "T1"
+    },
+    {
+      "capabilities": [
+        "runtime.agents",
+        "elixir.otp"
+      ],
+      "gates": [
+        "format",
+        "build"
+      ],
+      "id": "implement",
+      "inputs": [
+        "AgentSpec",
+        "context contract",
+        "permission set"
+      ],
+      "name": "Implement under supervision, with stated failure semantics",
+      "outputs": [
+        "CodePatch"
+      ],
+      "trust": "T2"
+    },
+    {
+      "capabilities": [
+        "evolution.evaluation",
+        "qa.testing"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "sandbox",
+      "inputs": [
+        "CodePatch"
+      ],
+      "name": "Run it in a sandbox against its failure suite",
+      "outputs": [
+        "EvaluationRun"
+      ],
+      "trust": "T2"
+    },
+    {
+      "capabilities": [
+        "evolution.evaluation"
+      ],
+      "id": "benchmark",
+      "inputs": [
+        "EvaluationRun"
+      ],
+      "name": "Baseline it before it becomes the default",
+      "optional": true,
+      "outputs": [
+        "Benchmark"
+      ],
+      "trust": "T2"
+    }
+  ],
+  "trigger": {
+    "keywords": [
+      "jido",
+      "jido agent",
+      "runtime agent",
+      "agent runtime",
+      "oracle",
+      "echo voice",
+      "onlooker companion",
+      "tool use"
+    ],
+    "kinds": [
+      "feature"
+    ],
+    "note": "The bare keyword `agent` was removed. This workflow's intent says \"one of the Jido agents behind the agent port\", and in this repository the commoner sense of the word is the other one: `.agents/` is a registry of 270 coding roles and every harness bead says `agent` several times. \"Dependency-authored agent instructions\" routed here, to a workflow about runtime agents with permissions and memory. Verified before and after against `Add a new agent for the agent gateway` and `Add an agent that narrates transitions`, which route here either way.",
+    "risk": "medium"
+  }
+}

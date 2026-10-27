@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "project.schema.json",
+  "title": "What a repository tells the harness about itself",
+  "description": "`.agents/registry/project.json`: the paths the engine reads that belong to the project it serves, not to the engine. Every section is optional: a repository without one configures nothing there, and the reader says so. `Noetic.Harness.Project` reads it and checks what this schema cannot: that a context source's `same_as` names a declared source, that every source has a kind with its fields, and that the kb paths lie inside the repository.",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {"type": "string"},
+    "version": {"const": 1},
+    "doc": {"type": "string"},
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The project's name, as the generated GEMINI.md heads itself."
+    },
+    "adr": {
+      "type": "object",
+      "required": ["dir", "prefix", "digits"],
+      "additionalProperties": false,
+      "properties": {
+        "dir": {"$ref": "#/definitions/relative"},
+        "prefix": {"type": "string", "minLength": 1},
+        "digits": {"type": "integer", "minimum": 1, "maximum": 6}
+      },
+      "description": "Where the decision records are, and how a number is written in a file name: `noetic-harness assign --adr N` refuses a number whose file exists (`<dir>/<prefix><N padded to digits>-`)."
+    },
+    "kb": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root": {"$ref": "#/definitions/relative"},
+        "extraction": {"$ref": "#/definitions/relative"},
+        "glossary": {"$ref": "#/definitions/relative"},
+        "glossary_parts": {"$ref": "#/definitions/relative"},
+        "glossary_markdown": {"$ref": "#/definitions/relative"},
+        "reading_maps": {"$ref": "#/definitions/relative"},
+        "readme": {"$ref": "#/definitions/relative"},
+        "guide": {"$ref": "#/definitions/relative"},
+        "corpus": {"$ref": "#/definitions/relative"},
+        "source_roots": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*$"},
+          "description": "The top-level directories a source path recorded at another checkout's absolute path is cut back to, so that it resolves here."
+        }
+      },
+      "description": "The knowledge base's files: the extraction the index is built from, the glossary the context names terms from, the reading maps a profile reads first, the corpus sources resolve against."
+    },
+    "services": {
+      "type": "object",
+      "required": ["probe", "start"],
+      "additionalProperties": false,
+      "properties": {
+        "probe": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "port"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "port": {"type": "integer", "minimum": 1, "maximum": 65535}
+            }
+          }
+        },
+        "start": {"type": "string", "minLength": 1}
+      },
+      "description": "What SessionStart probes on localhost, and the command it names when one does not answer."
+    },
+    "tooling": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "install_gates": {"type": "string", "minLength": 1}
+      },
+      "description": "The command telemetry names for a gate that could not run because its tool is missing."
+    },
+    "beads": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "guide": {"$ref": "#/definitions/relative"}
+      },
+      "description": "The guide SessionStart names when bd would use a second bead database."
+    },
+    "integrations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "beads": {"type": "boolean", "description": "`bd`, the work graph: SessionStart's ready list, the `beads` context source, `route --bead`, `prompt --task`, telemetry's `--file`, and the bead side of `assign`."},
+        "knowledge_base": {"type": "boolean", "description": "Probing the knowledge store (Postgres) and Qdrant beside a `kb` answer. The answer is the files' either way."},
+        "jido": {"type": "boolean", "description": "The `jido` dispatch adapter, whose module lives in `acme_agents`."},
+        "workers": {"type": "boolean", "description": "The coordinator and cloud-worker protocol: `assign`, coordination records, profiles."}
+      },
+      "description": "What the harness may reach outside itself. A switch that is absent is off: a repository has an integration only when it says so. Off is said by whatever needs it, never a failure of it; `route`, `context`, `gates`, `run` and `conduct` need none."
+    },
+    "layout": {
+      "type": "object",
+      "required": ["apps", "lib", "test", "test_suffix", "test_command", "build"],
+      "additionalProperties": false,
+      "properties": {
+        "apps": {"$ref": "#/definitions/segment", "description": "The directory each app is a directory of: an app's files are `<apps>/<app>/…`."},
+        "lib": {"$ref": "#/definitions/segment", "description": "An app's source directory."},
+        "test": {"$ref": "#/definitions/segment", "description": "An app's test directory."},
+        "test_suffix": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+$", "description": "How a test file's name ends; its extension is a test file's."},
+        "test_command": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "description": "The command that runs test files, run in the app's directory, with the files appended."},
+        "build": {"$ref": "#/definitions/segment", "description": "The build directory, whose `test/lib` holds the compiled dependencies a fresh worktree is seeded with."}
+      },
+      "description": "Where an app's source and tests are, and how its tests run: what `noetic-harness environments` derives an environment from and verifies it with, and what a worktree is seeded with. A repository without it can neither derive nor verify an environment, and says so."
+    },
+    "context": {
+      "type": "object",
+      "description": "Context sources by key, the keys `capabilities.json` names under `context`. A key with no source here and no resolver in `Noetic.Harness.Context` is reported as not attached. `docs` ranks a glob's documents by the task's terms; `files` shows the named files that exist; `glob` lists what the globs match; `same_as` answers as another key does."
+    }
+  },
+  "definitions": {
+    "segment": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+$",
+      "description": "One directory name, no separator."
+    },
+    "relative": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/]",
+      "description": "Relative to the repository root."
+    }
+  }
+}

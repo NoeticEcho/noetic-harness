@@ -1,0 +1,9 @@
+{
+  "nucleus": {
+    "ids": [
+      "elixir.elixir_engineer",
+      "elixir.otp_designer",
+      "elixir.data_layer_engineer"
+    ]
+  }
+}

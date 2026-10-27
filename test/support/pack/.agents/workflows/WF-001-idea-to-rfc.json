@@ -1,0 +1,91 @@
+{
+  "id": "WF-001",
+  "name": "Idea → RFC",
+  "family": "feature",
+  "intent": "Turn an unshaped idea into a decision a team can act on, including the decision not to build it.",
+  "trigger": {
+    "kinds": ["idea", "proposal", "question"],
+    "keywords": ["should we", "what if", "proposal", "rfc", "idea"],
+    "risk": "low"
+  },
+  "artifacts": { "in": ["Requirement"], "out": ["ResearchNote", "RFC", "ADR"] },
+  "default_lane": "fast",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "classify",
+      "name": "Classify the idea and find its prior art",
+      "capabilities": ["governance.routing", "research.prior_art"],
+      "inputs": ["idea", "beads", "memory", "adrs"],
+      "outputs": ["classification", "prior attempts with outcomes"],
+      "trust": "T1",
+      "on_failure": "escalate"
+    },
+    {
+      "id": "research",
+      "name": "Gather the evidence the decision needs",
+      "capabilities": ["research.discovery", "research.evidence"],
+      "inputs": ["classification", "corpus", "kb"],
+      "outputs": ["ResearchNote"],
+      "trust": "T1",
+      "parallel_group": "explore"
+    },
+    {
+      "id": "constraints",
+      "name": "Name the constraints this idea has to live inside",
+      "capabilities": ["architecture.system", "governance.risk"],
+      "inputs": ["classification", "adrs", "architecture"],
+      "outputs": ["constraint list", "blast radius"],
+      "trust": "T1",
+      "parallel_group": "explore"
+    },
+    {
+      "id": "alternatives",
+      "name": "Produce at least two alternatives and say what each costs",
+      "capabilities": ["architecture.domain", "governance.planning"],
+      "inputs": ["ResearchNote", "constraint list"],
+      "outputs": ["alternatives with costs"],
+      "trust": "T1"
+    },
+    {
+      "id": "challenge",
+      "name": "Attack the preferred alternative",
+      "capabilities": ["governance.risk"],
+      "archetype_preference": "adversary",
+      "inputs": ["alternatives"],
+      "outputs": ["findings"],
+      "trust": "T1",
+      "independent_of": ["alternatives"]
+    },
+    {
+      "id": "rfc",
+      "name": "Write the RFC",
+      "capabilities": ["governance.decision_record", "docs.authoring"],
+      "inputs": ["alternatives", "findings"],
+      "outputs": ["RFC"],
+      "trust": "T1",
+      "gates": ["docs"]
+    },
+    {
+      "id": "decide",
+      "name": "Human decision, then the ADR that records it",
+      "capabilities": ["governance.decision_record"],
+      "inputs": ["RFC"],
+      "outputs": ["ADR"],
+      "trust": "T2",
+      "gates": ["human.approval"],
+      "note": "Direction is the human architect's. The agent writes the record, not the decision."
+    }
+  ],
+  "escalations": [
+    { "when": "the idea changes a protected value or a source-of-truth boundary", "to": "human_architect" },
+    { "when": "no alternative survives the challenge step", "to": "human_architect", "note": "That is a finding, not a failure." }
+  ],
+  "completion": [
+    "an RFC exists with at least two alternatives and their costs",
+    "the adversarial findings are attached, resolved or explicitly accepted",
+    "either an ADR records the decision, or the bead records why it was deferred"
+  ],
+  "memory": ["rejected alternatives and why", "constraints discovered that were not written down before"],
+  "evaluation": ["did the eventual implementation match the RFC, and if not, what did the RFC fail to anticipate"]
+}

@@ -1,0 +1,15 @@
+noetic-harness
+Copyright NoeticEcho contributors
+
+This product includes material from two third-party works under the MIT
+License.
+
+  priv/starter/.agents/skills/simplify/SKILL.md is adapted from the `deslop`
+  prompt of pi (https://github.com/earendil-works/pi, .pi/prompts/deslop.md).
+  Copyright (c) 2025 Mario Zechner. MIT License. Its copyright and permission
+  notice is reproduced in LICENSES/MIT.txt.
+
+  priv/full/.agents/skills/beads/ is the skill template of Beads
+  (https://github.com/gastownhall/beads, internal/templates/skills/beads/),
+  unchanged. Copyright (c) 2025 Beads Contributors. MIT License. Its copyright
+  and permission notice is reproduced in that directory's PROVENANCE.md.

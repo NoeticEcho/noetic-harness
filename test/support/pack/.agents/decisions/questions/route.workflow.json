@@ -1,0 +1,47 @@
+{
+  "calibration_profile": null,
+  "criteria": {
+    "WF-001": "Idea → RFC: Turn an unshaped idea into a decision a team can act on, including the decision not to build it.",
+    "WF-002": "RFC → Implementation: Build what was decided, with evidence, without widening the change.",
+    "WF-003": "Bug → Root Cause: Find what is actually wrong before changing anything, and leave a test that would have caught it.",
+    "WF-004": "Research: Establish what is known, what is contested and what is unknown, with provenance intact.",
+    "WF-005": "Data source onboarding: Bring an external source in with its rights, its schema and its provenance established before any of it is trusted.",
+    "WF-009": "Agent build: Add or change a runtime agent — one of the Jido agents behind the agent port — with its permissions, memory and failure behaviour decided rather than inherited.",
+    "WF-010": "Agent evolution: Change what an agent is, with enough independent evidence that the change is an improvement rather than a fit to its own benchmark.",
+    "WF-014": "API productization: Turn an internal capability into a contract other people depend on, which is a much larger commitment than exposing a function.",
+    "WF-015": "Release: Move finished work to main with the full evidence, and a rollback path that exists before it is needed.",
+    "WF-016": "Incident: Contain first, preserve the evidence, then find out why — and change something so it cannot recur.",
+    "WF-018": "Organization evolution: Change how the project itself is organised — direction, priorities, capability — as a decision with evidence rather than a mood.",
+    "WF-019": "Documentation drift: Find the prose a change just made false, before someone acts on it.",
+    "WF-020": "Development evolution: When the same work keeps failing the same way, change the development system rather than retrying the work."
+  },
+  "domain": "harness.routing",
+  "id": "route.workflow",
+  "instructions": "Which workflow fits the work item in `title` (and `body`, when given)? Choose by what KIND of work it is — a defect, a feature, a release, a documentation drift — not by which subsystem it mentions.",
+  "note": "Asked of a model only as a second opinion; the deterministic router stays the decision. The options are this repository's workflow ids; an earlier change measures the router against a labelled corpus with this question's id and version.",
+  "options": [
+    "WF-001",
+    "WF-002",
+    "WF-003",
+    "WF-004",
+    "WF-005",
+    "WF-009",
+    "WF-010",
+    "WF-014",
+    "WF-015",
+    "WF-016",
+    "WF-018",
+    "WF-019",
+    "WF-020"
+  ],
+  "type": "choice",
+  "version": "1",
+  "versions": [
+    {
+      "at": "2026-09-23",
+      "fingerprint": "e0c3d30ff8b49ce6921081c25476749c8e4e81c698e4180d19d529874e60c6ed",
+      "version": "1",
+      "why": "first version"
+    }
+  ]
+}

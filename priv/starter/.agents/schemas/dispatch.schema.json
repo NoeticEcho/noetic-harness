@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dispatch.schema.json",
+  "title": "Dispatch budget",
+  "description": "The ceilings a dispatching run is bound by. Every ceiling carries a `why`, because a refusal that cannot be argued with is a refusal that gets worked around.",
+  "type": "object",
+  "required": [
+    "version",
+    "depth",
+    "wall_clock",
+    "cost"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "depth": {
+      "type": "object",
+      "required": [
+        "max",
+        "why"
+      ],
+      "properties": {
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "why": {
+          "type": "string"
+        }
+      }
+    },
+    "wall_clock": {
+      "type": "object",
+      "required": [
+        "max_ms",
+        "why"
+      ],
+      "properties": {
+        "max_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "why": {
+          "type": "string"
+        }
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": [
+        "max_usd",
+        "why"
+      ],
+      "properties": {
+        "max_usd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "why": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

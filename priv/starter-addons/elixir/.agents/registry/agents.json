@@ -1,0 +1,99 @@
+{
+  "agents": [
+    {
+      "id": "elixir.elixir_engineer",
+      "name": "Elixir engineer",
+      "domain": "elixir",
+      "archetype": "owner",
+      "capabilities": [
+        "code.implementation",
+        "elixir.implementation"
+      ],
+      "skills": [
+        "elixir-idioms",
+        "elixir-testing",
+        "simplify",
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "elixir.otp_designer",
+      "name": "OTP designer",
+      "domain": "elixir",
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.implementation",
+        "elixir.otp"
+      ],
+      "skills": [
+        "elixir-idioms",
+        "elixir-testing",
+        "otp-design"
+      ],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "elixir.data_layer_engineer",
+      "name": "Data layer engineer",
+      "domain": "elixir",
+      "archetype": "owner",
+      "capabilities": [
+        "elixir.data",
+        "elixir.implementation"
+      ],
+      "skills": [
+        "ecto-data",
+        "elixir-idioms",
+        "elixir-testing"
+      ],
+      "tools": [
+        "edit",
+        "project.build",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "build",
+        "format",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    }
+  ]
+}

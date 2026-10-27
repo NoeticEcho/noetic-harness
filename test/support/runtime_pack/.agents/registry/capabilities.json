@@ -1,0 +1,179 @@
+{
+  "$schema": "../schemas/capabilities.schema.json",
+  "version": 1,
+  "doc": "What the editorial roles can do. Every capability is on the runtime plane: it holds runtime tools and names no command gate.",
+  "capabilities": [
+    {
+      "id": "sources.research",
+      "plane": "runtime",
+      "doc": "Gather the facts a brief needs from the sources given, each with where it came from.",
+      "skills": [],
+      "tools": [
+        "brief.read",
+        "sources.read",
+        "facts.write"
+      ],
+      "gates": [
+        "facts.cited"
+      ],
+      "evidence": [
+        "each fact with its source"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "inci.normalise",
+      "plane": "runtime",
+      "doc": "Map ingredient names to their reference names, and list what does not match.",
+      "skills": [],
+      "tools": [
+        "facts.read",
+        "reference.read"
+      ],
+      "gates": [
+        "inci.reference"
+      ],
+      "evidence": [
+        "each mapping with its reference entry",
+        "the unmatched names"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "copy.draft",
+      "plane": "runtime",
+      "doc": "Write a product card or a letter from the brief and the facts.",
+      "skills": [],
+      "tools": [
+        "brief.read",
+        "facts.read",
+        "draft.write"
+      ],
+      "gates": [
+        "text.lint"
+      ],
+      "evidence": [
+        "the facts each claim rests on"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "facts.check",
+      "plane": "runtime",
+      "doc": "Check every number and claim in a draft against the facts.",
+      "skills": [],
+      "tools": [
+        "facts.read",
+        "draft.read"
+      ],
+      "gates": [
+        "facts.cited"
+      ],
+      "evidence": [
+        "each unsupported claim, located"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "brand.voice",
+      "plane": "runtime",
+      "doc": "Check a draft against the product's voice and the rules it must follow.",
+      "skills": [],
+      "tools": [
+        "rules.read",
+        "draft.read"
+      ],
+      "gates": [
+        "guardian.review"
+      ],
+      "evidence": [
+        "each rule checked, and each finding"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "seo.edit",
+      "plane": "runtime",
+      "doc": "Edit a draft for search without changing what it claims.",
+      "skills": [],
+      "tools": [
+        "draft.read",
+        "draft.write",
+        "rules.read"
+      ],
+      "gates": [
+        "seo.rules"
+      ],
+      "evidence": [
+        "each edit, and that no claim changed"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "proof.read",
+      "plane": "runtime",
+      "doc": "Read a draft for language errors, with no knowledge of how it was written.",
+      "skills": [],
+      "tools": [
+        "draft.read"
+      ],
+      "gates": [
+        "proof.review"
+      ],
+      "evidence": [
+        "each error, located"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    },
+    {
+      "id": "rules.propose",
+      "plane": "runtime",
+      "doc": "Turn an owner's correction into a lesson and a proposed rule.",
+      "skills": [],
+      "tools": [
+        "rules.read",
+        "proposal.write"
+      ],
+      "gates": [
+        "owner.accept"
+      ],
+      "evidence": [
+        "the correction quoted",
+        "the proposed rule, marked as a proposal"
+      ],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "../schemas/models.schema.json",
+  "version": 1,
+  "doc": "Where a dispatched step is sent, and on which model. Adapters are chosen by id from this list, not by module name: a data file that can name any module can run any code. The file is inside the evaluator fence, because an agent that could choose its own model could give itself a better one at the user's expense.",
+  "default": "null",
+  "adapters": [
+    {
+      "id": "null",
+      "name": "Runs nothing",
+      "needs": [],
+      "why": "The default. A default that dispatches for real is one mistake away from spending money in CI."
+    },
+    {
+      "id": "claude_code",
+      "name": "claude -p",
+      "needs": [],
+      "probe": "claude",
+      "why": "Uses the Claude Code session the user is already signed in to, so no key is stored anywhere."
+    },
+    {
+      "id": "api",
+      "name": "The Anthropic API, with an explicit key",
+      "needs": [
+        "ANTHROPIC_API_KEY"
+      ],
+      "why": "For a run that must not use the interactive session, or must pin a model. The key comes from the environment and never from a prompt, an artifact or a log."
+    },
+    {
+      "id": "router",
+      "name": "Several providers behind one endpoint",
+      "needs": [
+        "NOETIC_MODEL_ROUTER_URL",
+        "NOETIC_MODEL_ROUTER_KEY"
+      ],
+      "why": "An OpenAI-compatible router, so that several providers are a configuration and not a code change."
+    }
+  ],
+  "by_trust": [
+    {
+      "trust": "T0",
+      "model": "haiku",
+      "restricted": true,
+      "why": "Reading and mapping need no shell, and the cheapest model that reads well is enough."
+    },
+    {
+      "trust": "T1",
+      "model": "sonnet",
+      "restricted": true,
+      "why": "Drafting is writing, not running."
+    },
+    {
+      "trust": "T2",
+      "model": "sonnet",
+      "restricted": false,
+      "why": "Changing code in its own worktree needs the shell, to run the tests."
+    },
+    {
+      "trust": "T3",
+      "model": "opus",
+      "restricted": false,
+      "why": "Landing on a shared branch is the most consequential thing a dispatched run may do."
+    }
+  ],
+  "review": {
+    "models": [
+      "claude-opus-5-5",
+      "claude-sonnet-5"
+    ],
+    "why": "A step declared independent of another is sent to the first model here that the reviewed step did not use, compared by family, and refused when none is left. Two families is the fewest that can review both."
+  }
+}

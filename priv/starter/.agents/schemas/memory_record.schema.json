@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "memory_record.schema.json",
+  "title": "Project memory record",
+  "description": "Append-only. A record earns its place by changing what someone would do next. Retire by setting status; never edit the body of a record that has been acted on.",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "title",
+    "body",
+    "scope",
+    "provenance",
+    "confidence",
+    "status",
+    "created_at",
+    "version"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^mem-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "lesson",
+        "decision",
+        "rejected_approach",
+        "failure",
+        "benchmark",
+        "constraint",
+        "package_rule",
+        "incident"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "One line, stated as the thing to do or avoid."
+    },
+    "body": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Keywords the Context Builder matches against: a domain, an app, a dependency, a capability."
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "run",
+            "human",
+            "ci",
+            "external"
+          ]
+        },
+        "agent": {
+          "type": "string"
+        },
+        "workflow": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "artifact": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "reported"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "current",
+        "retired"
+      ]
+    },
+    "superseded_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retired_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer"
+    }
+  }
+}

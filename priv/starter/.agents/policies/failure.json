@@ -1,0 +1,87 @@
+{
+  "$schema": "../schemas/failure.schema.json",
+  "version": 1,
+  "note": "The form of .agents/policies/failure.md that the conductor reads. The two must agree on every class and route, and `harness validate` checks that they do. Patterns are matched case-insensitively against the failure's evidence, in this order.",
+  "retry_budget_default": 3,
+  "terminal_states": {
+    "done": {
+      "routing": "next",
+      "note": "Next workflow step. Evidence is attached or the step is not done."
+    },
+    "failed": {
+      "routing": "classify",
+      "note": "Route by failure class. The retry budget decrements."
+    },
+    "blocked": {
+      "routing": "escalate",
+      "note": "Record the blocker where the work is tracked, escalate to whoever holds it, stop. Do not work around it."
+    },
+    "uncertain": {
+      "routing": "verify",
+      "note": "Route to a verifying role, or to a person if no evidence would settle it. Never promote."
+    },
+    "needs_review": {
+      "routing": "review",
+      "note": "Route to a reviewer who did not author the work."
+    }
+  },
+  "classes": [
+    {
+      "id": "test_failed",
+      "observed": "Test failed",
+      "match": "test(s)? fail|assertion (with|failed)|[1-9]\\d* failures?|Failed: [1-9]\\d* test",
+      "route": "capability:qa.regression",
+      "then": "the implementing role",
+      "why": "The test may be right. Read it before changing it."
+    },
+    {
+      "id": "build_error_unfamiliar",
+      "observed": "Build error in unfamiliar code",
+      "match": "compil(e|ation) error|build failed|cannot find (module|symbol)|undefined (function|reference)",
+      "route": "domain_owner",
+      "why": "Guessing at code you do not know is how interfaces break."
+    },
+    {
+      "id": "performance_regression",
+      "observed": "Performance regression",
+      "match": "performance regression|slower than|exceeded (the )?budget|timed? ?out",
+      "route": "capability:qa.performance",
+      "why": "Measure against a baseline; an opinion is not a measurement."
+    },
+    {
+      "id": "rights_uncertainty",
+      "observed": "Licence or rights uncertainty",
+      "match": "licen[cs]e|copyright|terms of (use|service)|rights",
+      "route": "capability:data.provenance",
+      "why": "Stop until it is resolved."
+    },
+    {
+      "id": "flake_suspected",
+      "observed": "Flake suspected",
+      "match": "flak(e|y)|intermittent|passes locally",
+      "route": "instrument",
+      "why": "\"Flaky\" is a hypothesis. Instrument it before calling it one."
+    },
+    {
+      "id": "goodhart",
+      "observed": "Benchmark gain with no holdout gain",
+      "match": "holdout (did not|failed)|no holdout gain|benchmark only",
+      "route": "quarantine",
+      "why": "That is what gaming a metric looks like."
+    },
+    {
+      "id": "repeated_failure",
+      "observed": "Same workflow fails three times",
+      "match": "retry budget (exhausted|spent)|third failure|failed three times",
+      "route": "workflow:WF-020",
+      "why": "The workflow is the defect."
+    },
+    {
+      "id": "tool_unavailable",
+      "observed": "Missing tool or service",
+      "match": "unavailable|not installed|command not found|connection refused",
+      "route": "report_unavailable",
+      "why": "Never fall back to a weaker check without saying so."
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "$schema": "../schemas/signals.schema.json",
+  "version": 1,
+  "doc": "How the router turns a piece of work into capabilities. A signal fires on the words of the task, on the paths it touches, or both, and each firing signal adds its capabilities. `route --explain` prints which fired, so a wrong route is fixed by editing a line here. Anchor short words with \\b: an unanchored 'tag' also fires on 'stage'. The 'fix' signal names no family on purpose: bug comes first in kind_inference.precedence, so with one 'fix the docs typo' would be a bug. Without one, a fix of something no other signal knows reaches the bug workflow by its capabilities, and a fix of the docs or a release goes where its subject sends it.",
+  "weights": {
+    "doc": "A signal's weight sets the confidence the route reports. A path outweighs words, because the paths are what the change touched. A signal that names a family also votes for workflows of that family.",
+    "path": 3,
+    "text": 2,
+    "kind": 1,
+    "family": 5
+  },
+  "confidence": {
+    "doc": "The route's confidence is the sum of the weights of the signals that fired, compared with these thresholds.",
+    "high": 6,
+    "medium": 2
+  },
+  "signals": [
+    {
+      "id": "test",
+      "text": "\\btests?\\b|\\bspec\\b|coverage|assert",
+      "path": "(^|/)(test|tests|spec|__tests__)/",
+      "capabilities": [
+        "qa.testing"
+      ]
+    },
+    {
+      "id": "regression",
+      "text": "\\bbug\\b|broken|\\bfails?\\b|failing|crash|regression|wrong|error|\\bdo(es)?( no|n'|n’)t work\\b|stopped working",
+      "capabilities": [
+        "qa.regression",
+        "qa.testing"
+      ],
+      "family": "bug"
+    },
+    {
+      "id": "fix",
+      "text": "\\b(bug|hot)?fix(es|ing)?\\b",
+      "capabilities": [
+        "qa.regression",
+        "qa.testing"
+      ]
+    },
+    {
+      "id": "property",
+      "text": "property[- ]based|generative test|fuzz",
+      "capabilities": [
+        "qa.property"
+      ]
+    },
+    {
+      "id": "e2e",
+      "text": "end[- ]to[- ]end|\\be2e\\b|browser test|user journey",
+      "capabilities": [
+        "qa.e2e"
+      ]
+    },
+    {
+      "id": "performance",
+      "text": "\\bslow\\b|latency|throughput|performance|benchmark|memory use",
+      "capabilities": [
+        "qa.performance"
+      ]
+    },
+    {
+      "id": "security",
+      "text": "security|vulnerab|\\bauth(n|z|entication|orization)?\\b|injection|\\bxss\\b|\\bcsrf\\b|permission",
+      "capabilities": [
+        "security.review"
+      ]
+    },
+    {
+      "id": "secrets",
+      "text": "secret|credential|api key|token leak|leaked",
+      "capabilities": [
+        "security.secrets"
+      ]
+    },
+    {
+      "id": "dependencies",
+      "text": "dependenc|upgrade|lockfile|\\bcve\\b|outdated package",
+      "path": "(package\\.json|package-lock\\.json|Cargo\\.(toml|lock)|go\\.(mod|sum)|pyproject\\.toml|requirements.*\\.txt|Gemfile(\\.lock)?|pom\\.xml|build\\.gradle)$",
+      "capabilities": [
+        "security.dependencies"
+      ]
+    },
+    {
+      "id": "release",
+      "text": "\\brelease\\b|changelog|version bump|\\btag\\b|publish",
+      "path": "(^|/)CHANGELOG",
+      "capabilities": [
+        "ops.release"
+      ],
+      "family": "release"
+    },
+    {
+      "id": "ci",
+      "text": "\\bci\\b|pipeline|github actions|workflow file|build server",
+      "path": "^\\.github/workflows/|\\.gitlab-ci\\.yml$",
+      "capabilities": [
+        "ops.ci"
+      ]
+    },
+    {
+      "id": "incident",
+      "text": "incident|outage|\\bdown\\b|production issue|on[- ]call|postmortem",
+      "capabilities": [
+        "ops.incident"
+      ],
+      "family": "operations"
+    },
+    {
+      "id": "observability",
+      "text": "logging|\\blogs?\\b|metrics?|tracing|telemetry|monitoring|alert",
+      "capabilities": [
+        "ops.observability"
+      ]
+    },
+    {
+      "id": "docs",
+      "text": "document|\\bdocs?\\b|readme|guide|tutorial",
+      "path": "(^|/)(docs?)/|\\.md$",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "family": "docs"
+    },
+    {
+      "id": "drift",
+      "text": "out of date|stale doc|outdated doc|doc(umentation)? drift",
+      "capabilities": [
+        "docs.drift"
+      ],
+      "family": "docs"
+    },
+    {
+      "id": "architecture",
+      "text": "architecture|design|boundary|interface|module structure|decision record|\\badr\\b",
+      "capabilities": [
+        "architecture.system",
+        "governance.decision_record"
+      ]
+    },
+    {
+      "id": "api",
+      "text": "\\bapi\\b|endpoint|public interface|\\bsdk\\b|breaking change",
+      "capabilities": [
+        "architecture.api"
+      ],
+      "family": "platform"
+    },
+    {
+      "id": "research",
+      "text": "research|investigate|compare|evaluate options|prior art|survey",
+      "capabilities": [
+        "research.discovery",
+        "research.evidence"
+      ],
+      "family": "research"
+    },
+    {
+      "id": "data",
+      "text": "import data|data source|dataset|ingest|scrape|connector|\\betl\\b",
+      "capabilities": [
+        "data.connector",
+        "data.provenance"
+      ],
+      "family": "data"
+    },
+    {
+      "id": "feature",
+      "text": "\\badd\\b|implement|support for|new feature|\\bexport\\b|allow (users|people)|\\bbuild\\b a",
+      "capabilities": [
+        "code.implementation",
+        "governance.planning"
+      ],
+      "family": "feature"
+    },
+    {
+      "id": "refactor",
+      "text": "refactor|clean up|simplify|restructure|rename",
+      "capabilities": [
+        "code.refactor"
+      ]
+    },
+    {
+      "id": "planning",
+      "text": "\\bplan\\b|roadmap|prioriti|break down|estimate",
+      "capabilities": [
+        "governance.planning"
+      ]
+    },
+    {
+      "id": "harness-evolution",
+      "text": "improve the harness|routing is wrong|workflow keeps failing|evolution candidate",
+      "path": "^\\.agents/",
+      "capabilities": [
+        "evolution.mutation",
+        "evolution.evaluation"
+      ],
+      "family": "evolution"
+    }
+  ],
+  "kind_signals": {
+    "doc": "A work item's declared kind adds these capabilities whatever its wording.",
+    "bug": [
+      "qa.regression",
+      "qa.testing"
+    ],
+    "feature": [
+      "governance.planning",
+      "code.implementation"
+    ],
+    "task": [],
+    "research": [
+      "research.discovery",
+      "research.evidence"
+    ],
+    "incident": [
+      "ops.incident"
+    ],
+    "release": [
+      "ops.release"
+    ],
+    "evolution": [
+      "evolution.mutation"
+    ],
+    "data": [
+      "data.connector"
+    ],
+    "docs": [
+      "docs.authoring"
+    ]
+  },
+  "kind_inference": {
+    "doc": "When the caller declares no kind, one is inferred from the families of the signals that fired, in this order: a failure verb says what kind of work it is more reliably than a subject noun does.",
+    "precedence": [
+      "bug",
+      "operations",
+      "release",
+      "evolution",
+      "research",
+      "data",
+      "docs",
+      "platform",
+      "feature"
+    ],
+    "kinds": {
+      "feature": "feature",
+      "bug": "bug",
+      "operations": "incident",
+      "release": "release",
+      "evolution": "evolution",
+      "research": "research",
+      "data": "data",
+      "docs": "docs",
+      "platform": "platform"
+    }
+  },
+  "fallback": {
+    "doc": "When nothing fires the work is under-described. The router says so and routes to intake instead of guessing.",
+    "capabilities": [
+      "governance.routing"
+    ],
+    "workflow": "WF-001"
+  }
+}

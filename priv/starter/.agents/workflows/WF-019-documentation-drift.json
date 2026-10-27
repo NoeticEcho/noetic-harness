@@ -1,0 +1,86 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-019",
+  "name": "Documentation drift",
+  "family": "docs",
+  "intent": "Find what a change made untrue in the documentation, and fix it.",
+  "trigger": {
+    "kinds": [
+      "docs"
+    ],
+    "keywords": [
+      "documentation",
+      "docs",
+      "readme",
+      "out of date",
+      "stale"
+    ],
+    "risk": "low"
+  },
+  "artifacts": {
+    "in": [
+      "CodePatch"
+    ],
+    "out": [
+      "CodePatch"
+    ]
+  },
+  "default_lane": "fast",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "find",
+      "name": "Find statements the change made untrue",
+      "capabilities": [
+        "docs.drift"
+      ],
+      "inputs": [
+        "diff"
+      ],
+      "outputs": [
+        "untrue statements"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "fix",
+      "name": "Correct them",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "inputs": [
+        "untrue statements"
+      ],
+      "outputs": [
+        "documentation"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "check",
+      "name": "Read the result against the code",
+      "capabilities": [
+        "docs.drift"
+      ],
+      "inputs": [
+        "documentation"
+      ],
+      "outputs": [
+        "review notes"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "fix"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the documentation is right and the code is wrong",
+      "to": "WF-003"
+    }
+  ],
+  "completion": [
+    "no statement the change made untrue remains"
+  ]
+}

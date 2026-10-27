@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "profiles.schema.json",
+  "title": "Profiles",
+  "description": "Who may change what (plan 02 D1): the profiles that own paths, and the classes of path no profile owns. Read by Noetic.Harness.Profiles, which `noetic-harness assign` uses to refuse an overlapping scope and `noetic-harness profiles --check` uses to name a tracked file nothing claims. What the schema cannot say, Profiles.validate/0 checks: every glob matches a tracked file, and no file is owned by two profiles unless `shared` says so.",
+  "type": "object",
+  "required": ["version", "doc", "profiles", "coordinator", "refused", "add_only", "per_epic", "shared"],
+  "additionalProperties": false,
+  "definitions": {
+    "glob": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/]",
+      "description": "Root-relative. `**` crosses directory separators, `*` does not, and everything else is literal: the fence's semantics, so that a profile and the fence never read one glob two ways."
+    },
+    "reasoned": {
+      "type": "object",
+      "required": ["glob", "why"],
+      "additionalProperties": false,
+      "properties": {
+        "glob": {"$ref": "#/definitions/glob"},
+        "why": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "properties": {
+    "$schema": {"type": "string"},
+    "version": {"type": "integer"},
+    "doc": {"type": "string"},
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "owns", "workflows", "domains", "environment", "max_concurrent"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z-]*$",
+            "description": "The value of HARNESS_AGENT in the profile's cloud environment, and the --agent of its WF-021 runs."
+          },
+          "description": {"type": "string", "minLength": 1},
+          "owns": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/glob"}},
+          "except": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/glob"},
+            "description": "Paths inside `owns` that another profile owns instead."
+          },
+          "workflows": {"type": "array", "items": {"type": "string", "pattern": "^WF-[0-9]{3}$"}},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "environment": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The cloud environment whose sessions work as this profile."
+          },
+          "max_concurrent": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "How many sessions of this profile may hold an assignment at once."
+          }
+        }
+      }
+    },
+    "coordinator": {
+      "type": "object",
+      "required": ["description", "held"],
+      "additionalProperties": false,
+      "properties": {
+        "description": {"type": "string"},
+        "held": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/reasoned"},
+          "description": "Coordinator-held: an epic changes one only through a grant, and it lands only with --ack."
+        }
+      }
+    },
+    "refused": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/reasoned"},
+      "description": "No assignment may scope or grant these."
+    },
+    "add_only": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["glob", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "glob": {"$ref": "#/definitions/glob"},
+          "why": {"type": "string", "minLength": 1},
+          "modifiable": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "The only keys an existing file's change may touch."
+          }
+        }
+      },
+      "description": "Any assignment may add files here; none may modify or delete one, except as `modifiable` allows."
+    },
+    "per_epic": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["glob", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "glob": {"type": "string", "pattern": "\\{epic\\}"},
+          "why": {"type": "string", "minLength": 1}
+        }
+      },
+      "description": "Paths with `{epic}` in them, writable only by the epic they name."
+    },
+    "shared": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["glob", "profiles", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "glob": {"$ref": "#/definitions/glob"},
+          "profiles": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+          "why": {"type": "string", "minLength": 1}
+        }
+      },
+      "description": "Files two or more profiles own on purpose. Assignment still refuses two live epics on one of them."
+    }
+  }
+}

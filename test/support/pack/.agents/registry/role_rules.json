@@ -1,0 +1,779 @@
+{
+  "$schema": "../schemas/role_rules.schema.json",
+  "version": 1,
+  "doc": "Deterministic, inspectable derivation of per-role metadata from the role's name and domain. Every rule whose `match` hits the role name (case-insensitive, anchored nowhere) contributes its capabilities, skills and tags; the domain contributes its defaults; the archetype comes from the upstream mandate unless a rule overrides it. Order matters only for single-valued fields (`archetype`, `trust`, `nucleus`), where the last matching rule wins. `mix harness.agents --explain <id>` prints which rules fired, so a wrong capability assignment is a fixable line in this file rather than a mystery.",
+  "rules": [
+    {
+      "match": "commander|director|program manager|intake",
+      "capabilities": [
+        "governance.routing",
+        "governance.planning",
+        "governance.escalation"
+      ],
+      "skills": [
+        "beads-workflow"
+      ],
+      "archetype": "coordinator",
+      "tags": [
+        "command"
+      ]
+    },
+    {
+      "match": "risk director|change impact|dependency cartographer",
+      "capabilities": [
+        "governance.risk",
+        "architecture.system"
+      ],
+      "tags": [
+        "analysis"
+      ]
+    },
+    {
+      "match": "archivist|decision log",
+      "capabilities": [
+        "governance.decision_record",
+        "docs.authoring"
+      ],
+      "archetype": "steward"
+    },
+    {
+      "match": "escalation",
+      "capabilities": [
+        "governance.escalation"
+      ],
+      "archetype": "coordinator"
+    },
+    {
+      "match": "systems architect|domain architect",
+      "capabilities": [
+        "architecture.system",
+        "architecture.domain",
+        "governance.decision_record"
+      ],
+      "trust": "T2"
+    },
+    {
+      "match": "data architect",
+      "capabilities": [
+        "architecture.data",
+        "typedb.schema",
+        "elixir.ecto"
+      ]
+    },
+    {
+      "match": "api architect|api gateway|public api|sdk engineer|api compatibility|mcp server engineer",
+      "capabilities": [
+        "architecture.api",
+        "platform.api",
+        "platform.sdk"
+      ],
+      "skills": [
+        "phoenix-contexts-routing"
+      ]
+    },
+    {
+      "match": "security architect|threat modeler",
+      "capabilities": [
+        "architecture.security",
+        "security.review"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "performance architect|performance auditor|capacity planner",
+      "capabilities": [
+        "architecture.performance",
+        "qa.performance"
+      ]
+    },
+    {
+      "match": "integration architect|webhook engineer",
+      "capabilities": [
+        "architecture.integration",
+        "elixir.http"
+      ],
+      "skills": [
+        "req-client"
+      ]
+    },
+    {
+      "match": "knowledge architect|entity modeler|relation modeler|belief-state|knowledge revision",
+      "capabilities": [
+        "knowledge.modeling",
+        "semantic.modeling",
+        "typedb.schema"
+      ],
+      "skills": [
+        "typeql",
+        "typedb-semantic-modeling"
+      ]
+    },
+    {
+      "match": "provenance",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.epistemics"
+      ],
+      "skills": [
+        "acme-provenance"
+      ]
+    },
+    {
+      "match": "epistemic|evidence evaluator|hypothesis",
+      "capabilities": [
+        "knowledge.epistemics",
+        "research.evidence"
+      ],
+      "skills": [
+        "acme-provenance",
+        "research-method"
+      ]
+    },
+    {
+      "match": "contradiction|anomaly hunter",
+      "capabilities": [
+        "knowledge.contradiction"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "synthesizer|unknowns cartographer",
+      "capabilities": [
+        "knowledge.synthesis",
+        "research.evidence"
+      ],
+      "archetype": "investigator"
+    },
+    {
+      "match": "repository query|semantic search",
+      "capabilities": [
+        "typedb.query",
+        "knowledge.modeling"
+      ],
+      "skills": [
+        "typeql",
+        "qdrant"
+      ]
+    },
+    {
+      "match": "source discovery|source registry|tooling scout|architecture scout",
+      "capabilities": [
+        "research.discovery",
+        "research.prior_art"
+      ],
+      "archetype": "investigator"
+    },
+    {
+      "match": "connector engineer",
+      "capabilities": [
+        "data.connector",
+        "elixir.http"
+      ],
+      "skills": [
+        "req-client",
+        "finch-pools",
+        "mint-escape-hatch"
+      ]
+    },
+    {
+      "match": "ingestion pipeline",
+      "capabilities": [
+        "data.ingestion",
+        "elixir.oban"
+      ],
+      "skills": [
+        "broadway-ingestion",
+        "oban-workers"
+      ]
+    },
+    {
+      "match": "data quality|data test",
+      "capabilities": [
+        "data.quality",
+        "qa.property"
+      ]
+    },
+    {
+      "match": "entity resolution|data reconciliation|merge / reconciliation",
+      "capabilities": [
+        "data.entity_resolution"
+      ]
+    },
+    {
+      "match": "temporal data",
+      "capabilities": [
+        "data.temporal"
+      ]
+    },
+    {
+      "match": "spatial data",
+      "capabilities": [
+        "data.spatial"
+      ]
+    },
+    {
+      "match": "observation model|indicator engineer|data lineage",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.modeling"
+      ]
+    },
+    {
+      "match": "license|data rights|rights auditor",
+      "capabilities": [
+        "data.provenance",
+        "security.privacy"
+      ],
+      "archetype": "adversary",
+      "tags": [
+        "gatekeeper"
+      ]
+    },
+    {
+      "match": "privacy",
+      "capabilities": [
+        "security.privacy"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "archetype": "adversary",
+      "tags": [
+        "gatekeeper"
+      ]
+    },
+    {
+      "match": "mutation designer|recombination|parent selection|novelty|diversity|stepping-stone|skill evolution|workflow evolution|tool evolution|memory evolution",
+      "capabilities": [
+        "evolution.mutation"
+      ],
+      "skills": [
+        "acme-evolution-development"
+      ]
+    },
+    {
+      "match": "fitness vector|benchmark",
+      "capabilities": [
+        "evolution.evaluation",
+        "qa.performance"
+      ]
+    },
+    {
+      "match": "transfer tester",
+      "capabilities": [
+        "evolution.transfer"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "anti-goodhart|adversarial evolution",
+      "capabilities": [
+        "evolution.anti_goodhart"
+      ],
+      "archetype": "adversary",
+      "tags": [
+        "gatekeeper",
+        "independent"
+      ]
+    },
+    {
+      "match": "archive manager|lineage archivist|pareto archive",
+      "capabilities": [
+        "evolution.archive"
+      ],
+      "archetype": "steward"
+    },
+    {
+      "match": "evolution director|evolution safety|evolution budget|evolution meta-researcher|evolution architect",
+      "capabilities": [
+        "evolution.promotion",
+        "evolution.evaluation",
+        "governance.routing"
+      ]
+    },
+    {
+      "match": "evolution test",
+      "capabilities": [
+        "evolution.holdout",
+        "evolution.transfer",
+        "qa.testing"
+      ]
+    },
+    {
+      "match": "agent runtime|jido|signal routing|directive / action|agent state|agent identity|multi-agent coordination|agent architect",
+      "capabilities": [
+        "runtime.agents",
+        "elixir.otp"
+      ],
+      "skills": [
+        "otp-concurrency",
+        "supervision-design"
+      ]
+    },
+    {
+      "match": "memory architect|memory evolution|agent runtime",
+      "capabilities": [
+        "runtime.memory"
+      ],
+      "skills": [
+        "acme-project-memory",
+        "acme-provenance"
+      ]
+    },
+    {
+      "match": "context assembly",
+      "capabilities": [
+        "runtime.context"
+      ]
+    },
+    {
+      "match": "model router|tool use engineer",
+      "capabilities": [
+        "runtime.routing",
+        "runtime.tools"
+      ]
+    },
+    {
+      "match": "planner engineer|critic agent|reflection engineer",
+      "capabilities": [
+        "runtime.agents"
+      ]
+    },
+    {
+      "match": "phoenix architect|liveview|ui components|web interaction",
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.web"
+      ],
+      "skills": [
+        "phoenix-liveview"
+      ]
+    },
+    {
+      "match": "realtime engineer",
+      "capabilities": [
+        "elixir.channels"
+      ],
+      "skills": [
+        "phoenix-channels-pubsub"
+      ]
+    },
+    {
+      "match": "webgl|information visualization|mobile web|offline / edge",
+      "capabilities": [
+        "frontend.web"
+      ],
+      "skills": [
+        "typescript-client"
+      ]
+    },
+    {
+      "match": "design system engineer",
+      "capabilities": [
+        "frontend.design_system"
+      ],
+      "skills": [
+        "design-sync"
+      ]
+    },
+    {
+      "match": "accessibility",
+      "capabilities": [
+        "frontend.accessibility"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "elixir platform",
+      "capabilities": [
+        "elixir.implementation",
+        "elixir.otp",
+        "qa.types"
+      ],
+      "skills": [
+        "elixir-idioms",
+        "dependency-usage-rules",
+        "typespec-dialyzer"
+      ]
+    },
+    {
+      "match": "otp architect|distributed systems",
+      "capabilities": [
+        "elixir.otp"
+      ],
+      "skills": [
+        "otp-concurrency",
+        "supervision-design",
+        "distributed-beam"
+      ]
+    },
+    {
+      "match": "ecto engineer|postgresql engineer|caching engineer",
+      "capabilities": [
+        "elixir.ecto",
+        "elixir.ash"
+      ],
+      "skills": [
+        "ecto-data-access"
+      ]
+    },
+    {
+      "match": "typedb engineer",
+      "capabilities": [
+        "typedb.schema",
+        "typedb.query",
+        "typedb.migration",
+        "semantic.modeling"
+      ],
+      "skills": [
+        "typeql",
+        "typedb-semantic-modeling"
+      ],
+      "tags": [
+        "high_risk"
+      ]
+    },
+    {
+      "match": "queue / job",
+      "capabilities": [
+        "elixir.oban"
+      ],
+      "skills": [
+        "oban-workers",
+        "oban-workflows"
+      ]
+    },
+    {
+      "match": "object storage",
+      "capabilities": [
+        "data.provenance",
+        "architecture.integration"
+      ]
+    },
+    {
+      "match": "authentication|authorization|api abuse|quota",
+      "capabilities": [
+        "security.review",
+        "elixir.phoenix"
+      ],
+      "skills": [
+        "security-baseline"
+      ]
+    },
+    {
+      "match": "observability engineer",
+      "capabilities": [
+        "ops.observability"
+      ],
+      "skills": [
+        "observability"
+      ]
+    },
+    {
+      "match": "billing|metering|revenue instrumentation",
+      "capabilities": [
+        "platform.api"
+      ],
+      "status": "dormant"
+    },
+    {
+      "match": "developer experience|example app|api documentation|developer relations",
+      "capabilities": [
+        "platform.sdk",
+        "docs.authoring"
+      ]
+    },
+    {
+      "match": "qa architect|unit test|integration test",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "skills": [
+        "testing-phoenix",
+        "testing-strategy"
+      ]
+    },
+    {
+      "match": "contract test",
+      "capabilities": [
+        "qa.testing",
+        "architecture.api",
+        "qa.types"
+      ]
+    },
+    {
+      "match": "property-based|mutation test",
+      "capabilities": [
+        "qa.property"
+      ],
+      "skills": [
+        "property-testing"
+      ]
+    },
+    {
+      "match": "regression hunter|reliability engineer",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "load test",
+      "capabilities": [
+        "qa.performance"
+      ]
+    },
+    {
+      "match": "semantic test",
+      "capabilities": [
+        "typedb.query",
+        "qa.testing"
+      ],
+      "skills": [
+        "typeql"
+      ]
+    },
+    {
+      "match": "ux test",
+      "capabilities": [
+        "product.ux",
+        "qa.e2e"
+      ]
+    },
+    {
+      "match": "release gatekeeper",
+      "capabilities": [
+        "ops.release",
+        "governance.escalation"
+      ],
+      "archetype": "adversary",
+      "tags": [
+        "gatekeeper"
+      ],
+      "note": "Gatekeeping is refusal, not merging: the release manager holds the merge authority. Keeping this role at the domain ceiling is the point — it can stop a release without being able to land one."
+    },
+    {
+      "match": "secure coding|dependency security|secret leakage|sandbox auditor|mcp security",
+      "capabilities": [
+        "security.review",
+        "security.secrets",
+        "security.dependencies"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "data privacy auditor",
+      "capabilities": [
+        "security.privacy"
+      ],
+      "archetype": "adversary",
+      "tags": [
+        "gatekeeper"
+      ]
+    },
+    {
+      "match": "provenance trust auditor|license auditor",
+      "capabilities": [
+        "data.provenance",
+        "knowledge.epistemics"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "abuse case",
+      "capabilities": [
+        "security.review"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "researcher|literature|prior-art|patent|market research|product signal|research provenance|hypothesis registry",
+      "capabilities": [
+        "research.discovery",
+        "research.evidence",
+        "knowledge.synthesis"
+      ],
+      "skills": [
+        "research-method",
+        "acme-provenance"
+      ],
+      "archetype": "investigator"
+    },
+    {
+      "match": "experiment scientist|benchmark researcher",
+      "capabilities": [
+        "evolution.evaluation",
+        "qa.performance",
+        "research.evidence"
+      ]
+    },
+    {
+      "match": "documentation architect|tutorial|api reference|rfc writer|handoff engineer|changelog",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "skills": [
+        "acme-development"
+      ]
+    },
+    {
+      "match": "code comment auditor|architecture diagram",
+      "capabilities": [
+        "docs.drift",
+        "docs.authoring"
+      ]
+    },
+    {
+      "match": "knowledge graph curator",
+      "capabilities": [
+        "knowledge.modeling",
+        "typedb.query"
+      ],
+      "skills": [
+        "typeql"
+      ],
+      "archetype": "steward"
+    },
+    {
+      "match": "ci/cd|build reproducibility",
+      "capabilities": [
+        "ops.ci"
+      ],
+      "trust": "T3",
+      "tags": [
+        "high_risk"
+      ]
+    },
+    {
+      "match": "environment engineer|container engineer",
+      "capabilities": [
+        "ops.deploy",
+        "ops.ci"
+      ]
+    },
+    {
+      "match": "deployment engineer|release manager|rollback engineer",
+      "capabilities": [
+        "ops.release",
+        "ops.deploy"
+      ],
+      "skills": [
+        "release",
+        "cut-release"
+      ],
+      "trust": "T3",
+      "tags": [
+        "high_risk"
+      ]
+    },
+    {
+      "match": "incident response",
+      "capabilities": [
+        "ops.incident",
+        "qa.regression"
+      ],
+      "trust": "T3"
+    },
+    {
+      "match": "cost auditor",
+      "capabilities": [
+        "qa.performance"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "ux architect|interaction designer|onboarding designer|mobile experience",
+      "capabilities": [
+        "product.ux",
+        "frontend.web",
+        "frontend.accessibility"
+      ],
+      "skills": [
+        "typescript-client"
+      ]
+    },
+    {
+      "match": "cognitive load auditor",
+      "capabilities": [
+        "product.ux"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "narrative experience|visual art director",
+      "capabilities": [
+        "product.narrative"
+      ]
+    },
+    {
+      "match": "knowledge regression",
+      "capabilities": [
+        "qa.regression",
+        "knowledge.modeling"
+      ],
+      "archetype": "adversary"
+    },
+    {
+      "match": "data fabric architect",
+      "capabilities": [
+        "architecture.data",
+        "data.ingestion",
+        "data.provenance"
+      ]
+    },
+    {
+      "match": "container engineer",
+      "tools": [
+        "docker"
+      ],
+      "why": "an earlier change: a role that writes Dockerfiles and may never build one reports its own work unverified. docker is T2; the role is T3."
+    },
+    {
+      "match": "build reproducibility",
+      "tools": [
+        "mix.compile"
+      ],
+      "why": "an earlier change: forcing a compile from a cold _build is this role's core method, and it held mix.test without mix.compile. T0."
+    },
+    {
+      "match": "semantic search",
+      "tools": [
+        "qdrant"
+      ],
+      "why": "an earlier change: the role held the qdrant skill and not the tool. tools.json marks qdrant present: false here, so on this machine the honest outcome is still unavailable; the grant is what lets it be available where Qdrant is."
+    }
+  ],
+  "nucleus": {
+    "doc": "The minimum runtime population from the specification's section 20, mapped to this registry's ids. These are the roles the harness generates client adapters for; the rest of the registry is instantiated by composing a prompt on demand. A role is in the nucleus because a workflow routes to it regularly, not because it is more important.",
+    "ids": [
+      "governance.development_commander",
+      "governance.architecture_director",
+      "governance.product_director",
+      "governance.work_intake_agent",
+      "architecture.systems_architect",
+      "research.fundamental_researcher",
+      "backend.elixir_platform_engineer",
+      "backend.otp_architect",
+      "backend.ecto_engineer",
+      "backend.typedb_engineer",
+      "runtime.agent_runtime_architect",
+      "data_fabric.connector_engineer",
+      "frontend.liveview_engineer",
+      "qa.qa_architect",
+      "qa.regression_hunter",
+      "security.secure_coding_auditor",
+      "docs.documentation_architect",
+      "qa.release_gatekeeper",
+      "release.release_manager",
+      "evolution.evolution_director",
+      "evolution.anti_goodhart_agent",
+      "repository.knowledge_architect"
+    ]
+  }
+}

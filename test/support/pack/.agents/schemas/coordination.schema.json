@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "coordination.schema.json",
+  "title": "A coordination record",
+  "description": "One file under .agents/coordination/, named for its id: an act of the coordinator's (assign, reassign, abandon, …), written by `noetic-harness assign` or by hand for an approval or a decision. Add-only: a record is never rewritten, so a record that fails this schema is reported, not repaired. The fields and which acts require them were derived from the 27 records on develop at an earlier change and from what `Noetic.Harness.Assign.record/3` and `release_record/2` write, not from a wish list. `additionalProperties` stays open because hand records carry fields of their own (`dry_run`, `union_check`, …). What an act requires beyond the common four is `definitions.act_<act>`, which `Noetic.Harness.Coordination` applies: this evaluator has no `if`/`then`.",
+  "type": "object",
+  "required": ["id", "act", "at", "by"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "id": {
+      "type": "string",
+      "pattern": "^(coord-)?[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z]+-[A-Za-z0-9._-]+$",
+      "description": "The file's name without `.json`. By hand `coord-<date>-<act>-<slug>`; by Assign `<date>-<act>-<epic>-<nonce>`. The act in it must be the record's `act`; both are checked in code. The date is not compared with `at`: one record on develop was written after midnight UTC under the next day's date."
+    },
+    "act": {
+      "enum": ["assign", "reassign", "return", "revert", "abandon", "landing", "approve", "decide", "collapse", "deletion"],
+      "description": "`assign`, `reassign`, `return` and `revert` keep an epic live, `abandon` and `landing` end it (`Assign`'s @live_acts and @ended_acts). The other four are hand records of an approval or a decision."
+    },
+    "at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$",
+      "description": "UTC, to the second. `Assign.live/1` orders an epic's records by it."
+    },
+    "by": {"type": "string", "minLength": 1},
+    "bead": {"$ref": "#/definitions/bead"},
+    "beads": {"type": "array", "items": {"$ref": "#/definitions/bead"}},
+    "profile": {"type": "string", "minLength": 1},
+    "session": {
+      "type": ["object", "string", "null"],
+      "required": ["url"],
+      "properties": {
+        "url": {"type": "string", "minLength": 1},
+        "env": {"type": "string"},
+        "pinned_branch": {"type": "string"}
+      },
+      "description": "By hand an object with the session's url; by Assign the `--session` given, a string, or null before a session exists."
+    },
+    "branch": {"type": "string", "pattern": "^claude/"},
+    "scope": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "description": "Globs. Only a record that carries a scope is compared for overlap (`Assign.live/1`); no hand record on develop has one."
+    },
+    "narrowed": {"type": "boolean"},
+    "grants": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "description": "Globs from Assign; prose from a hand record."
+    },
+    "acked": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "reserved_adr_numbers": {
+      "type": "array",
+      "items": {"type": ["integer", "string"], "minimum": 1, "pattern": "^ADR-[0-9]+$"},
+      "description": "Assign writes integers. One hand record on develop wrote \"a design decision\"; the string form is accepted because the record cannot be rewritten, and is the only other form accepted."
+    },
+    "files": {"type": "integer", "minimum": 0},
+    "previous": {
+      "type": "object",
+      "required": ["record", "branch", "head"],
+      "properties": {
+        "record": {"type": ["string", "null"]},
+        "branch": {"type": ["string", "null"]},
+        "head": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"}
+      },
+      "description": "The live assignment a reassign or an abandon ends, and where its branch stood."
+    },
+    "approval": {
+      "type": "object",
+      "required": ["by"],
+      "properties": {
+        "by": {"type": "string", "minLength": 1},
+        "where": {"type": "string"},
+        "date": {"type": "string"},
+        "quote": {"type": "string"},
+        "quotes": {"type": "array", "items": {"type": "string"}},
+        "asked": {"type": "string"},
+        "why": {"type": "string"}
+      }
+    },
+    "decision": {"type": "string", "minLength": 1},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "object", "required": ["id", "answer"]}
+    },
+    "paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "children": {"type": "array", "items": {"$ref": "#/definitions/bead"}},
+    "brief": {"type": "string"},
+    "channel": {"type": "string"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{7,40}$"},
+    "why": {"type": "string"},
+    "refs": {"type": "array", "items": {"type": "object"}},
+    "schema": {"type": "string"}
+  },
+  "definitions": {
+    "bead": {"type": "string", "pattern": "^[a-z][a-z0-9]*-[a-z0-9]+(\\.[0-9]+)*$"},
+    "act_assign": {
+      "required": ["bead", "profile", "branch", "session", "grants", "reserved_adr_numbers"],
+      "description": "What all 19 hand assignments and Assign.record/3 both carry. The hand ones also carry approval, brief, channel and children, which Assign does not write."
+    },
+    "act_reassign": {
+      "required": ["bead", "profile", "branch", "session", "grants", "reserved_adr_numbers", "previous"],
+      "description": "No record on develop; Assign.record/3 for a reassignment."
+    },
+    "act_return": {"required": ["bead"], "description": "No record and no writer yet; Assign reads it as live."},
+    "act_revert": {"required": ["bead"], "description": "No record and no writer yet; Assign reads it as live."},
+    "act_landing": {"required": ["bead"], "description": "No record and no writer yet; Assign reads it as ended."},
+    "act_abandon": {
+      "required": ["bead", "profile", "branch", "previous"],
+      "description": "No record on develop; Assign.release_record/2."
+    },
+    "act_approve": {
+      "required": ["approval", "decision", "paths"],
+      "description": "The person's quoted approval of a fenced or held change (4 on develop). The paths are what it covers."
+    },
+    "act_decide": {"required": ["approval", "decisions"], "description": "2 on develop."},
+    "act_collapse": {"required": ["bead", "approval", "decision"], "description": "1 on develop: the bead databases' merge."},
+    "act_deletion": {"required": ["bead", "approval", "decision", "why"], "description": "1 on develop: origin's Dolt refs."}
+  }
+}

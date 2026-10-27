@@ -1,0 +1,1852 @@
+{
+  "$schema": "../schemas/capabilities.schema.json",
+  "version": 1,
+  "doc": "The routing vocabulary. Routing is capability-based, not name-based: 'modify the TypeDB schema' resolves to the capabilities typedb.schema and semantic.modeling, and those resolve to the skills, tools, gates, evidence and context priorities the work requires — then, and only then, to the roles that supply them. An agent named 'TypeDB Agent' proves nothing.",
+  "capabilities": [
+    {
+      "id": "governance.routing",
+      "doc": "Choose the workflow, the team and the lane for a work item.",
+      "skills": [
+        "harness",
+        "acme-development",
+        "beads-workflow",
+        "beads"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "beads",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "TaskGraph artifact naming the chosen workflow and why"
+      ],
+      "context": [
+        "beads",
+        "recent_failures",
+        "workflows"
+      ]
+    },
+    {
+      "id": "governance.planning",
+      "doc": "Decompose an RFC or feature into a dependency-ordered task graph.",
+      "skills": [
+        "beads-workflow",
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "beads",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "TaskGraph with dependencies and completion criteria per node"
+      ],
+      "context": [
+        "beads",
+        "adrs",
+        "specs"
+      ]
+    },
+    {
+      "id": "governance.risk",
+      "doc": "Identify what this change could break that nobody asked about.",
+      "skills": [
+        "acme-architecture",
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "named blast radius: contracts, callers, data, deploy"
+      ],
+      "context": [
+        "adrs",
+        "architecture",
+        "git_history"
+      ]
+    },
+    {
+      "id": "governance.decision_record",
+      "doc": "Write the ADR: decision, reason, alternatives, evidence, consequences.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "docs"
+      ],
+      "evidence": [
+        "ADR in a design decision with a consequences section that costs something"
+      ],
+      "context": [
+        "adrs",
+        "specs"
+      ]
+    },
+    {
+      "id": "governance.escalation",
+      "doc": "Recognise that a decision is not the agent's to make and route it.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "beads"
+      ],
+      "gates": [],
+      "evidence": [
+        "BLOCKED report naming the holder and the exact decision"
+      ],
+      "context": [
+        "beads",
+        "policies"
+      ]
+    },
+    {
+      "id": "architecture.system",
+      "doc": "Boundaries between the four apps, the dependency direction, what may depend on what.",
+      "skills": [
+        "acme-architecture",
+        "elixir-idioms"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [
+        "compile"
+      ],
+      "evidence": [
+        "ArchitectureMap; a boundary argument, not a preference"
+      ],
+      "context": [
+        "adrs",
+        "architecture",
+        "boundary_declarations"
+      ]
+    },
+    {
+      "id": "architecture.domain",
+      "doc": "The shape of one subsystem and the contracts it exposes.",
+      "skills": [
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "contract list with stability commitments"
+      ],
+      "context": [
+        "specs",
+        "adrs",
+        "module_docs"
+      ]
+    },
+    {
+      "id": "architecture.data",
+      "doc": "Which store owns which state, and how derived read models stay derived.",
+      "skills": [
+        "acme-architecture",
+        "ecto-data-access",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "ownership table; sync direction for anything duplicated"
+      ],
+      "context": [
+        "adrs",
+        "schema",
+        "specs"
+      ]
+    },
+    {
+      "id": "architecture.api",
+      "doc": "Public contracts: the product's API operations, channel topics, HTTP surfaces, SDK shape.",
+      "skills": [
+        "phoenix-channels-pubsub",
+        "phoenix-contexts-routing",
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "compatibility statement; semver consequence"
+      ],
+      "context": [
+        "specs",
+        "adrs",
+        "client_code"
+      ]
+    },
+    {
+      "id": "architecture.security",
+      "doc": "Threat model, trust boundaries, what an attacker gets from each surface.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "gitleaks",
+        "semgrep",
+        "sobelow"
+      ],
+      "evidence": [
+        "threat model with the surfaces enumerated"
+      ],
+      "context": [
+        "adrs",
+        "config",
+        "policies"
+      ]
+    },
+    {
+      "id": "architecture.performance",
+      "doc": "Budgets and where the time actually goes.",
+      "skills": [
+        "otp-concurrency",
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "mix.test"
+      ],
+      "gates": [],
+      "evidence": [
+        "measurement before and after, same machine, named tool versions"
+      ],
+      "context": [
+        "benchmarks",
+        "telemetry"
+      ]
+    },
+    {
+      "id": "architecture.integration",
+      "doc": "How an external system attaches without becoming a second source of truth.",
+      "skills": [
+        "req-client",
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "boundary and failure semantics for the integration"
+      ],
+      "context": [
+        "adrs",
+        "config"
+      ]
+    },
+    {
+      "id": "elixir.implementation",
+      "doc": "Idiomatic Elixir: pattern matching, behaviours, protocols, data transformation, error handling.",
+      "skills": [
+        "elixir-idioms",
+        "dependency-usage-rules",
+        "package-aware-routing",
+        "igniter-codegen",
+        "simplify"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.compile",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "tests covering the new behaviour",
+        "diff inspected"
+      ],
+      "context": [
+        "target_module",
+        "callers",
+        "tests",
+        "usage_rules"
+      ]
+    },
+    {
+      "id": "elixir.otp",
+      "doc": "Processes, supervision, state ownership, failure semantics.",
+      "skills": [
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.compile",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "supervision reasoning",
+        "failure behaviour",
+        "lifecycle tests"
+      ],
+      "context": [
+        "supervision_tree",
+        "application_ex",
+        "registry_usage"
+      ],
+      "note": "A GenServer.cast to an unregistered name returns :ok, so silence is not proof of delivery."
+    },
+    {
+      "id": "elixir.ecto",
+      "doc": "Schemas, changesets, queries, migrations, indexes, transactions.",
+      "skills": [
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "postgres"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "migration up and down",
+        "query plan for anything that scans"
+      ],
+      "context": [
+        "schema",
+        "migrations",
+        "repo"
+      ]
+    },
+    {
+      "id": "elixir.ash",
+      "doc": "Ash resources, actions, policies, and where Ash ends and OTP begins.",
+      "skills": [
+        "ecto-data-access",
+        "acme-architecture",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "postgres"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "action tests",
+        "migration generated and reviewed"
+      ],
+      "context": [
+        "resources",
+        "domain_modules",
+        "migrations"
+      ],
+      "note": "A filtered primary read needs primary_read_warning?: false."
+    },
+    {
+      "id": "elixir.phoenix",
+      "doc": "Router, controllers, contexts, plugs, endpoint.",
+      "skills": [
+        "phoenix-contexts-routing",
+        "tidewave-runtime"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "tidewave"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "request tests"
+      ],
+      "context": [
+        "router",
+        "controllers",
+        "contexts"
+      ]
+    },
+    {
+      "id": "elixir.liveview",
+      "doc": "LiveView lifecycle, HEEx, components, streams, uploads, navigation.",
+      "skills": [
+        "phoenix-liveview",
+        "tidewave-runtime"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "tidewave",
+        "browser"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "LiveView test",
+        "rendered evidence for anything visual"
+      ],
+      "context": [
+        "liveviews",
+        "components",
+        "design_system"
+      ]
+    },
+    {
+      "id": "elixir.channels",
+      "doc": "Channels, PubSub, Presence, topic authorisation, payload contracts.",
+      "skills": [
+        "phoenix-channels-pubsub"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched",
+        "assets.check"
+      ],
+      "evidence": [
+        "channel test",
+        "client payload contract checked on both sides"
+      ],
+      "context": [
+        "channels",
+        "client_store",
+        "specs"
+      ]
+    },
+    {
+      "id": "elixir.oban",
+      "doc": "Durable background work: workers, retries, uniqueness, scheduling.",
+      "skills": [
+        "oban-workers",
+        "oban-workflows"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "postgres"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "worker test including the retry path"
+      ],
+      "context": [
+        "workers",
+        "queues",
+        "migrations"
+      ],
+      "note": "Not currently a dependency of this umbrella. Adding it is an architecture decision, not an import."
+    },
+    {
+      "id": "elixir.http",
+      "doc": "Outbound HTTP through the layered Req → Finch → Mint architecture.",
+      "skills": [
+        "req-client",
+        "finch-pools",
+        "mint-escape-hatch"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "contract test against a recorded response",
+        "retry and rate-limit policy stated"
+      ],
+      "context": [
+        "http_module",
+        "connectors",
+        "usage_rules"
+      ],
+      "note": "Req is the default. Direct Finch requires measured justification. Mint is an escape hatch."
+    },
+    {
+      "id": "typedb.schema",
+      "doc": "TypeDB 3 schema definition and change.",
+      "skills": [
+        "typeql",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "typeql.check",
+        "typedb.console"
+      ],
+      "gates": [
+        "typeql.check"
+      ],
+      "evidence": [
+        "typeql-check output",
+        "schema applied to a sandbox database",
+        "fixture queries"
+      ],
+      "context": [
+        "live_schema",
+        "typeql_files",
+        "adr_006",
+        "memory:typedb"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "typedb.query",
+      "doc": "Writing and debugging TypeQL reads.",
+      "skills": [
+        "typeql",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "typeql.check",
+        "typedb.console"
+      ],
+      "gates": [
+        "typeql.check"
+      ],
+      "evidence": [
+        "typeql-check output",
+        "query run against real data with the answer shown"
+      ],
+      "context": [
+        "live_schema",
+        "existing_queries",
+        "memory:typedb"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "typedb.migration",
+      "doc": "Moving a live graph from one schema to another.",
+      "skills": [
+        "typeql",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "typeql.check",
+        "typedb.console"
+      ],
+      "gates": [
+        "typeql.check",
+        "review.independent"
+      ],
+      "evidence": [
+        "forward migration",
+        "rollback",
+        "compatibility statement",
+        "fixture regression"
+      ],
+      "context": [
+        "live_schema",
+        "migrations",
+        "adr_006"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "semantic.modeling",
+      "doc": "Deciding what is an entity, what is a relation, what is an attribute, and why.",
+      "skills": [
+        "typedb-semantic-modeling",
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "the modelling argument, with the rejected alternative named"
+      ],
+      "context": [
+        "live_schema",
+        "specs",
+        "kb"
+      ]
+    },
+    {
+      "id": "knowledge.modeling",
+      "doc": "Entities, relations and claims in the Catalog.",
+      "skills": [
+        "acme-provenance",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "kb query showing the new shape answering a question"
+      ],
+      "context": [
+        "kb_schema",
+        "catalog",
+        "specs"
+      ]
+    },
+    {
+      "id": "knowledge.epistemics",
+      "doc": "What counts as knowing: evidence, confidence, retirement.",
+      "skills": [
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "provenance chain for each claim"
+      ],
+      "context": [
+        "kb",
+        "adrs"
+      ],
+      "note": "Nothing is deleted. A fact that stops being true is retired, dated and pointed at its replacement."
+    },
+    {
+      "id": "knowledge.contradiction",
+      "doc": "Actively hunting for statements that cannot both be true.",
+      "skills": [
+        "acme-provenance",
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "the two sources, quoted, and what would settle it"
+      ],
+      "context": [
+        "kb",
+        "corpus"
+      ]
+    },
+    {
+      "id": "knowledge.synthesis",
+      "doc": "Turning gathered evidence into a usable statement with its uncertainty intact.",
+      "skills": [
+        "research-method",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "ResearchNote with sources and an explicit unknowns section"
+      ],
+      "context": [
+        "corpus",
+        "kb",
+        "memory"
+      ]
+    },
+    {
+      "id": "research.discovery",
+      "doc": "Finding the sources that could answer the question, including the ones that disagree.",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "context7",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "source list with why each was included or excluded"
+      ],
+      "context": [
+        "question",
+        "corpus",
+        "memory"
+      ]
+    },
+    {
+      "id": "research.evidence",
+      "doc": "Extracting what a source actually says, not what it is assumed to say.",
+      "skills": [
+        "research-method",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "context7",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "quotation with location",
+        "distinction between the source's claim and your reading"
+      ],
+      "context": [
+        "sources"
+      ]
+    },
+    {
+      "id": "research.prior_art",
+      "doc": "What this project, or the field, has already tried.",
+      "skills": [
+        "research-method",
+        "acme-project-memory",
+        "port-from-corpus"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "beads",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "prior attempts found, with outcomes"
+      ],
+      "context": [
+        "memory",
+        "adrs",
+        "git_history",
+        "beads"
+      ]
+    },
+    {
+      "id": "data.connector",
+      "doc": "A client for one external source, with its rate limits and its failures.",
+      "skills": [
+        "req-client",
+        "finch-pools",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched",
+        "data.rights"
+      ],
+      "evidence": [
+        "contract test",
+        "retry, backoff and Retry-After policy",
+        "telemetry emitted"
+      ],
+      "context": [
+        "http_module",
+        "source_registry",
+        "existing_connectors"
+      ]
+    },
+    {
+      "id": "data.ingestion",
+      "doc": "Moving raw payloads to durable storage with a checksum before anything parses them.",
+      "skills": [
+        "broadway-ingestion",
+        "oban-workers"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched",
+        "data.provenance"
+      ],
+      "evidence": [
+        "raw blob retained",
+        "checksum",
+        "replayable"
+      ],
+      "context": [
+        "pipeline",
+        "storage"
+      ]
+    },
+    {
+      "id": "data.quality",
+      "doc": "Whether the data is what the schema claims.",
+      "skills": [
+        "property-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "data.validation"
+      ],
+      "evidence": [
+        "quality report with the failing rows, not just a rate"
+      ],
+      "context": [
+        "schema",
+        "samples"
+      ]
+    },
+    {
+      "id": "data.entity_resolution",
+      "doc": "Deciding two records are the same thing, reversibly.",
+      "skills": [
+        "property-testing",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "precision and recall on a labelled set",
+        "merge is reversible"
+      ],
+      "context": [
+        "identity_model",
+        "samples"
+      ]
+    },
+    {
+      "id": "data.provenance",
+      "doc": "Every observation knows where it came from and what transformed it.",
+      "skills": [
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "data.provenance"
+      ],
+      "evidence": [
+        "lineage from raw blob to stored observation"
+      ],
+      "context": [
+        "pipeline",
+        "storage"
+      ]
+    },
+    {
+      "id": "data.temporal",
+      "doc": "Valid time versus transaction time, and not conflating them.",
+      "skills": [
+        "ecto-data-access",
+        "typedb-semantic-modeling"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "query showing history reconstructed at a past instant"
+      ],
+      "context": [
+        "schema",
+        "specs"
+      ]
+    },
+    {
+      "id": "data.spatial",
+      "doc": "Geometry, projection and the errors that come from ignoring them.",
+      "skills": [
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "projection stated",
+        "boundary case tested"
+      ],
+      "context": [
+        "schema",
+        "samples"
+      ]
+    },
+    {
+      "id": "runtime.agents",
+      "doc": "Jido agents behind the agent port.",
+      "skills": [
+        "otp-concurrency",
+        "supervision-design",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "format",
+        "compile",
+        "test.touched"
+      ],
+      "evidence": [
+        "agent lifecycle test",
+        "port contract unchanged or ADR'd"
+      ],
+      "context": [
+        "agent_modules",
+        "oracle_port",
+        "adr_005"
+      ]
+    },
+    {
+      "id": "runtime.context",
+      "doc": "Assembling the smallest sufficient context for a task.",
+      "skills": [
+        "acme-development",
+        "acme-project-memory"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "evidence": [
+        "the bundle, with why each source was included"
+      ],
+      "context": [
+        "harness_context_rules"
+      ]
+    },
+    {
+      "id": "runtime.memory",
+      "doc": "What the system remembers and how it is retrieved.",
+      "skills": [
+        "acme-project-memory",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "evidence": [
+        "records carry provenance and confidence"
+      ],
+      "context": [
+        "memory",
+        "policies"
+      ]
+    },
+    {
+      "id": "runtime.tools",
+      "doc": "Which tool an agent may hold and what it proves.",
+      "skills": [
+        "security-baseline",
+        "handoff-sync"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "evidence": [
+        "permission resolves to a trust level and a probe"
+      ],
+      "context": [
+        "policies"
+      ]
+    },
+    {
+      "id": "runtime.routing",
+      "doc": "Capability extraction and team composition.",
+      "skills": [
+        "harness",
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "evidence": [
+        "route explanation naming the capabilities, not the role names"
+      ],
+      "context": [
+        "registry",
+        "workflows",
+        "memory"
+      ]
+    },
+    {
+      "id": "frontend.web",
+      "doc": "The TypeScript client: store, HUD, channel plumbing.",
+      "skills": [
+        "typescript-client",
+        "phoenix-channels-pubsub"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "browser",
+        "playwright"
+      ],
+      "gates": [
+        "assets.check"
+      ],
+      "evidence": [
+        "tsc --noEmit",
+        "node --test",
+        "browser evidence for anything visible"
+      ],
+      "context": [
+        "client_code",
+        "channels",
+        "specs"
+      ],
+      "note": "esbuild only strips types. A client change is unverified until assets.check has run."
+    },
+    {
+      "id": "frontend.design_system",
+      "doc": "The AcmeOrg UI system, which is upstream of this repository.",
+      "skills": [
+        "design-sync"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "design.sync"
+      ],
+      "gates": [
+        "compile",
+        "assets.check"
+      ],
+      "evidence": [
+        "upstream sync recorded",
+        "defect log entry if a local fix was needed"
+      ],
+      "context": [
+        "design_dir",
+        "adr_019"
+      ],
+      "note": "A local edit under design/ is only ever a defect fix, and is not finished until it is upstream. Never send source upstream through a context window."
+    },
+    {
+      "id": "frontend.accessibility",
+      "doc": "Whether a person who is not you can use it.",
+      "skills": [
+        "typescript-client"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "keyboard path",
+        "contrast measurement",
+        "screen reader output"
+      ],
+      "context": [
+        "client_code",
+        "design_system"
+      ]
+    },
+    {
+      "id": "qa.testing",
+      "doc": "Tests that would fail if the behaviour regressed.",
+      "skills": [
+        "testing-phoenix",
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the test failing before the fix and passing after"
+      ],
+      "context": [
+        "target_module",
+        "existing_tests"
+      ]
+    },
+    {
+      "id": "qa.property",
+      "doc": "Invariants over generated input, for parsers, transforms and state machines.",
+      "skills": [
+        "property-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the property, stated in words, and a shrunk counterexample from a deliberate break"
+      ],
+      "context": [
+        "target_module",
+        "specs"
+      ]
+    },
+    {
+      "id": "qa.types",
+      "doc": "Specs, behaviours and what Dialyzer can prove.",
+      "skills": [
+        "typespec-dialyzer"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.dialyzer"
+      ],
+      "gates": [
+        "dialyzer"
+      ],
+      "evidence": [
+        "dialyzer output before and after"
+      ],
+      "context": [
+        "public_api"
+      ]
+    },
+    {
+      "id": "qa.regression",
+      "doc": "Deciding whether a failure is new, and what it means.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read",
+        "mix.test"
+      ],
+      "gates": [
+        "test.all"
+      ],
+      "evidence": [
+        "the commit that introduced it, found by bisection or by argument"
+      ],
+      "context": [
+        "git_history",
+        "failing_test",
+        "memory:failures"
+      ],
+      "note": "Two 'flakes' in this repository were a stale build and a real race. 'Flaky' is a hypothesis."
+    },
+    {
+      "id": "qa.e2e",
+      "doc": "Driving the real client against the real server.",
+      "skills": [
+        "verify-in-browser"
+      ],
+      "tools": [
+        "read",
+        "edit",
+        "playwright",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "the walk through the product, the store read back, the pose"
+      ],
+      "context": [
+        "client_code",
+        "channels"
+      ]
+    },
+    {
+      "id": "qa.performance",
+      "doc": "Measured, on a named machine, against a stated budget.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [],
+      "evidence": [
+        "before and after, same conditions, tool versions recorded"
+      ],
+      "context": [
+        "benchmarks"
+      ]
+    },
+    {
+      "id": "security.review",
+      "doc": "Reading a change for what an attacker gets from it.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read",
+        "semgrep",
+        "sobelow"
+      ],
+      "gates": [
+        "semgrep",
+        "sobelow"
+      ],
+      "evidence": [
+        "surfaces enumerated, each with a verdict"
+      ],
+      "context": [
+        "diff",
+        "config",
+        "policies"
+      ]
+    },
+    {
+      "id": "security.secrets",
+      "doc": "Nothing secret is in the tree, the history, a log or a prompt.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "gitleaks"
+      ],
+      "gates": [
+        "gitleaks"
+      ],
+      "evidence": [
+        "scanner output over the working tree and the history"
+      ],
+      "context": [
+        "diff",
+        "config"
+      ]
+    },
+    {
+      "id": "security.dependencies",
+      "doc": "What the dependency tree brings with it.",
+      "skills": [
+        "security-baseline",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "osv-scanner",
+        "trivy",
+        "mix.hex_audit"
+      ],
+      "gates": [
+        "osv",
+        "trivy",
+        "hex.audit"
+      ],
+      "evidence": [
+        "scanner output, and a decision for each finding"
+      ],
+      "context": [
+        "mix_lock",
+        "package_json"
+      ]
+    },
+    {
+      "id": "security.privacy",
+      "doc": "Personal data: what is held, why, for how long, and how it leaves.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "evidence": [
+        "data inventory with a lawful basis and a deletion path"
+      ],
+      "context": [
+        "schema",
+        "policies"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.release",
+      "doc": "Cutting a version, with the git flow this repository actually uses.",
+      "skills": [
+        "release",
+        "cut-release"
+      ],
+      "tools": [
+        "read",
+        "edit",
+        "git.write",
+        "git.push",
+        "github"
+      ],
+      "gates": [
+        "release"
+      ],
+      "evidence": [
+        "full lane green",
+        "changelog",
+        "all five mix.exs bumped"
+      ],
+      "context": [
+        "changelog",
+        "git_workflow_guide"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.deploy",
+      "doc": "Getting a release onto a machine, and off it again.",
+      "skills": [
+        "release"
+      ],
+      "tools": [
+        "read",
+        "github"
+      ],
+      "gates": [
+        "protected"
+      ],
+      "evidence": [
+        "smoke test after deploy",
+        "rollback rehearsed, not assumed"
+      ],
+      "context": [
+        "deploy_config"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.incident",
+      "doc": "Containment first, diagnosis second, prevention last and in writing.",
+      "skills": [
+        "release"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read",
+        "sentry",
+        "beads"
+      ],
+      "gates": [],
+      "evidence": [
+        "timeline",
+        "IncidentReport",
+        "Postmortem with a prevention that is a change, not an intention"
+      ],
+      "context": [
+        "logs",
+        "telemetry",
+        "recent_deploys"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.observability",
+      "doc": "Being able to see what happened without guessing.",
+      "skills": [
+        "observability",
+        "tidewave-runtime"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test",
+        "tidewave"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the telemetry event, emitted and observed"
+      ],
+      "context": [
+        "telemetry",
+        "logs"
+      ]
+    },
+    {
+      "id": "ops.ci",
+      "doc": "The pipeline itself.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "github"
+      ],
+      "gates": [
+        "ci.local",
+        "review.independent"
+      ],
+      "evidence": [
+        "the job body run locally",
+        "a deliberate failure caught"
+      ],
+      "context": [
+        "workflows",
+        "ci_local"
+      ],
+      "risk": "high",
+      "note": "Changing CI is T4. It is a gate change."
+    },
+    {
+      "id": "docs.authoring",
+      "doc": "Prose that a future agent will actually find.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.docs"
+      ],
+      "gates": [
+        "docs"
+      ],
+      "evidence": [
+        "mix docs builds",
+        "the new page is in the index"
+      ],
+      "context": [
+        "docs",
+        "specs"
+      ],
+      "note": "A fact in a @moduledoc is findable. A fact in a # comment is not."
+    },
+    {
+      "id": "docs.drift",
+      "doc": "Finding the documentation a change just made false.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [
+        "docs"
+      ],
+      "evidence": [
+        "the list of affected documents, each resolved or explicitly deferred"
+      ],
+      "context": [
+        "diff",
+        "docs"
+      ]
+    },
+    {
+      "id": "platform.api",
+      "doc": "Turning an internal capability into a contract someone else depends on.",
+      "skills": [
+        "phoenix-contexts-routing",
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "mix.test"
+      ],
+      "gates": [
+        "test.touched",
+        "review.independent"
+      ],
+      "evidence": [
+        "contract, versioning policy, deprecation path"
+      ],
+      "context": [
+        "api_modules",
+        "specs"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "platform.sdk",
+      "doc": "A client library that has to stay compatible.",
+      "skills": [
+        "acme-architecture"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "example that runs",
+        "compatibility matrix"
+      ],
+      "context": [
+        "api_modules"
+      ]
+    },
+    {
+      "id": "product.ux",
+      "doc": "What the person is trying to do, and whether they can.",
+      "skills": [
+        "acme-development"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "the task, walked, with where it breaks"
+      ],
+      "context": [
+        "client_code",
+        "specs"
+      ]
+    },
+    {
+      "id": "product.narrative",
+      "doc": "Whether the product means what it is supposed to mean.",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "the experience described from inside it"
+      ],
+      "context": [
+        "specs",
+        "scene_code"
+      ]
+    },
+    {
+      "id": "evolution.mutation",
+      "doc": "Proposing a specific, testable change to an evolvable artifact.",
+      "skills": [
+        "acme-evolution-development",
+        "acme-evolution"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "evo.sandbox"
+      ],
+      "evidence": [
+        "Hypothesis artifact: what is weak, what change, what would disconfirm it"
+      ],
+      "context": [
+        "candidate_lineage",
+        "telemetry",
+        "memory:failures"
+      ]
+    },
+    {
+      "id": "evolution.evaluation",
+      "doc": "Running the suite that the candidate was designed against.",
+      "skills": [
+        "acme-evolution-development"
+      ],
+      "tools": [
+        "read",
+        "mix.test"
+      ],
+      "gates": [
+        "evo.benchmark"
+      ],
+      "evidence": [
+        "Benchmark artifact with suite revision and tool versions"
+      ],
+      "context": [
+        "benchmark_suite",
+        "candidate"
+      ]
+    },
+    {
+      "id": "evolution.holdout",
+      "doc": "Running the suite the candidate has never seen.",
+      "skills": [
+        "acme-evolution-development"
+      ],
+      "tools": [
+        "read",
+        "mix.test"
+      ],
+      "gates": [
+        "evo.holdout"
+      ],
+      "evidence": [
+        "HoldoutResult",
+        "explicit statement of whether the holdout was visible during generation"
+      ],
+      "context": [
+        "holdout_suite",
+        "candidate"
+      ],
+      "note": "A benchmark gain with a flat holdout is the Goodhart signature."
+    },
+    {
+      "id": "evolution.transfer",
+      "doc": "Whether the gain survives a different task family.",
+      "skills": [
+        "acme-evolution-development"
+      ],
+      "tools": [
+        "read",
+        "mix.test"
+      ],
+      "gates": [
+        "evo.transfer"
+      ],
+      "evidence": [
+        "TransferTest across a named adjacent family"
+      ],
+      "context": [
+        "transfer_suite",
+        "candidate"
+      ]
+    },
+    {
+      "id": "evolution.calibration",
+      "doc": "Whether a stated probability means what it says: expected calibration error, reliability, selective risk, and where abstention is better than an answer.",
+      "skills": [
+        "acme-evolution-development",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "mix.test"
+      ],
+      "gates": [],
+      "evidence": [
+        "CalibrationReport naming the exact provider, model revision, question version and partition it was fitted on",
+        "a selective-risk curve, not a single accuracy number"
+      ],
+      "context": [
+        "benchmark_suite",
+        "candidate",
+        "telemetry"
+      ],
+      "note": "Added by an earlier change, and it is the one competence of the eight the System One overlay proposes that nothing here already covers. `evolution.evaluation` runs the suite and `evolution.anti_goodhart` asks whether the gain is real; neither asks whether a 0.8 happens four times in five. A design decision and the addendum's Gap 2 are why that is a separate question: a model's probability is not an epistemic confidence, and this repository has an Catalog where the difference is load-bearing."
+    },
+    {
+      "id": "evolution.anti_goodhart",
+      "doc": "Attacking the measure on the candidate's behalf, so nobody else has to.",
+      "skills": [
+        "acme-evolution-development",
+        "acme-evolution"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "mix.test"
+      ],
+      "gates": [
+        "evo.antigoodhart"
+      ],
+      "evidence": [
+        "the specific shortcut the mutation enables, and whether it took it"
+      ],
+      "context": [
+        "candidate",
+        "benchmark_suite",
+        "holdout_suite"
+      ],
+      "note": "This role may not be the candidate's author, and may not modify the evaluator."
+    },
+    {
+      "id": "evolution.archive",
+      "doc": "Keeping the lineage, including what failed.",
+      "skills": [
+        "acme-evolution-development",
+        "acme-provenance"
+      ],
+      "tools": [
+        "read",
+        "edit"
+      ],
+      "gates": [
+        "evo.archive"
+      ],
+      "evidence": [
+        "lineage record",
+        "failed candidates retained with their reasons"
+      ],
+      "context": [
+        "archive"
+      ]
+    },
+    {
+      "id": "evolution.promotion",
+      "doc": "Deciding whether evidence is sufficient to change what runs by default.",
+      "skills": [
+        "acme-evolution-development"
+      ],
+      "tools": [
+        "read"
+      ],
+      "gates": [
+        "evo.promotion",
+        "review.independent"
+      ],
+      "evidence": [
+        "every prior stage present and passing",
+        "no single collapsed score"
+      ],
+      "context": [
+        "candidate",
+        "all_evaluations"
+      ],
+      "risk": "high"
+    }
+  ]
+}

@@ -1,0 +1,778 @@
+{
+  "$schema": "../schemas/capabilities.schema.json",
+  "version": 1,
+  "doc": "What a role can do. The router works in capabilities, and a role is chosen because it holds the capabilities a step needs, never because of its name.",
+  "capabilities": [
+    {
+      "id": "code.implementation",
+      "doc": "Change the code to do something it did not do, or to stop doing something wrong.",
+      "skills": [
+        "testing-strategy",
+        "simplify"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "git.read",
+        "project.test"
+      ],
+      "gates": [
+        "format",
+        "test.touched"
+      ],
+      "evidence": [
+        "the diff",
+        "the tests you ran, with output"
+      ],
+      "context": [
+        "tests",
+        "docs"
+      ]
+    },
+    {
+      "id": "code.refactor",
+      "doc": "Change the structure of code without changing what it does.",
+      "skills": [
+        "simplify",
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "git.read",
+        "project.test"
+      ],
+      "gates": [
+        "format",
+        "test.all"
+      ],
+      "evidence": [
+        "the tests before and after, both green",
+        "the diff, read"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "governance.routing",
+      "doc": "Decide which workflow and which roles a piece of work needs.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the route and why",
+        "what was too thin to route"
+      ],
+      "context": [
+        "workflows",
+        "recent_failures"
+      ]
+    },
+    {
+      "id": "governance.planning",
+      "doc": "Split work into steps small enough to verify, each with an owner and a gate.",
+      "skills": [
+        "working-with-the-harness",
+        "decision-records"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the plan, each step with an owner and a gate"
+      ],
+      "context": [
+        "decisions",
+        "readme"
+      ]
+    },
+    {
+      "id": "governance.risk",
+      "doc": "Name what could go wrong and what it would cost.",
+      "skills": [
+        "decision-records",
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the risks, ranked, each with a mitigation or an owner"
+      ],
+      "context": [
+        "decisions",
+        "git_history"
+      ]
+    },
+    {
+      "id": "governance.decision_record",
+      "doc": "Write a decision down with its context, options and consequences.",
+      "skills": [
+        "decision-records"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [],
+      "evidence": [
+        "the decision record"
+      ],
+      "context": [
+        "decisions"
+      ]
+    },
+    {
+      "id": "governance.escalation",
+      "doc": "Take a question to whoever holds the authority to answer it.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the question, who holds it, and what is blocked until it is answered"
+      ],
+      "context": [
+        "policies"
+      ]
+    },
+    {
+      "id": "architecture.system",
+      "doc": "Decide how the parts of the system divide the work and depend on each other.",
+      "skills": [
+        "decision-records"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [
+        "build"
+      ],
+      "evidence": [
+        "the boundaries affected",
+        "the decision record"
+      ],
+      "context": [
+        "decisions",
+        "docs"
+      ]
+    },
+    {
+      "id": "architecture.api",
+      "doc": "Design an interface other code or other people will depend on.",
+      "skills": [
+        "decision-records",
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the interface, with its compatibility promise"
+      ],
+      "context": [
+        "docs",
+        "decisions"
+      ]
+    },
+    {
+      "id": "architecture.data",
+      "doc": "Decide how data is stored, shaped and migrated.",
+      "skills": [
+        "decision-records"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "evidence": [
+        "the data model and its migration path"
+      ],
+      "context": [
+        "docs",
+        "decisions"
+      ]
+    },
+    {
+      "id": "architecture.security",
+      "doc": "Decide where trust boundaries run and what crosses them.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ],
+      "gates": [
+        "secrets.scan"
+      ],
+      "evidence": [
+        "the trust boundaries and what crosses each"
+      ],
+      "context": [
+        "security_policy",
+        "decisions"
+      ]
+    },
+    {
+      "id": "research.discovery",
+      "doc": "Find out what is known about a question.",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "the sources read",
+        "what they establish"
+      ],
+      "context": [
+        "docs",
+        "memory"
+      ]
+    },
+    {
+      "id": "research.evidence",
+      "doc": "Check a claim against its source, or reproduce it.",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ],
+      "gates": [],
+      "evidence": [
+        "each claim with its source and confidence"
+      ],
+      "context": [
+        "docs"
+      ]
+    },
+    {
+      "id": "research.prior_art",
+      "doc": "Find what this repository, or others, already tried.",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the earlier attempts and what came of them"
+      ],
+      "context": [
+        "memory",
+        "git_history",
+        "decisions"
+      ]
+    },
+    {
+      "id": "docs.authoring",
+      "doc": "Write documentation a reader can act on.",
+      "skills": [
+        "documentation"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [],
+      "evidence": [
+        "the documentation, and who it is for"
+      ],
+      "context": [
+        "docs",
+        "readme"
+      ]
+    },
+    {
+      "id": "docs.drift",
+      "doc": "Find documentation a change has made untrue.",
+      "skills": [
+        "documentation"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "each untrue statement, with the change that made it so"
+      ],
+      "context": [
+        "diff",
+        "docs"
+      ]
+    },
+    {
+      "id": "qa.testing",
+      "doc": "Write and run the tests that show a change works.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the tests, and their output"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "qa.property",
+      "doc": "Test a property over many generated inputs rather than a few examples.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the property, the generator, and a run's output"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "qa.regression",
+      "doc": "Find out why something that worked stopped working.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read",
+        "project.test"
+      ],
+      "gates": [
+        "test.all"
+      ],
+      "evidence": [
+        "a test that fails before the fix and passes after"
+      ],
+      "context": [
+        "git_history",
+        "tests",
+        "memory:failures"
+      ]
+    },
+    {
+      "id": "qa.e2e",
+      "doc": "Test the software the way a user meets it.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "edit",
+        "browser",
+        "project.test"
+      ],
+      "gates": [
+        "test.all"
+      ],
+      "evidence": [
+        "what was exercised, and how it was observed"
+      ],
+      "context": [
+        "tests",
+        "docs"
+      ]
+    },
+    {
+      "id": "qa.performance",
+      "doc": "Measure speed or resource use, against a baseline.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [],
+      "evidence": [
+        "the baseline, the measurement and the conditions of both"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "security.review",
+      "doc": "Review a change for what it lets an attacker do.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "evidence": [
+        "each finding, reproduced or reasoned, and ranked"
+      ],
+      "context": [
+        "diff",
+        "security_policy"
+      ]
+    },
+    {
+      "id": "security.secrets",
+      "doc": "Keep credentials out of the code, the history and the logs.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "gitleaks"
+      ],
+      "gates": [
+        "secrets.scan"
+      ],
+      "evidence": [
+        "the scanner's output"
+      ],
+      "context": [
+        "diff"
+      ]
+    },
+    {
+      "id": "security.dependencies",
+      "doc": "Check what the dependencies bring with them.",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "osv-scanner"
+      ],
+      "gates": [
+        "deps.scan"
+      ],
+      "evidence": [
+        "the scanner's output, and a decision for each finding"
+      ],
+      "context": [
+        "dependency_manifests"
+      ]
+    },
+    {
+      "id": "ops.release",
+      "doc": "Cut and publish a release.",
+      "skills": [
+        "release-practice"
+      ],
+      "tools": [
+        "read",
+        "edit",
+        "git.write",
+        "git.push",
+        "github"
+      ],
+      "gates": [
+        "human.approval"
+      ],
+      "evidence": [
+        "the version, the changelog and the published artefact"
+      ],
+      "context": [
+        "changelog",
+        "ci_config"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.ci",
+      "doc": "Keep the continuous integration pipeline correct and fast.",
+      "skills": [
+        "release-practice"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "github"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "evidence": [
+        "the pipeline run before and after the change"
+      ],
+      "context": [
+        "ci_config"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.incident",
+      "doc": "Respond to something going wrong where users can see it.",
+      "skills": [
+        "observability"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "git.read"
+      ],
+      "gates": [],
+      "evidence": [
+        "the timeline, the cause and what was done"
+      ],
+      "context": [
+        "git_history",
+        "docs"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "ops.observability",
+      "doc": "Make the software say what it is doing: logs, metrics, traces.",
+      "skills": [
+        "observability"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the signal, and a check that it appears"
+      ],
+      "context": [
+        "docs"
+      ]
+    },
+    {
+      "id": "data.connector",
+      "doc": "Bring data in from an outside source.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [
+        "test.touched",
+        "review.independent"
+      ],
+      "evidence": [
+        "the source, its terms of use and a test against a recorded sample"
+      ],
+      "context": [
+        "docs"
+      ]
+    },
+    {
+      "id": "data.quality",
+      "doc": "Check that data is what it claims to be.",
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "evidence": [
+        "the checks, and what they found"
+      ],
+      "context": [
+        "docs"
+      ]
+    },
+    {
+      "id": "data.provenance",
+      "doc": "Record where each piece of data came from, and on what terms.",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "evidence": [
+        "the source and the terms for each dataset"
+      ],
+      "context": [
+        "docs"
+      ]
+    },
+    {
+      "id": "evolution.mutation",
+      "doc": "Propose a change to how this repository develops itself.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ],
+      "gates": [],
+      "evidence": [
+        "the candidate, and the evidence that motivated it"
+      ],
+      "context": [
+        "recent_failures",
+        "memory:failures"
+      ]
+    },
+    {
+      "id": "evolution.evaluation",
+      "doc": "Measure a candidate on the work it was meant to improve.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "project.test"
+      ],
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "evidence": [
+        "the measurement, and what it was measured on"
+      ],
+      "context": [
+        "memory"
+      ]
+    },
+    {
+      "id": "evolution.holdout",
+      "doc": "Measure a candidate on work it was not tuned on.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "project.test"
+      ],
+      "gates": [
+        "holdout.recorded"
+      ],
+      "evidence": [
+        "the holdout result, recorded by someone other than the candidate's author"
+      ],
+      "context": [
+        "memory"
+      ]
+    },
+    {
+      "id": "evolution.anti_goodhart",
+      "doc": "Check that a gain is real, not an artefact of what was measured.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "project.test"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "evidence": [
+        "what was checked, and why a gamed metric would have shown up"
+      ],
+      "context": [
+        "memory"
+      ]
+    },
+    {
+      "id": "evolution.promotion",
+      "doc": "Adopt a candidate that held up.",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read"
+      ],
+      "gates": [
+        "human.approval"
+      ],
+      "evidence": [
+        "every stage's result, and who recorded it"
+      ],
+      "context": [
+        "memory"
+      ],
+      "risk": "high"
+    }
+  ]
+}

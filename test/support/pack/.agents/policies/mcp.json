@@ -1,0 +1,89 @@
+{
+  "$schema": "../schemas/mcp.schema.json",
+  "version": 1,
+  "doc": "The harness over MCP, for an agent that is not Claude Code. Read-only by construction: every tool is a harness task that describes work, and there is no tool for one that records, dispatches or verifies. `Noetic.Harness.MCP` holds the allow-list of tasks and the flag each must carry, and `mix harness.validate` refuses this file when a tool steps outside it. Served over stdio by `noetic-harness mcp`, one process per client: no socket, no port, nothing in a release. Arguments reach the task as `--flag=value`, one argv element each, so a value cannot become a second flag.",
+  "tools": [
+    {
+      "name": "harness_route",
+      "task": "route",
+      "description": "Which workflow a piece of work routes to, which gate lane it will have to pass, and who should do it. Call it before starting non-trivial work.",
+      "fixed": ["--explain"],
+      "args": [
+        { "name": "title", "flag": "--title", "type": "string", "required": true, "description": "What you are about to do, in a sentence." },
+        { "name": "body", "flag": "--body", "type": "string", "description": "More detail, if the title is thin." },
+        { "name": "paths", "flag": "--paths", "type": "array", "description": "Files you expect to touch, repository-relative." }
+      ]
+    },
+    {
+      "name": "harness_context",
+      "task": "context",
+      "description": "What you should read before starting: the specs, ADRs, prior memory and open work relevant to this task.",
+      "args": [
+        { "name": "title", "flag": "--title", "type": "string", "required": true, "description": "What you are about to do, in a sentence." },
+        { "name": "body", "flag": "--body", "type": "string", "description": "More detail, if the title is thin." },
+        { "name": "paths", "flag": "--paths", "type": "array", "description": "Files you expect to touch, repository-relative." }
+      ]
+    },
+    {
+      "name": "harness_prompt",
+      "task": "prompt",
+      "description": "The contract a specialist role works under: its mandate, trust level, skills and the gates it answers to.",
+      "args": [
+        { "name": "agent", "flag": null, "type": "string", "required": true, "description": "A role id, e.g. backend.otp_architect. `harness_workflows` and `.agents/AGENTS_INDEX.md` list them." }
+      ]
+    },
+    {
+      "name": "harness_workflows",
+      "task": "workflows",
+      "description": "The workflows this repository develops itself by, or one workflow's steps in order with the gates each must pass.",
+      "args": [
+        { "name": "show", "flag": "--show", "type": "string", "description": "A workflow id such as WF-002. Omit it for the list." }
+      ]
+    },
+    {
+      "name": "harness_gates_plan",
+      "task": "gates",
+      "description": "Which gates a change to these paths will have to pass, resolved without running any of them.",
+      "fixed": ["--plan"],
+      "args": [
+        { "name": "lane", "flag": "--lane", "type": "string", "required": true, "description": "fast, focused, full or evolution. `harness_route` names the lane." },
+        { "name": "paths", "flag": "--paths", "type": "array", "description": "The paths the change touches." }
+      ]
+    },
+    {
+      "name": "harness_memory",
+      "task": "memory",
+      "description": "What earlier work in this repository learned about a subject: lessons, decisions and their confidence.",
+      "args": [
+        { "name": "query", "flag": "--query", "type": "string", "required": true, "description": "A word or phrase, e.g. typedb or resident." }
+      ]
+    },
+    {
+      "name": "harness_environment_brief",
+      "task": "environments",
+      "description": "The brief of one evaluation environment: a task derived from a real commit, as a dispatched agent would be given it.",
+      "args": [
+        { "name": "id", "flag": "--brief", "type": "string", "required": true, "description": "An environment id." }
+      ]
+    },
+    {
+      "name": "harness_classify",
+      "task": "conduct",
+      "description": "Where a failure routes: which failure class the evidence belongs to, and what the harness does about that class.",
+      "args": [
+        { "name": "evidence", "flag": "--classify", "type": "string", "required": true, "description": "The failure text: a test failure, an error, a gate's output." }
+      ]
+    },
+    {
+      "name": "harness_kb_query",
+      "task": "kb",
+      "description": "Ask the project's knowledge base (docs/kb/extraction): the concepts, requirements, decisions, gaps and contradictions that answer a question, each with its id, group, matched text and source files. Russian or English.",
+      "args": [
+        { "name": "query", "flag": "--query", "type": "string", "required": true, "description": "Words or a phrase, e.g. «память робота» or hooded cloak." },
+        { "name": "group", "flag": "--group", "type": "string", "description": "Only this group: G3, or G3_harbour_lights." },
+        { "name": "kind", "flag": "--kind", "type": "string", "description": "Only this kind: concept, requirement, decision, gap, contradiction …" },
+        { "name": "limit", "flag": "--limit", "type": "integer", "description": "How many hits (default 10)." }
+      ]
+    }
+  ]
+}

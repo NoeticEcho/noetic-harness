@@ -1,0 +1,281 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "workflow.schema.json",
+  "title": "Workflow definition",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "family",
+    "intent",
+    "trigger",
+    "artifacts",
+    "default_lane",
+    "steps",
+    "escalations",
+    "completion"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^WF-[0-9]{3}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "feature",
+        "bug",
+        "research",
+        "data",
+        "visual",
+        "evolution",
+        "release",
+        "operations",
+        "docs",
+        "platform",
+        "self",
+        "runtime",
+        "governance"
+      ]
+    },
+    "intent": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string",
+      "description": "Why the workflow is shaped this way, where that is not obvious from its steps: a step it deliberately does not have, say."
+    },
+    "trigger": {
+      "type": "object",
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "explicit": {
+          "type": "boolean",
+          "description": "true: only a request by id reaches this workflow (`noetic-harness route --workflow`, `noetic-harness run --start`), and the router must never choose it by score. WF-021 needs it because a trigger with no kinds and no keywords is not enough: its steps carry the commonest capabilities in the registry, and with T2 and a three-gate lane it holds less authority than any workflow but WF-004, so it won every capability-only tie on the router's least-authority tie-break. Only as good as `Noetic.Harness.Router` honouring it."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "in": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "out": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "default_lane": {
+      "type": "string"
+    },
+    "lane_paths": {
+      "type": "object",
+      "description": "Which paths `run --finish` runs the lane over, when that is not everything changed since the run's own base. Absent, `Run.lane_paths/2` behaves as it always has, and explicit `--paths` still win. WF-021 declares it so that a worker's lane runs over the path set merge-check reads: `git diff merge-base(<ref>, HEAD)..HEAD`, minus the prefixes in `exclude`, which are the files the run and the handoff write by the very act of finishing. `committed_only` also makes `--finish` refuse a tree with uncommitted changes outside `exclude`, because the verdict is recorded against a head and a head does not contain them.",
+      "required": [
+        "since",
+        "ref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "since": {
+          "type": "string",
+          "enum": [
+            "merge-base"
+          ],
+          "description": "The only rule there is: the merge-base of `ref` and HEAD. A two-dot diff against `ref` itself would count every commit that landed on develop after the branch left it as the branch's own change."
+        },
+        "ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$",
+          "description": "A ref git can resolve, such as `origin/develop`. Never an option: it cannot begin with `-`, and git receives it after `--end-of-options`."
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Path prefixes left out of the lane's paths and out of the dirty-tree refusal, matched as string prefixes, so a directory ends in `/`."
+        },
+        "committed_only": {
+          "type": "boolean",
+          "description": "true: the lane's paths are committed changes only, and `--finish` refuses uncommitted or untracked files outside `exclude`."
+        }
+      }
+    },
+    "retry_budget": {
+      "type": "integer"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "capabilities",
+          "trust"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "archetype_preference": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "steward",
+              "coordinator",
+              "adversary",
+              "investigator"
+            ]
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "trust": {
+            "type": "string",
+            "enum": [
+              "T0",
+              "T1",
+              "T2",
+              "T3",
+              "T4",
+              "T5"
+            ]
+          },
+          "gates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parallel_group": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "independent_of": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step ids whose performing agent may not also perform this step. This is how the review fabric stops an agent evaluating its own work."
+          },
+          "on_failure": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "applies_when": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "escalations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "when",
+          "to"
+        ],
+        "properties": {
+          "when": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "on": {
+            "type": "string",
+            "enum": [
+              "retry_budget_exhausted"
+            ],
+            "description": "A typed reason the conductor can look up. `when` is prose for a human; matching on it would make the meaning depend on the wording, and 'the budget cannot be met' can name a performance budget as easily as a retry budget."
+          }
+        }
+      }
+    },
+    "completion": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "memory": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

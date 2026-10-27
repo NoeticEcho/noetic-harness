@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/dispatch.schema.json",
+  "version": 1,
+  "doc": "What bounds a dispatching run. These numbers live here rather than in code for the same reason the model policy does: they are inside the evaluator fence, so a dispatched run cannot raise its own ceiling. They are checked against what the RUN LEDGER records, not against what a caller passes — `Dispatcher.prepare/2` used to read depth and remaining wall-clock out of its `parent` argument, which meant a caller that understated its depth was simply believed. A ceiling checked against a number the bounded thing supplies is not a ceiling.",
+  "depth": {
+    "max": 2,
+    "why": "Depth is the axis on which a bounded thing becomes unbounded, and no per-step attempt count can see it: a run that spawns one run that spawns one run is three runs' worth of spend wearing one run's label. Derived by walking `parent_run` from the run's own file, so it is a fact about what happened rather than a claim about it."
+  },
+  "wall_clock": {
+    "max_ms": 1800000,
+    "why": "Thirty minutes for a whole dispatch tree, not per run. A child inherits what is left of its parent's allowance and never a fresh one; the ledger's recorded spend is what 'left' means."
+  },
+  "cost": {
+    "max_usd": 5.0,
+    "why": "A tree of dispatches spends real money and the first one that ran cost $0.17, so this is roughly thirty steps. It binds only on what an adapter actually reported: `claude -p` returns `total_cost_usd`, the API adapters return token counts and no price at all, and an unknown cost is recorded as unknown. It is NOT treated as zero — a zero would make this ceiling unreachable by exactly the adapters whose spend is hardest to see — and it is not treated as infinite either, because that would refuse every API dispatch. The honest consequence is stated rather than hidden: a run whose cost is unknown is bounded by depth and wall-clock alone, and says so."
+  }
+}

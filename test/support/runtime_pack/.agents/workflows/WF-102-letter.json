@@ -1,0 +1,153 @@
+{
+  "id": "WF-102",
+  "plane": "runtime",
+  "name": "Letter",
+  "family": "docs",
+  "note": "`family` is the development router's taxonomy, which has no family for a product's own work; `docs` is the nearest, and no router reads a runtime workflow's family. A family per plane is R2's.",
+  "intent": "Write a letter or a promotion from a brief, check it, and hand it to a person to accept.",
+  "trigger": {
+    "kinds": [
+      "letter"
+    ],
+    "keywords": [
+      "letter",
+      "promotion"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "ResearchNote"
+    ]
+  },
+  "default_lane": "letter",
+  "retry_budget": 2,
+  "steps": [
+    {
+      "id": "brief",
+      "name": "Read the brief and say what is missing from it",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "brief"
+      ],
+      "outputs": [
+        "brief notes"
+      ],
+      "trust": "T0"
+    },
+    {
+      "id": "draft",
+      "name": "Write the letter from the brief and the facts",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "brief notes",
+        "facts"
+      ],
+      "outputs": [
+        "draft"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "checks",
+      "name": "Run the product's checks",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "draft"
+      ],
+      "outputs": [
+        "checked draft"
+      ],
+      "trust": "T1",
+      "gates": [
+        "text.lint",
+        "facts.cited"
+      ]
+    },
+    {
+      "id": "guardian",
+      "name": "Check voice, rules and every claim",
+      "capabilities": [
+        "brand.voice",
+        "facts.check"
+      ],
+      "inputs": [
+        "checked draft",
+        "facts"
+      ],
+      "outputs": [
+        "guardian verdict"
+      ],
+      "trust": "T1",
+      "gates": [
+        "guardian.review"
+      ]
+    },
+    {
+      "id": "proofread",
+      "name": "Proofread, reading only the draft",
+      "capabilities": [
+        "proof.read"
+      ],
+      "inputs": [
+        "checked draft"
+      ],
+      "outputs": [
+        "proof verdict"
+      ],
+      "trust": "T1",
+      "gates": [
+        "proof.review"
+      ],
+      "independent_of": [
+        "draft"
+      ]
+    },
+    {
+      "id": "accept",
+      "name": "A person accepts the letter or returns it",
+      "capabilities": [
+        "rules.propose"
+      ],
+      "inputs": [
+        "checked draft",
+        "guardian verdict",
+        "proof verdict"
+      ],
+      "outputs": [
+        "accepted letter"
+      ],
+      "trust": "T1",
+      "gates": [
+        "owner.accept"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "a promise the product cannot keep, or a claim that cannot be supported",
+      "to": "owner",
+      "note": "A person decides."
+    }
+  ],
+  "completion": [
+    "every claim cites a fact",
+    "the guardian and the proofreader passed it",
+    "a person accepted it"
+  ],
+  "memory": [
+    "an owner's correction, as a proposed rule"
+  ],
+  "evaluation": [
+    "did the owner accept it without edits"
+  ]
+}

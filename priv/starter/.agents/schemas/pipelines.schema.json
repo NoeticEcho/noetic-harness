@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "pipelines.schema.json",
+  "title": "Pipelines",
+  "description": "Stage sequences that workflows compose. A workflow says who and with what evidence; a pipeline says in what order the material moves.",
+  "type": "object",
+  "required": [
+    "version",
+    "pipelines"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "pipelines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "used_by",
+          "stages",
+          "gates"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^P[0-9]{3}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "used_by": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^WF-[0-9]{3}$"
+            }
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2
+          },
+          "gates": {
+            "type": "object",
+            "description": "stage name -> gate or lane id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "dormant"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

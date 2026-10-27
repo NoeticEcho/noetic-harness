@@ -1,0 +1,175 @@
+{
+  "$schema": "../schemas/domains.schema.json",
+  "version": 1,
+  "doc": "Fifteen of the upstream registry's domains, each given the thing the upstream list does not carry: where in this repository the domain actually lives, what it may be trusted with, and which capabilities every role in it holds before its own name is considered. `owns` paths drive context assembly and the gate `applies_when` matching.",
+  "domains": [
+    {
+      "id": "governance",
+      "slug": "governance",
+      "upstream": "Governance & Command",
+      "summary": "Direction, routing, planning, risk and the record of decisions. Executes little; decides what gets executed and by whom.",
+      "owns": ["a design decision", "docs/plan/", ".beads/", ".agents/", "apps/noetic_harness/", "_dev_noetic_harness/", "apps/acme_agents/lib_harness/", ".codex/", ".cursor/", ".gemini/", "GEMINI.md"],
+      "capabilities": ["governance.routing", "governance.planning", "governance.risk", "governance.escalation"],
+      "skills": ["acme-development", "beads-workflow", "acme-architecture"],
+      "context": ["beads", "adrs", "memory", "recent_failures"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "architecture",
+      "slug": "architecture",
+      "upstream": "Architecture",
+      "summary": "Boundaries, contracts and invariants across subsystems. The roles that say no to a change that works.",
+      "owns": ["a design decision", "docs/spec/", "apps/acme/lib/acme.ex", "apps/acme_agents/lib/acme/agents.ex", "apps/noetic_harness/lib/noetic/harness.ex"],
+      "capabilities": ["architecture.system", "architecture.domain", "governance.decision_record"],
+      "skills": ["acme-architecture", "elixir-idioms"],
+      "context": ["adrs", "specs", "architecture"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "product",
+      "slug": "product",
+      "upstream": "Product / UX / Interaction",
+      "summary": "What a person is trying to do inside the product, and whether the product lets them.",
+      "owns": ["apps/acme_web/assets/", "design/"],
+      "capabilities": ["product.ux", "product.narrative"],
+      "skills": ["acme-development", "design-sync"],
+      "context": ["client_code", "design_system", "specs"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "repository",
+      "slug": "repository",
+      "upstream": "Repository / Knowledge",
+      "summary": "The Catalog: entities, relations, claims, evidence, contradictions and the epistemic status of each.",
+      "owns": ["apps/acme/lib/acme/catalog/", "docs/kb/", "apps/acme_knowledge/"],
+      "capabilities": ["knowledge.modeling", "knowledge.epistemics", "knowledge.synthesis"],
+      "skills": ["acme-provenance", "typedb-semantic-modeling", "research-method"],
+      "context": ["kb", "catalog", "specs"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "data_fabric",
+      "slug": "data_fabric",
+      "upstream": "Data Fabric",
+      "summary": "Getting the outside world in: sources, connectors, raw retention, validation, resolution, provenance.",
+      "owns": ["apps/acme_knowledge/lib/"],
+      "capabilities": ["data.connector", "data.ingestion", "data.quality", "data.provenance"],
+      "skills": ["req-client", "finch-pools", "broadway-ingestion", "acme-provenance"],
+      "context": ["connectors", "source_registry", "schema"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "evolution",
+      "slug": "evolution",
+      "upstream": "Acme Evolution",
+      "summary": "Candidates, benchmarks, holdouts, transfer, anti-Goodhart, archive, promotion. The domain that exists to stop a number from being mistaken for an improvement.",
+      "owns": [".agents/evolution/"],
+      "capabilities": ["evolution.mutation", "evolution.evaluation", "evolution.archive"],
+      "skills": ["acme-evolution", "acme-evolution-development", "acme-provenance"],
+      "context": ["candidate_lineage", "benchmarks", "archive", "telemetry"],
+      "trust_ceiling": "T2",
+      "note": "Promotion is T4 and belongs to the gatekeeper role alone."
+    },
+    {
+      "id": "runtime",
+      "slug": "runtime",
+      "upstream": "Agent Runtime / Cognition",
+      "summary": "Jido agents behind the agent port, context assembly, memory, tool use and model routing.",
+      "owns": ["apps/acme_agents/lib/"],
+      "capabilities": ["runtime.agents", "runtime.context", "runtime.memory", "runtime.routing"],
+      "skills": ["otp-concurrency", "supervision-design", "acme-project-memory"],
+      "context": ["agent_modules", "oracle_port", "adr_005"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "frontend",
+      "slug": "frontend",
+      "upstream": "Frontend / Phoenix / Web",
+      "summary": "LiveView, HEEx, the TypeScript client, the design system boundary.",
+      "owns": ["apps/acme_web/lib/", "apps/acme_web/assets/", "apps/acme_web/priv/"],
+      "capabilities": ["elixir.liveview", "frontend.web", "frontend.design_system"],
+      "skills": ["phoenix-liveview", "typescript-client", "design-sync"],
+      "context": ["liveviews", "client_code", "design_system"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "backend",
+      "slug": "backend",
+      "upstream": "Backend / Elixir / OTP / Infrastructure",
+      "summary": "The BEAM side: Elixir, OTP, Ash, Ecto, Phoenix, TypeDB and Qdrant clients, deployment substrate.",
+      "owns": ["apps/acme/lib/", "apps/acme_knowledge/lib/", "apps/acme_web/lib/", "config/", "apps/*/priv/repo/", "apps/*/priv/resource_snapshots/", "apps/acme/priv/scripts/"],
+      "capabilities": ["elixir.implementation", "elixir.otp", "elixir.ecto", "elixir.ash", "elixir.phoenix"],
+      "skills": ["elixir-idioms", "otp-concurrency", "supervision-design", "ecto-data-access", "dependency-usage-rules"],
+      "context": ["target_module", "callers", "tests", "usage_rules"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "platform",
+      "slug": "platform",
+      "upstream": "API / Platform / Dev Ecosystem",
+      "summary": "The surfaces other people build against: API, SDK, MCP, developer experience.",
+      "owns": ["apps/acme_web/lib/acme_web/"],
+      "capabilities": ["platform.api", "platform.sdk", "architecture.api"],
+      "skills": ["phoenix-contexts-routing", "acme-architecture"],
+      "context": ["api_modules", "specs"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "qa",
+      "slug": "qa",
+      "upstream": "QA / Testing / Verification",
+      "summary": "Whether the thing does what it claims, established by something other than the author's opinion.",
+      "owns": ["apps/*/test/"],
+      "capabilities": ["qa.testing", "qa.property", "qa.regression", "qa.e2e"],
+      "skills": ["testing-strategy", "testing-phoenix", "property-testing", "verify-in-browser"],
+      "context": ["target_module", "existing_tests", "failing_test", "memory:failures"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "security",
+      "slug": "security",
+      "upstream": "Security / Privacy / Trust",
+      "summary": "What an attacker gets, what a person's data is exposed to, and which gates must not be weakened.",
+      "owns": [".agents/policies/", "config/"],
+      "capabilities": ["security.review", "security.secrets", "security.dependencies", "security.privacy"],
+      "skills": ["security-baseline"],
+      "context": ["diff", "config", "policies", "mix_lock"],
+      "trust_ceiling": "T2",
+      "note": "A security role reviews. It does not author the code it reviews, and it never decides that its own code is secure."
+    },
+    {
+      "id": "research",
+      "slug": "research",
+      "upstream": "Research / Intelligence / Strategy",
+      "summary": "Establishing what is known, what is contested and what is unknown, with provenance intact.",
+      "owns": ["_refdoc/", "docs/kb/"],
+      "capabilities": ["research.discovery", "research.evidence", "research.prior_art", "knowledge.synthesis", "knowledge.contradiction"],
+      "skills": ["research-method", "acme-provenance", "acme-project-memory"],
+      "context": ["corpus", "kb", "memory", "adrs"],
+      "trust_ceiling": "T1"
+    },
+    {
+      "id": "docs",
+      "slug": "docs",
+      "upstream": "Documentation / Knowledge Transfer",
+      "summary": "Prose a future agent will find, and the detection of prose a change has just made false.",
+      "owns": ["docs/", "README.md", "CHANGELOG.md", "CLAUDE.md", "apps/*/README.md"],
+      "capabilities": ["docs.authoring", "docs.drift"],
+      "skills": ["acme-development"],
+      "context": ["docs", "diff", "specs"],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "release",
+      "slug": "release",
+      "upstream": "Release / DevOps / Operations",
+      "summary": "Versions, deploys, CI, observability and incidents.",
+      "owns": [".github/workflows/", "scripts/", "CHANGELOG.md", "rel/", "Dockerfile", ".dockerignore", "phoenix_static_buildpack.config"],
+      "capabilities": ["ops.release", "ops.deploy", "ops.ci", "ops.observability", "ops.incident"],
+      "skills": ["release", "cut-release", "observability"],
+      "context": ["changelog", "workflows", "git_workflow_guide", "telemetry"],
+      "trust_ceiling": "T3",
+      "note": "Release roles reach T3 by default and T4 only through the protected gate."
+    }
+  ]
+}

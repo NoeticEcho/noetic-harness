@@ -1,0 +1,111 @@
+name: release
+
+# Builds the single `noetic-harness` executable for both platforms and runs
+# it, on every push and pull request. On a tag `v*` it also attaches both
+# files, with their SHA-256 sums, to the GitHub Release for that tag.
+#
+# Every action is pinned by commit, with its version in a comment. Zig is
+# downloaded from ziglang.org and checked against the sha256 that
+# ziglang.org/download/index.json publishes. The release is attached with the
+# runner's own `gh`, so no third-party action holds the write token.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux_x86_64
+            file: noetic-harness-linux-x86_64
+            os: ubuntu-24.04
+            zig: x86_64-linux
+            zig_sha256: 70e49664a74374b48b51e6f3fdfbf437f6395d42509050588bd49abe52ba3d00
+          - target: macos_aarch64
+            file: noetic-harness-macos-aarch64
+            os: macos-15
+            zig: aarch64-macos
+            zig_sha256: b23d70deaa879b5c2d486ed3316f7eaa53e84acf6fc9cc747de152450d401489
+    env:
+      MIX_ENV: prod
+      BURRITO_TARGET: ${{ matrix.target }}
+      # The version Burrito 1.6.0 checks for. Its README says 0.15.2; its
+      # code refuses anything but 0.16.0.
+      ZIG_VERSION: 0.16.0
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The versions are the ones in .tool-versions, exactly.
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      - name: Install Zig ${{ env.ZIG_VERSION }}
+        run: |
+          archive="zig-${{ matrix.zig }}-${ZIG_VERSION}.tar.xz"
+          curl -fsSL -o "$RUNNER_TEMP/$archive" "https://ziglang.org/download/${ZIG_VERSION}/${archive}"
+          echo "${{ matrix.zig_sha256 }}  $RUNNER_TEMP/$archive" | shasum -a 256 -c -
+          mkdir -p "$RUNNER_TEMP/zig"
+          tar -xJf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/zig" --strip-components=1
+          echo "$RUNNER_TEMP/zig" >> "$GITHUB_PATH"
+
+      - name: Check xz
+        run: command -v xz || brew install xz
+
+      - run: mix deps.get
+      - run: mix release --overwrite
+
+      - name: Run init, validate and route in a fresh repository
+        run: |
+          binary="$GITHUB_WORKSPACE/burrito_out/noetic_harness_${BURRITO_TARGET}"
+          repo="$RUNNER_TEMP/fresh"
+          mkdir -p "$repo"
+          cd "$repo"
+          git init -q
+          "$binary" init
+          "$binary" validate
+          "$binary" route --title "fix the parser's handling of empty input" --explain
+
+      - name: Name the file for the release
+        run: |
+          mkdir -p dist
+          cp "burrito_out/noetic_harness_${BURRITO_TARGET}" "dist/${{ matrix.file }}"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ matrix.file }}
+          path: dist/${{ matrix.file }}
+          if-no-files-found: error
+
+  publish:
+    name: attach to the release
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Attach both files and their sums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd dist
+          chmod +x noetic-harness-*
+          sha256sum noetic-harness-* > SHA256SUMS
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 ||
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$TAG" --generate-notes
+          gh release upload "$TAG" noetic-harness-* SHA256SUMS --repo "$GITHUB_REPOSITORY" --clobber

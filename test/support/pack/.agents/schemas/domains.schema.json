@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "domains.schema.json",
+  "title": "Domains",
+  "type": "object",
+  "required": ["version", "domains"],
+  "properties": {
+    "version": { "type": "integer" },
+    "doc": { "type": "string" },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "slug", "upstream", "summary", "owns", "capabilities", "skills", "context", "trust_ceiling"],
+        "properties": {
+          "id": { "type": "string" },
+          "slug": { "type": "string" },
+          "upstream": { "type": "string" },
+          "summary": { "type": "string" },
+          "owns": { "type": "array", "items": { "type": "string" } },
+          "capabilities": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } },
+          "context": { "type": "array", "items": { "type": "string" } },
+          "trust_ceiling": { "type": "string", "enum": ["T0", "T1", "T2", "T3", "T4", "T5"] },
+          "status": { "type": "string", "enum": ["active", "dormant"] },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

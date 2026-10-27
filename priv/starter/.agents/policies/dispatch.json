@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/dispatch.schema.json",
+  "version": 1,
+  "doc": "What bounds a dispatching run. Checked against the run ledger, not against what a caller says, and kept inside the evaluator fence so a dispatched run cannot raise its own ceiling.",
+  "depth": {
+    "max": 2,
+    "why": "A run that starts a run that starts a run is three runs' spend under one label. Depth is counted from the ledger."
+  },
+  "wall_clock": {
+    "max_ms": 1800000,
+    "why": "Thirty minutes for a whole tree of dispatches. A child inherits what is left of its parent's time."
+  },
+  "cost": {
+    "max_usd": 5.0,
+    "why": "Binds on what the adapters report. A cost that was not reported is recorded as unknown, and such a run is bounded by depth and time alone."
+  }
+}

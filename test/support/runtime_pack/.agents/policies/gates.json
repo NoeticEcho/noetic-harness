@@ -1,0 +1,91 @@
+{
+  "$schema": "../schemas/gates.schema.json",
+  "version": 1,
+  "doc": "Runtime gates are of four kinds: `check`, a product function by name; `evidence`; `review`, by a role that did not write the draft; `manual`, by a person. None is a command: the harness runs none of them.",
+  "gates": [
+    {
+      "id": "text.lint",
+      "name": "the text passes the product's lint",
+      "kind": "check",
+      "severity": "blocking",
+      "check": "text_lint"
+    },
+    {
+      "id": "seo.rules",
+      "name": "the search rules hold",
+      "kind": "check",
+      "severity": "blocking",
+      "check": "seo_rules"
+    },
+    {
+      "id": "inci.reference",
+      "name": "every ingredient name is a reference name or listed as unmatched",
+      "kind": "check",
+      "severity": "blocking",
+      "check": "inci_reference"
+    },
+    {
+      "id": "uniqueness",
+      "name": "the text is not a copy of another",
+      "kind": "check",
+      "severity": "blocking",
+      "check": "uniqueness_score"
+    },
+    {
+      "id": "facts.cited",
+      "name": "every number and claim cites a fact",
+      "kind": "evidence",
+      "severity": "blocking",
+      "evidence": [
+        "the facts each claim rests on"
+      ]
+    },
+    {
+      "id": "guardian.review",
+      "name": "the brand and law guardian passed it",
+      "kind": "review",
+      "severity": "blocking",
+      "holder": "editorial.guardian"
+    },
+    {
+      "id": "proof.review",
+      "name": "the proofreader passed it, reading only the draft",
+      "kind": "review",
+      "severity": "blocking",
+      "holder": "editorial.proofreader"
+    },
+    {
+      "id": "owner.accept",
+      "name": "a person accepted it",
+      "kind": "manual",
+      "severity": "blocking",
+      "note": "A person: the product's owner, or someone they name. No role accepts."
+    }
+  ],
+  "lanes": [
+    {
+      "id": "card",
+      "doc": "A product card, before a person accepts it.",
+      "gates": [
+        "text.lint",
+        "facts.cited",
+        "seo.rules",
+        "guardian.review",
+        "proof.review",
+        "uniqueness",
+        "owner.accept"
+      ]
+    },
+    {
+      "id": "letter",
+      "doc": "A letter or promotion, before a person accepts it.",
+      "gates": [
+        "text.lint",
+        "facts.cited",
+        "guardian.review",
+        "proof.review",
+        "owner.accept"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "WF-005",
+  "name": "Data source onboarding",
+  "family": "data",
+  "intent": "Bring an external source in with its rights, its schema and its provenance established before any of it is trusted.",
+  "trigger": { "kinds": ["data", "connector"], "keywords": ["data source", "connector", "ingest", "api integration", "feed", "dataset"], "risk": "medium" },
+  "artifacts": { "in": ["Requirement"], "out": ["DatasetManifest", "CodePatch", "ProvenanceRecord", "EvaluationRun"] },
+  "default_lane": "data",
+  "retry_budget": 3,
+  "steps": [
+    { "id": "discover", "name": "What the source is and what it publishes", "capabilities": ["research.discovery"], "inputs": ["requirement"], "outputs": ["source description"], "trust": "T1" },
+    { "id": "rights", "name": "Licence and rights, before anything is fetched at scale", "capabilities": ["data.provenance", "security.privacy"], "archetype_preference": "adversary", "inputs": ["source description"], "outputs": ["rights verdict"], "trust": "T1", "gates": ["data.rights"], "note": "A hard stop. Unknown rights means no ingestion, not provisional ingestion." },
+    { "id": "schema", "name": "Analyse the real payload, not the documentation", "capabilities": ["data.quality"], "inputs": ["sample payloads"], "outputs": ["schema analysis"], "trust": "T1", "gates": ["data.schema"] },
+    { "id": "contract", "name": "Client contract: endpoints, pagination, rate limits, failure modes", "capabilities": ["architecture.integration", "elixir.http"], "inputs": ["schema analysis"], "outputs": ["client contract"], "trust": "T1" },
+    { "id": "connector", "name": "Implement through Acme.HTTP, Req by default", "capabilities": ["data.connector"], "inputs": ["client contract"], "outputs": ["CodePatch"], "trust": "T2", "gates": ["format", "compile", "test.touched"], "note": "Direct Finch needs measured justification; Mint needs an architecture note." },
+    { "id": "raw", "name": "Raw retention with a checksum, before anything parses it", "capabilities": ["data.ingestion"], "inputs": ["CodePatch"], "outputs": ["raw pipeline"], "trust": "T2" },
+    { "id": "validate", "name": "Validate the payload against the analysed schema", "capabilities": ["data.quality"], "inputs": ["raw pipeline"], "outputs": ["quality report"], "trust": "T2", "gates": ["data.validation"] },
+    { "id": "normalize", "name": "Normalise, then resolve entities reversibly", "capabilities": ["data.entity_resolution"], "inputs": ["quality report"], "outputs": ["normalised observations"], "trust": "T2" },
+    { "id": "provenance", "name": "Lineage from raw blob to stored observation", "capabilities": ["data.provenance"], "inputs": ["normalised observations"], "outputs": ["ProvenanceRecord"], "trust": "T2", "gates": ["data.provenance"] },
+    { "id": "register", "name": "Register the source with its policy", "capabilities": ["knowledge.modeling"], "inputs": ["ProvenanceRecord", "rights verdict"], "outputs": ["DatasetManifest"], "trust": "T2" }
+  ],
+  "escalations": [
+    { "when": "rights are unclear", "to": "human_architect" },
+    { "when": "the source's schema changes under us", "to": "data_fabric.data_quality_engineer" },
+    { "when": "rate limits make the requirement infeasible", "to": "architecture.integration_architect" }
+  ],
+  "completion": ["rights established", "raw payloads replayable", "every observation carries its source", "quality report attached, with failing rows not just a rate"],
+  "memory": ["the source's real rate limit as observed", "schema discrepancies against its documentation"],
+  "evaluation": ["source reliability and latency telemetry over time"]
+}

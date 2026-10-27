@@ -1,0 +1,90 @@
+{
+  "$schema": "../schemas/evaluators.schema.json",
+  "version": 1,
+  "doc": "What a dispatched run may not change. Constitution §4 says an agent may propose a change to an evaluator, benchmark, holdout or gate and may not author and land it in the same run as the work the evaluator judges. Today that is guaranteed by the harness not acting; after a design decision it is guaranteed by this list and by the check that keeps it complete. A path here is refused in a dispatched run before its diff reaches a branch — not warned about, not flagged for review. Changing one of these is a run a human started, which is what separate provenance means.",
+  "paths": [
+    {
+      "glob": ".agents/constitution.md",
+      "why": "the one part of a prompt nothing overrides"
+    },
+    {
+      "glob": ".agents/policies/**",
+      "why": "trust levels, gate definitions, tool grants, failure routing, and this file. An agent that can edit its own trust ceiling has none."
+    },
+    {
+      "glob": ".agents/evolution/environments/**",
+      "why": "the benchmark, holdout and transfer sets a candidate is scored against. A solver that can edit its own tasks is not being measured."
+    },
+    {
+      "glob": ".github/workflows/**",
+      "why": "T4. What CI asks, and therefore what passing means."
+    },
+    {
+      "glob": "scripts/ci-local.sh",
+      "why": "T4, and named in T2's may_not. It is the claim that local verification asks what CI asks."
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/validation.ex",
+      "why": "what the harness considers a defect",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/gates.ex",
+      "why": "lane expansion and execution, and the module that decides an outcome is `unavailable` rather than `passed`",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/conductor.ex",
+      "why": "decides what a run may do next, including every refusal in a design decision",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/identity.ex",
+      "why": "decides whether a ledger record is attested. The trust list is a fenced policy; a verifier outside the fence would let a run keep the list and change what checking it means. Never exemptible."
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/identity/signature.ex",
+      "why": "the payload, digest and Ed25519 check behind attestation. Never exemptible, for the reason above."
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/dispatcher.ex",
+      "why": "enforces a design decision. An agent that can edit this can edit its own fence.",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/environments.ex",
+      "why": "the retention criterion that decides whether a task still discriminates",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/evolution.ex",
+      "why": "the promotion gate, including the refusal of a holdout run by its author",
+      "exemptible": true
+    },
+    {
+      "glob": ".agents/roles/**",
+      "why": "A role overlay's completion-evidence lines are what that role must produce before its work counts as done — a judgement criterion in prose rather than in a gate, and no less load-bearing for it. An agent that could edit its own overlay could edit what counts as finished for itself, in the same run as the work. This was the open question on an earlier change and it is answered yes: improving an overlay is fine and is a run a human started, which is what §4's separate provenance means."
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/scoring.ex",
+      "why": "This computes the fitness value a promotion gate reads. An agent that can edit the scorer does not need to solve anything.",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/tree.ex",
+      "why": "This decides what a solver sees and what its change is confined to — it removes the oracle, restores it and throws away everything outside the task's own paths. Editing it is editing the measurement.",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/run.ex",
+      "why": "`run --finish` runs the lane and records its verdict, and merge-check trusts what it records: the head the lane ran at, and the path set it ran over, which `lane_paths/2` decides and `committed_tree/2` guards. A harness epic that could edit this could weaken the rule its own run is judged by.",
+      "exemptible": true
+    },
+    {
+      "glob": "apps/noetic_harness/lib/noetic/harness/git.ex",
+      "why": "The git questions `run.ex` asks to decide what it records: `head_sha/0`, the head merge-check compares with S, and for the path set `committed_between/2` (with `--no-renames`, so a rename is both its paths), `merge_base/2` and `uncommitted/0`. Fenced with run.ex for the same reason.",
+      "exemptible": true
+    }
+  ],
+  "note": "This list can be wrong by being incomplete, which is the failure mode to design against rather than to hope about. `mix harness.validate --only evaluator_fence` asserts that every file a gate lane executes, and every module named in this repository's own gate commands, is covered here. It errors rather than warns: an unguarded evaluator is not a style question.\n\n`exemptible: true` marks a fenced path that a *scoring* attempt may be exempted from, and only that: `Dispatcher.attempt/3` takes an environment's `verifier.source_paths` as an exemption so that an environment about the harness's own modules can be scored at all. It is not a weakening of the fence for anything that lands — `dispatch/2` cannot be given an exemption, and an exemption is subtracted from what is judged rather than switching the judging off. The ten harness modules carry it; `.agents/**`, `.github/workflows/**`, `scripts/ci-local.sh` and `.agents/constitution.md` do not, because those say what passing *means* outside the worktree the solver was given. An independent review found the first version of this had no such distinction: `Environments.derive/2` takes everything a commit changed except prose, `.beads/` and `.agents/`, so a real commit of the repository it was developed in derives an environment whose source paths are `.github/workflows/ci.yml` and `release.yml` — and the narrowed refusal would have exempted both."
+}

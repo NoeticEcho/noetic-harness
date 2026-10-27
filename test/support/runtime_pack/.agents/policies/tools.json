@@ -1,0 +1,84 @@
+{
+  "$schema": "../schemas/tools.schema.json",
+  "version": 1,
+  "doc": "The runtime vocabulary: reads of the product's own data (kind data) and functions the product provides, called by name (kind function). None of them runs anything on a machine, none is a development tool, and none goes above draft trust.",
+  "tools": [
+    {
+      "id": "brief.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read the brief for this piece of work."
+    },
+    {
+      "id": "facts.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read the facts gathered for this piece of work, each with its source."
+    },
+    {
+      "id": "facts.write",
+      "plane": "runtime",
+      "kind": "function",
+      "min_trust": "T1",
+      "present": true,
+      "doc": "Record a fact with its source."
+    },
+    {
+      "id": "sources.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read a source the product attached to the brief."
+    },
+    {
+      "id": "reference.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read the product's reference list of names."
+    },
+    {
+      "id": "rules.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read the rules the product's owner set."
+    },
+    {
+      "id": "draft.read",
+      "plane": "runtime",
+      "kind": "data",
+      "min_trust": "T0",
+      "present": true,
+      "doc": "Read the current draft."
+    },
+    {
+      "id": "draft.write",
+      "plane": "runtime",
+      "kind": "function",
+      "min_trust": "T1",
+      "present": true,
+      "doc": "Write a new version of the draft. Never accepts it."
+    },
+    {
+      "id": "proposal.write",
+      "plane": "runtime",
+      "kind": "function",
+      "min_trust": "T1",
+      "present": true,
+      "doc": "Record a proposed rule for a person to decide on."
+    }
+  ],
+  "rules": [
+    "A role is given the functions its capabilities need and no others.",
+    "No function here accepts, publishes or changes a rule: those are a person's.",
+    "A function above the step's trust is withheld, and the refusal says why."
+  ]
+}

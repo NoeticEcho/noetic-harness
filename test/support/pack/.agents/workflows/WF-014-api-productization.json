@@ -1,0 +1,24 @@
+{
+  "id": "WF-014",
+  "name": "API productization",
+  "family": "platform",
+  "intent": "Turn an internal capability into a contract other people depend on, which is a much larger commitment than exposing a function.",
+  "trigger": { "kinds": ["feature", "platform"], "keywords": ["public api", "sdk", "expose", "external", "developer", "mcp server"], "risk": "high" },
+  "artifacts": { "in": ["Requirement"], "out": ["RFC", "CodePatch", "EvaluationRun", "ReleaseCandidate"] },
+  "default_lane": "full",
+  "retry_budget": 3,
+  "steps": [
+    { "id": "capability", "name": "What internal capability is being exposed, and what it currently assumes", "capabilities": ["architecture.domain"], "inputs": ["requirement"], "outputs": ["capability statement"], "trust": "T1" },
+    { "id": "contract", "name": "A stable contract, with a versioning and deprecation policy", "capabilities": ["architecture.api", "platform.api"], "inputs": ["capability statement"], "outputs": ["contract"], "trust": "T1", "note": "Everything in here becomes a semver commitment about the product's contracts." },
+    { "id": "auth", "name": "Authentication, authorisation and abuse", "capabilities": ["security.review"], "archetype_preference": "adversary", "inputs": ["contract"], "outputs": ["security design"], "trust": "T1" },
+    { "id": "implement", "name": "Implement the surface", "capabilities": ["elixir.phoenix", "platform.api"], "inputs": ["contract", "security design"], "outputs": ["CodePatch"], "trust": "T2", "gates": ["format", "compile", "test.touched"] },
+    { "id": "contract_tests", "name": "Contract tests from the consumer's side", "capabilities": ["qa.testing", "qa.types"], "inputs": ["CodePatch"], "outputs": ["EvaluationRun"], "trust": "T2" },
+    { "id": "sdk", "name": "SDK and a worked example that runs", "capabilities": ["platform.sdk", "docs.authoring"], "inputs": ["contract"], "outputs": ["example"], "trust": "T2", "optional": true },
+    { "id": "docs", "name": "Reference documentation", "capabilities": ["docs.authoring"], "inputs": ["contract", "example"], "outputs": ["documentation"], "trust": "T2", "gates": ["docs"] },
+    { "id": "compat", "name": "Compatibility review before it is public", "capabilities": ["architecture.api"], "archetype_preference": "adversary", "inputs": ["contract", "documentation"], "outputs": ["compatibility verdict"], "trust": "T1", "gates": ["review.independent"] }
+  ],
+  "escalations": [{ "when": "the contract would expose an internal representation", "to": "architecture.api_architect" }, { "when": "quota or billing is implied", "to": "human_architect", "note": "Monetisation is LATER in the tool matrix; do not start it as a side effect." }],
+  "completion": ["contract documented with its versioning policy", "contract tests from the consumer side", "the example runs", "compatibility reviewed independently"],
+  "memory": ["internal assumptions that leaked into the first draft of the contract"],
+  "evaluation": ["breaking changes required after publication"]
+}

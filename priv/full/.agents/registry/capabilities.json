@@ -1,0 +1,793 @@
+{
+  "capabilities": [
+    {
+      "context": [
+        "docs",
+        "decisions"
+      ],
+      "doc": "The shape of one subsystem and the contracts it exposes.",
+      "evidence": [
+        "contract list with stability commitments"
+      ],
+      "gates": [],
+      "id": "architecture.domain",
+      "skills": [],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Budgets and where the time actually goes.",
+      "evidence": [
+        "measurement before and after, same machine, named tool versions"
+      ],
+      "gates": [],
+      "id": "architecture.performance",
+      "skills": [
+        "otp-concurrency",
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "project.test"
+      ]
+    },
+    {
+      "context": [
+        "decisions"
+      ],
+      "doc": "How an external system attaches without becoming a second source of truth.",
+      "evidence": [
+        "boundary and failure semantics for the integration"
+      ],
+      "gates": [],
+      "id": "architecture.integration",
+      "skills": [
+        "req-client"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [
+        "tests"
+      ],
+      "doc": "Idiomatic Elixir: pattern matching, behaviours, protocols, data transformation, error handling.",
+      "evidence": [
+        "tests covering the new behaviour",
+        "diff inspected"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.implementation",
+      "skills": [
+        "elixir-idioms",
+        "dependency-usage-rules",
+        "package-aware-routing",
+        "igniter-codegen",
+        "simplify"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.build",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Processes, supervision, state ownership, failure semantics.",
+      "evidence": [
+        "supervision reasoning",
+        "failure behaviour",
+        "lifecycle tests"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.otp",
+      "note": "A GenServer.cast to an unregistered name returns :ok, so silence is not proof of delivery.",
+      "skills": [
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.build",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Schemas, changesets, queries, migrations, indexes, transactions.",
+      "evidence": [
+        "migration up and down",
+        "query plan for anything that scans"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.ecto",
+      "skills": [
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Ash resources, actions, policies, and where Ash ends and OTP begins.",
+      "evidence": [
+        "action tests",
+        "migration generated and reviewed"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.ash",
+      "note": "A filtered primary read needs primary_read_warning?: false.",
+      "skills": [
+        "ecto-data-access",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Router, controllers, contexts, plugs, endpoint.",
+      "evidence": [
+        "request tests"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.phoenix",
+      "skills": [
+        "phoenix-contexts-routing",
+        "tidewave-runtime"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "LiveView lifecycle, HEEx, components, streams, uploads, navigation.",
+      "evidence": [
+        "LiveView test",
+        "rendered evidence for anything visual"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.liveview",
+      "skills": [
+        "phoenix-liveview",
+        "tidewave-runtime"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test",
+        "browser"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Channels, PubSub, Presence, topic authorisation, payload contracts.",
+      "evidence": [
+        "channel test",
+        "client payload contract checked on both sides"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.channels",
+      "skills": [
+        "phoenix-channels-pubsub"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Durable background work: workers, retries, uniqueness, scheduling.",
+      "evidence": [
+        "worker test including the retry path"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.oban",
+      "note": "Not currently a dependency of this umbrella. Adding it is an architecture decision, not an import.",
+      "skills": [
+        "oban-workers",
+        "oban-workflows"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Outbound HTTP through the layered Req → Finch → Mint architecture.",
+      "evidence": [
+        "contract test against a recorded response",
+        "retry and rate-limit policy stated"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "elixir.http",
+      "note": "Req is the default. Direct Finch requires measured justification. Mint is an escape hatch.",
+      "skills": [
+        "req-client",
+        "finch-pools",
+        "mint-escape-hatch"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Deciding what is an entity, what is a relation, what is an attribute, and why.",
+      "evidence": [
+        "the modelling argument, with the rejected alternative named"
+      ],
+      "gates": [],
+      "id": "semantic.modeling",
+      "skills": [],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Entities, relations and claims in the knowledge store.",
+      "evidence": [
+        "kb query showing the new shape answering a question"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "knowledge.modeling",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [
+        "decisions"
+      ],
+      "doc": "What counts as knowing: evidence, confidence, retirement.",
+      "evidence": [
+        "provenance chain for each claim"
+      ],
+      "gates": [],
+      "id": "knowledge.epistemics",
+      "note": "Nothing is deleted. A fact that stops being true is retired, dated and pointed at its replacement.",
+      "skills": [],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Actively hunting for statements that cannot both be true.",
+      "evidence": [
+        "the two sources, quoted, and what would settle it"
+      ],
+      "gates": [],
+      "id": "knowledge.contradiction",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Turning gathered evidence into a usable statement with its uncertainty intact.",
+      "evidence": [
+        "ResearchNote with sources and an explicit unknowns section"
+      ],
+      "gates": [],
+      "id": "knowledge.synthesis",
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Moving raw payloads to durable storage with a checksum before anything parses them.",
+      "evidence": [
+        "raw blob retained",
+        "checksum",
+        "replayable"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "data.ingestion",
+      "skills": [
+        "broadway-ingestion",
+        "oban-workers"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Deciding two records are the same thing, reversibly.",
+      "evidence": [
+        "precision and recall on a labelled set",
+        "merge is reversible"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "data.entity_resolution",
+      "skills": [
+        "property-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Valid time versus transaction time, and not conflating them.",
+      "evidence": [
+        "query showing history reconstructed at a past instant"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "data.temporal",
+      "skills": [
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Geometry, projection and the errors that come from ignoring them.",
+      "evidence": [
+        "projection stated",
+        "boundary case tested"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "data.spatial",
+      "skills": [
+        "ecto-data-access"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Jido agents behind the agent port.",
+      "evidence": [
+        "agent lifecycle test",
+        "port contract unchanged or ADR'd"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "id": "runtime.agents",
+      "skills": [
+        "otp-concurrency",
+        "supervision-design",
+        "dependency-usage-rules"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Assembling the smallest sufficient context for a task.",
+      "evidence": [
+        "the bundle, with why each source was included"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "id": "runtime.context",
+      "skills": [],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "What the system remembers and how it is retrieved.",
+      "evidence": [
+        "records carry provenance and confidence"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "id": "runtime.memory",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Which tool an agent may hold and what it proves.",
+      "evidence": [
+        "permission resolves to a trust level and a probe"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "id": "runtime.tools",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Capability extraction and team composition.",
+      "evidence": [
+        "route explanation naming the capabilities, not the role names"
+      ],
+      "gates": [
+        "harness.validate"
+      ],
+      "id": "runtime.routing",
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "The TypeScript client: store, HUD, channel plumbing.",
+      "evidence": [
+        "tsc --noEmit",
+        "node --test",
+        "browser evidence for anything visible"
+      ],
+      "gates": [
+        "build"
+      ],
+      "id": "frontend.web",
+      "note": "esbuild only strips types. A client change is unverified until assets.check has run.",
+      "skills": [
+        "typescript-client",
+        "phoenix-channels-pubsub"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "browser"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "The product UI system, which is upstream of this repository.",
+      "evidence": [
+        "upstream sync recorded",
+        "defect log entry if a local fix was needed"
+      ],
+      "gates": [
+        "build"
+      ],
+      "id": "frontend.design_system",
+      "note": "A local edit under design/ is only ever a defect fix, and is not finished until it is upstream. Never send source upstream through a context window.",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Whether a person who is not you can use it.",
+      "evidence": [
+        "keyboard path",
+        "contrast measurement",
+        "screen reader output"
+      ],
+      "gates": [],
+      "id": "frontend.accessibility",
+      "skills": [
+        "typescript-client"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "browser"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Specs, behaviours and what Dialyzer can prove.",
+      "evidence": [
+        "dialyzer output before and after"
+      ],
+      "gates": [],
+      "id": "qa.types",
+      "skills": [
+        "typespec-dialyzer"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Personal data: what is held, why, for how long, and how it leaves.",
+      "evidence": [
+        "data inventory with a lawful basis and a deletion path"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "id": "security.privacy",
+      "risk": "high",
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "read",
+        "search"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Getting a release onto a machine, and off it again.",
+      "evidence": [
+        "smoke test after deploy",
+        "rollback rehearsed, not assumed"
+      ],
+      "gates": [
+        "full"
+      ],
+      "id": "ops.deploy",
+      "risk": "high",
+      "skills": [
+        "release"
+      ],
+      "tools": [
+        "read",
+        "github"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Turning an internal capability into a contract someone else depends on.",
+      "evidence": [
+        "contract, versioning policy, deprecation path"
+      ],
+      "gates": [
+        "test.touched",
+        "review.independent"
+      ],
+      "id": "platform.api",
+      "risk": "high",
+      "skills": [
+        "phoenix-contexts-routing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "A client library that has to stay compatible.",
+      "evidence": [
+        "example that runs",
+        "compatibility matrix"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "id": "platform.sdk",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "edit"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "What the person is trying to do, and whether they can.",
+      "evidence": [
+        "the task, walked, with where it breaks"
+      ],
+      "gates": [],
+      "id": "product.ux",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ]
+    },
+    {
+      "context": [
+        "docs"
+      ],
+      "doc": "Whether the product means what it is supposed to mean.",
+      "evidence": [
+        "the experience described from inside it"
+      ],
+      "gates": [],
+      "id": "product.narrative",
+      "skills": [],
+      "tools": [
+        "read",
+        "search",
+        "browser"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Whether the gain survives a different task family.",
+      "evidence": [
+        "TransferTest across a named adjacent family"
+      ],
+      "gates": [],
+      "id": "evolution.transfer",
+      "skills": [],
+      "tools": [
+        "read",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Whether a stated probability means what it says: expected calibration error, reliability, selective risk, and where abstention is better than an answer.",
+      "evidence": [
+        "CalibrationReport naming the exact provider, model revision, question version and partition it was fitted on",
+        "a selective-risk curve, not a single accuracy number"
+      ],
+      "gates": [],
+      "id": "evolution.calibration",
+      "note": "Added by an earlier change, and it is the one competence of the eight the System One overlay proposes that nothing here already covers. `evolution.evaluation` runs the suite and `evolution.anti_goodhart` asks whether the gain is real; neither asks whether a 0.8 happens four times in five. A design decision and the addendum's Gap 2 are why that is a separate question: a model's probability is not an epistemic confidence, and this repository has a knowledge store where the difference is load-bearing.",
+      "skills": [],
+      "tools": [
+        "read",
+        "project.test"
+      ]
+    },
+    {
+      "context": [],
+      "doc": "Keeping the lineage, including what failed.",
+      "evidence": [
+        "lineage record",
+        "failed candidates retained with their reasons"
+      ],
+      "gates": [],
+      "id": "evolution.archive",
+      "skills": [],
+      "tools": [
+        "read",
+        "edit"
+      ]
+    }
+  ]
+}

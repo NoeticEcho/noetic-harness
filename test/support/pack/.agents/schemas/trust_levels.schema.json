@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "trust_levels.schema.json",
+  "title": "Trust levels",
+  "type": "object",
+  "required": ["version", "levels", "escalation"],
+  "properties": {
+    "version": { "type": "integer" },
+    "doc": { "type": "string" },
+    "levels": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "summary", "may"],
+        "properties": {
+          "id": { "type": "string", "enum": ["T0", "T1", "T2", "T3", "T4", "T5"] },
+          "name": { "type": "string" },
+          "summary": { "type": "string" },
+          "inherits": { "type": "string" },
+          "may": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "may_not": { "type": "array", "items": { "type": "string" } },
+          "requires": { "type": "array", "items": { "type": "string" } },
+          "requires_gate": { "type": "string" },
+          "default_holder": { "type": "string" }
+        }
+      }
+    },
+    "escalation": {
+      "type": "object",
+      "required": ["never_self_granted", "never_delegated_sideways"],
+      "properties": {
+        "doc": { "type": "string" },
+        "never_self_granted": { "type": "boolean", "const": true },
+        "never_delegated_sideways": { "type": "boolean", "const": true }
+      }
+    }
+  }
+}

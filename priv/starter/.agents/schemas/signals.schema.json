@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "signals.schema.json",
+  "title": "Routing signals",
+  "description": "How a work item becomes a set of capabilities. An evolvable artifact: changing these rules changes every route, which is why WF-020 treats them as a candidate rather than a config edit.",
+  "type": "object",
+  "required": [
+    "version",
+    "weights",
+    "signals",
+    "kind_signals",
+    "fallback"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "weights": {
+      "type": "object",
+      "description": "Contribution to the route's confidence. A path signal outweighs a text signal because paths are what changed and text is what somebody said about it.",
+      "properties": {
+        "doc": {
+          "type": "string"
+        },
+        "path": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "integer"
+        },
+        "kind": {
+          "type": "integer"
+        },
+        "family": {
+          "type": "integer"
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "description": "Thresholds on the summed signal weights: at or above `high` is high confidence, at or above `medium` is medium, anything less is low.",
+      "properties": {
+        "doc": {
+          "type": "string"
+        },
+        "high": {
+          "type": "integer"
+        },
+        "medium": {
+          "type": "integer"
+        }
+      }
+    },
+    "signals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "capabilities"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "description": "Case-insensitive regular expression over title + body."
+          },
+          "path": {
+            "type": "string",
+            "description": "Case-insensitive regular expression over each changed path."
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "family": {
+            "type": "string",
+            "description": "The workflow family this signal implies. Contributes `weights.family` to workflow selection."
+          }
+        }
+      }
+    },
+    "kind_signals": {
+      "type": "object",
+      "description": "Declared work kind -> capabilities, independent of wording."
+    },
+    "fallback": {
+      "type": "object",
+      "required": [
+        "capabilities",
+        "workflow"
+      ],
+      "properties": {
+        "doc": {
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "workflow": {
+          "type": "string",
+          "pattern": "^WF-[0-9]{3}$"
+        }
+      }
+    }
+  }
+}

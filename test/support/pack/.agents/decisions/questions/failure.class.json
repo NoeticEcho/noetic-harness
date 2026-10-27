@@ -1,0 +1,43 @@
+{
+  "calibration_profile": null,
+  "criteria": {
+    "compile_error_unfamiliar": "Compile error in unfamiliar code",
+    "flake_suspected": "Flake suspected",
+    "goodhart": "Benchmark gain with no holdout gain",
+    "performance_regression": "Performance regression",
+    "repeated_failure": "Same workflow fails three times",
+    "rights_uncertainty": "Licence or rights uncertainty",
+    "semantic_mismatch": "Semantic mismatch (graph says something else)",
+    "test_failed": "Test failed",
+    "tool_unavailable": "Missing tool or service",
+    "typeql_check": "`typeql-check` failure",
+    "unclassified": "the evidence fits none of the classes above"
+  },
+  "domain": "harness.conductor",
+  "id": "failure.class",
+  "instructions": "Which failure class does the step evidence in `evidence` describe? Choose `unclassified` when none of them does; a forced class for evidence that fits none is the failure this option exists to prevent.",
+  "note": "The question an earlier change asks Laya zero-shot, against Conductor.classify/1's regexes, over an earlier change's corpus.",
+  "options": [
+    "test_failed",
+    "compile_error_unfamiliar",
+    "semantic_mismatch",
+    "typeql_check",
+    "performance_regression",
+    "rights_uncertainty",
+    "flake_suspected",
+    "goodhart",
+    "repeated_failure",
+    "tool_unavailable",
+    "unclassified"
+  ],
+  "type": "choice",
+  "version": "1",
+  "versions": [
+    {
+      "at": "2026-09-23",
+      "fingerprint": "334ef9f8d397a900a5eec9e40a11a3e31277f35b57b494367d9990f452897a22",
+      "version": "1",
+      "why": "first version"
+    }
+  ]
+}

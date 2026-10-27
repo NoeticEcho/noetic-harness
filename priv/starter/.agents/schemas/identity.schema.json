@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "identity.schema.json",
+  "title": "Trusted signing keys",
+  "description": "The did:key values whose signatures make a ledger record attested.",
+  "type": "object",
+  "required": [
+    "version",
+    "trusted"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "trusted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "did_key",
+          "custody",
+          "why"
+        ],
+        "properties": {
+          "did_key": {
+            "type": "string",
+            "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "did_aw": {
+            "type": "string",
+            "pattern": "^did:aw:"
+          },
+          "address": {
+            "type": "string"
+          },
+          "custody": {
+            "enum": [
+              "local"
+            ]
+          },
+          "added": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

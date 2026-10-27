@@ -1,0 +1,83 @@
+{
+  "capabilities": [
+    {
+      "id": "elixir.implementation",
+      "doc": "Write idiomatic Elixir: pattern matching, pipelines, tagged tuples, small public interfaces.",
+      "skills": [
+        "elixir-idioms",
+        "elixir-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test",
+        "project.build"
+      ],
+      "gates": [
+        "format",
+        "build",
+        "test.touched"
+      ],
+      "evidence": [
+        "the diff",
+        "the compile and test output"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "elixir.otp",
+      "doc": "Design processes and supervision: what runs concurrently, what restarts, and what owns which state.",
+      "skills": [
+        "otp-design",
+        "elixir-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test",
+        "project.build"
+      ],
+      "gates": [
+        "build",
+        "test.touched"
+      ],
+      "evidence": [
+        "the supervision tree before and after",
+        "a test that exercises the failure path"
+      ],
+      "context": [
+        "tests"
+      ]
+    },
+    {
+      "id": "elixir.data",
+      "doc": "Change the data layer: schemas, changesets, queries and migrations.",
+      "skills": [
+        "ecto-data",
+        "elixir-testing"
+      ],
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "project.test",
+        "project.build"
+      ],
+      "gates": [
+        "build",
+        "test.touched"
+      ],
+      "evidence": [
+        "the migration and how it is rolled back",
+        "the tests"
+      ],
+      "context": [
+        "tests"
+      ]
+    }
+  ]
+}

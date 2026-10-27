@@ -1,0 +1,186 @@
+{
+  "id": "WF-003",
+  "name": "Bug → Root Cause",
+  "family": "bug",
+  "intent": "Find what is actually wrong before changing anything, and leave a test that would have caught it.",
+  "trigger": {
+    "kinds": [
+      "bug",
+      "incident",
+      "test_failure"
+    ],
+    "keywords": [
+      "bug",
+      "fails",
+      "broken",
+      "regression",
+      "crash",
+      "wrong"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "IncidentReport",
+      "Requirement"
+    ],
+    "out": [
+      "CodePatch",
+      "EvaluationRun",
+      "Postmortem"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "reproduce",
+      "name": "Reproduce it as a failing test",
+      "capabilities": [
+        "qa.testing",
+        "qa.regression"
+      ],
+      "inputs": [
+        "symptom",
+        "logs",
+        "git_history"
+      ],
+      "outputs": [
+        "failing test"
+      ],
+      "trust": "T2",
+      "note": "A bug you cannot reproduce is a hypothesis about a bug. Stop here until it fails on demand.",
+      "on_failure": "escalate"
+    },
+    {
+      "id": "evidence",
+      "name": "Collect evidence from the running system, not from reasoning",
+      "capabilities": [
+        "ops.observability",
+        "qa.regression"
+      ],
+      "inputs": [
+        "failing test"
+      ],
+      "outputs": [
+        "observations"
+      ],
+      "trust": "T2",
+      "note": "Two flakes here were a stale build and a real race. Instrument."
+    },
+    {
+      "id": "hypothesis",
+      "name": "State a hypothesis that the evidence could disconfirm",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "inputs": [
+        "observations"
+      ],
+      "outputs": [
+        "Hypothesis"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "bisect",
+      "name": "Find where it started",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "inputs": [
+        "failing test",
+        "git_history"
+      ],
+      "outputs": [
+        "introducing change"
+      ],
+      "trust": "T1",
+      "optional": true
+    },
+    {
+      "id": "patch",
+      "name": "Fix the cause, not the symptom",
+      "capabilities": [
+        "elixir.implementation"
+      ],
+      "inputs": [
+        "Hypothesis",
+        "introducing change"
+      ],
+      "outputs": [
+        "CodePatch"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "compile"
+      ]
+    },
+    {
+      "id": "regression",
+      "name": "The failing test now passes, and it stays in the suite",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "CodePatch",
+        "failing test"
+      ],
+      "outputs": [
+        "EvaluationRun"
+      ],
+      "trust": "T2",
+      "gates": [
+        "test.touched"
+      ]
+    },
+    {
+      "id": "verify",
+      "name": "Independent verification that the cause is gone",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "archetype_preference": "adversary",
+      "inputs": [
+        "CodePatch",
+        "EvaluationRun"
+      ],
+      "outputs": [
+        "verdict"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "patch"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the bug is in an unfamiliar subsystem",
+      "to": "domain owner for that subsystem"
+    },
+    {
+      "when": "the fix would change a contract",
+      "to": "WF-001"
+    },
+    {
+      "when": "reproduction fails after three attempts",
+      "to": "human_architect",
+      "note": "Report what was tried. Do not patch a symptom you cannot reproduce.",
+      "on": "retry_budget_exhausted"
+    }
+  ],
+  "completion": [
+    "a test that failed before the patch and passes after it is in the suite",
+    "the root cause is named, not just the fix",
+    "the diagnostic evidence survives even if the first patch was reverted"
+  ],
+  "memory": [
+    "the failed diagnosis path, if it was plausible enough that someone would try it again"
+  ],
+  "evaluation": [
+    "time from symptom to reproduction",
+    "whether the same cause recurs"
+  ]
+}

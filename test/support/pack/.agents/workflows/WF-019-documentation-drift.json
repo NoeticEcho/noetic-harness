@@ -1,0 +1,20 @@
+{
+  "id": "WF-019",
+  "name": "Documentation drift",
+  "family": "docs",
+  "intent": "Find the prose a change just made false, before someone acts on it.",
+  "trigger": { "kinds": ["docs"], "keywords": ["docs", "documentation", "readme", "outdated", "drift"], "risk": "low" },
+  "artifacts": { "in": ["CodePatch"], "out": ["documentation diff"] },
+  "default_lane": "fast",
+  "retry_budget": 2,
+  "steps": [
+    { "id": "impact", "name": "Which documents the change touches", "capabilities": ["docs.drift"], "inputs": ["diff", "docs"], "outputs": ["affected documents"], "trust": "T0" },
+    { "id": "verify_examples", "name": "Run the examples the documents contain", "capabilities": ["qa.testing", "docs.drift"], "inputs": ["affected documents"], "outputs": ["example results"], "trust": "T2", "note": "A doctest that is not run is a comment." },
+    { "id": "update", "name": "Update, or record why the document is deliberately behind", "capabilities": ["docs.authoring"], "inputs": ["affected documents", "example results"], "outputs": ["documentation diff"], "trust": "T2", "gates": ["docs"] },
+    { "id": "index", "name": "Confirm it is findable", "capabilities": ["docs.authoring"], "inputs": ["documentation diff"], "outputs": ["index check"], "trust": "T2", "note": "mix docs builds doc/, which is the prose search index. A spec not in extras is a spec nobody finds." }
+  ],
+  "escalations": [{ "when": "a document describes a contract the code no longer honours", "to": "architecture.systems_architect", "note": "That is a contract question, not a prose question." }],
+  "completion": ["every affected document updated or explicitly deferred with a bead", "mix docs builds", "new pages appear in the index"],
+  "memory": [],
+  "evaluation": ["documents found stale by a later reader that this step should have caught"]
+}

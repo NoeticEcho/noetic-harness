@@ -1,0 +1,3 @@
+define
+  entity world, owns name;
+  attribute name, value string;

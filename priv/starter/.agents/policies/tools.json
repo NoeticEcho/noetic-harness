@@ -1,0 +1,128 @@
+{
+  "$schema": "../schemas/tools.schema.json",
+  "version": 1,
+  "doc": "What an agent may use, and the lowest trust level that may use it. `present` is what is expected; a tool with a `probe` is checked on this machine when a gate needs it, because an expectation is exactly what goes stale. `harness inspect --tools` prints both.",
+  "tools": [
+    {
+      "id": "read",
+      "kind": "builtin",
+      "min_trust": "T0",
+      "doc": "Read files.",
+      "present": true
+    },
+    {
+      "id": "search",
+      "kind": "builtin",
+      "min_trust": "T0",
+      "doc": "Search files by name and content.",
+      "present": true
+    },
+    {
+      "id": "edit",
+      "kind": "builtin",
+      "min_trust": "T2",
+      "doc": "Change files in the working tree.",
+      "present": true
+    },
+    {
+      "id": "git.read",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "git log, diff, show, status, ls-files.",
+      "present": true,
+      "probe": "git --version"
+    },
+    {
+      "id": "git.write",
+      "kind": "cli",
+      "min_trust": "T2",
+      "doc": "git add and commit, on a branch of the run's own.",
+      "present": true,
+      "probe": "git --version"
+    },
+    {
+      "id": "git.push",
+      "kind": "cli",
+      "min_trust": "T3",
+      "doc": "git push, to a branch other than the main line.",
+      "present": true,
+      "probe": "git --version"
+    },
+    {
+      "id": "project.format",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "The project's formatter check, .agents/bin/format.",
+      "present": true,
+      "probe": "test -x .agents/bin/format"
+    },
+    {
+      "id": "project.lint",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "The project's linter, .agents/bin/lint.",
+      "present": true,
+      "probe": "test -x .agents/bin/lint"
+    },
+    {
+      "id": "project.build",
+      "kind": "cli",
+      "min_trust": "T1",
+      "doc": "The project's build, .agents/bin/build.",
+      "present": true,
+      "probe": "test -x .agents/bin/build"
+    },
+    {
+      "id": "project.test",
+      "kind": "cli",
+      "min_trust": "T1",
+      "doc": "The project's tests, .agents/bin/test.",
+      "present": true,
+      "probe": "test -x .agents/bin/test"
+    },
+    {
+      "id": "harness",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "The harness itself, as `noetic-harness`: the name the release installs it under.",
+      "present": true,
+      "probe": "command -v noetic-harness"
+    },
+    {
+      "id": "gitleaks",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "Secret scanner.",
+      "present": true,
+      "probe": "command -v gitleaks"
+    },
+    {
+      "id": "osv-scanner",
+      "kind": "cli",
+      "min_trust": "T0",
+      "doc": "Dependency vulnerability scanner.",
+      "present": true,
+      "probe": "command -v osv-scanner"
+    },
+    {
+      "id": "github",
+      "kind": "cli",
+      "min_trust": "T3",
+      "doc": "The GitHub CLI, for pull requests and releases.",
+      "present": true,
+      "probe": "command -v gh"
+    },
+    {
+      "id": "browser",
+      "kind": "mcp",
+      "min_trust": "T0",
+      "doc": "A browser, for reading documentation and for end-to-end checks.",
+      "present": false
+    }
+  ],
+  "rules": [
+    "Least privilege: a role is given the tools its capabilities need and no others.",
+    "A tool above the run's trust level is withheld and the refusal says why.",
+    "A tool that is not installed is reported unavailable, never assumed."
+  ]
+}

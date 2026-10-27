@@ -1,0 +1,123 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-016",
+  "name": "Incident",
+  "family": "operations",
+  "intent": "Stop the harm first, then find the cause, then make it not happen again.",
+  "trigger": {
+    "kinds": [
+      "incident"
+    ],
+    "keywords": [
+      "incident",
+      "outage",
+      "down",
+      "production",
+      "on-call"
+    ],
+    "risk": "high"
+  },
+  "artifacts": {
+    "in": [
+      "IncidentReport"
+    ],
+    "out": [
+      "Postmortem",
+      "CodePatch"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "contain",
+      "name": "Stop the harm",
+      "capabilities": [
+        "ops.incident"
+      ],
+      "inputs": [
+        "report"
+      ],
+      "outputs": [
+        "containment"
+      ],
+      "trust": "T3",
+      "note": "Containment first. The cause can wait an hour; the users cannot."
+    },
+    {
+      "id": "timeline",
+      "name": "Write the timeline from evidence",
+      "capabilities": [
+        "ops.incident",
+        "ops.observability"
+      ],
+      "inputs": [
+        "containment"
+      ],
+      "outputs": [
+        "timeline"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "cause",
+      "name": "Find the cause",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "inputs": [
+        "timeline"
+      ],
+      "outputs": [
+        "root cause"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "fix",
+      "name": "Fix it, with a test",
+      "capabilities": [
+        "code.implementation"
+      ],
+      "inputs": [
+        "root cause"
+      ],
+      "outputs": [
+        "diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "focused"
+      ]
+    },
+    {
+      "id": "postmortem",
+      "name": "Write the postmortem",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "inputs": [
+        "timeline",
+        "root cause"
+      ],
+      "outputs": [
+        "postmortem"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "fix"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "containment needs production access",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "the harm stopped",
+    "the cause is named",
+    "a postmortem says what changes so it does not recur"
+  ]
+}

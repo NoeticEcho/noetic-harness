@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "failure.schema.json",
+  "title": "Failure handling policy",
+  "description": "The dispatchable form of .agents/policies/failure.md: what kind of failure this is, and where it goes next. Read by Noetic.Harness.Conductor.",
+  "type": "object",
+  "required": [
+    "version",
+    "terminal_states",
+    "classes"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "note": {
+      "type": "string"
+    },
+    "retry_budget_default": {
+      "type": "integer"
+    },
+    "terminal_states": {
+      "type": "object",
+      "description": "The five from the constitution. Keys are the outcomes a step may be recorded in.",
+      "properties": {
+        "done": {
+          "$ref": "#/definitions/terminal"
+        },
+        "failed": {
+          "$ref": "#/definitions/terminal"
+        },
+        "blocked": {
+          "$ref": "#/definitions/terminal"
+        },
+        "uncertain": {
+          "$ref": "#/definitions/terminal"
+        },
+        "needs_review": {
+          "$ref": "#/definitions/terminal"
+        }
+      }
+    },
+    "classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "observed",
+          "route",
+          "why"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "observed": {
+            "type": "string",
+            "description": "The row heading in failure.md. The validator asserts it is there."
+          },
+          "match": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A regex over the failure's evidence. Null where the class is detected from the run's shape rather than from text — `repeated_failure` is counted, not read."
+          },
+          "route": {
+            "type": "string",
+            "description": "capability:<id>, workflow:<id>, domain_owner, instrument, quarantine, report_unavailable."
+          },
+          "then": {
+            "type": "string"
+          },
+          "stop": {
+            "type": "boolean",
+            "description": "True where the policy says the work halts rather than continuing after the route."
+          },
+          "why": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "In priority order: the conductor takes the first class whose match fires, because evidence often reads as two at once and the order is the policy judgement about which to act on."
+    }
+  },
+  "definitions": {
+    "terminal": {
+      "type": "object",
+      "required": [
+        "routing",
+        "note"
+      ],
+      "properties": {
+        "routing": {
+          "type": "string",
+          "enum": [
+            "next",
+            "classify",
+            "escalate",
+            "verify",
+            "review"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

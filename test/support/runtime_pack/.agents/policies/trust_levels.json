@@ -1,0 +1,85 @@
+{
+  "$schema": "../schemas/trust_levels.schema.json",
+  "version": 1,
+  "plane": "runtime",
+  "doc": "Trust on the runtime plane. A runtime role reads (T0) or drafts (T1). Nothing above draft is ever held on this plane: a draft is accepted by a person or by the product's own check.",
+  "levels": [
+    {
+      "id": "T0",
+      "name": "read_only",
+      "summary": "Read what you were given, and change nothing.",
+      "may": [
+        "read the brief, the facts, the sources and the rules you were given"
+      ],
+      "may_not": [
+        "write a draft",
+        "record a fact",
+        "propose a rule"
+      ]
+    },
+    {
+      "id": "T1",
+      "name": "draft",
+      "summary": "Draft, record and propose; never accept.",
+      "may": [
+        "write a draft",
+        "record a fact with its source",
+        "propose a rule for a person to decide on"
+      ],
+      "may_not": [
+        "accept a draft, yours or another role's",
+        "publish anything",
+        "change a rule"
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "not_on_this_plane",
+      "summary": "Not held on the runtime plane.",
+      "may": [
+        "nothing: no runtime role holds this level"
+      ],
+      "may_not": [
+        "held by no runtime role: the harness refuses a runtime role whose ceiling is above T1"
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "not_on_this_plane",
+      "summary": "Not held on the runtime plane.",
+      "may": [
+        "nothing: no runtime role holds this level"
+      ],
+      "may_not": [
+        "held by no runtime role: the harness refuses a runtime role whose ceiling is above T1"
+      ]
+    },
+    {
+      "id": "T4",
+      "name": "not_on_this_plane",
+      "summary": "Not held on the runtime plane.",
+      "may": [
+        "nothing: no runtime role holds this level"
+      ],
+      "may_not": [
+        "held by no runtime role: the harness refuses a runtime role whose ceiling is above T1"
+      ]
+    },
+    {
+      "id": "T5",
+      "name": "not_on_this_plane",
+      "summary": "Not held on the runtime plane.",
+      "may": [
+        "nothing: no runtime role holds this level"
+      ],
+      "may_not": [
+        "held by no runtime role: the harness refuses a runtime role whose ceiling is above T1"
+      ]
+    }
+  ],
+  "escalation": {
+    "doc": "A role that needs something above its level stops, and escalates to a person with what it needs and why. It never asks another role to do it instead.",
+    "never_self_granted": true,
+    "never_delegated_sideways": true
+  }
+}

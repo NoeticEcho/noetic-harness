@@ -1,0 +1,140 @@
+{
+  "domains": [
+    {
+      "capabilities": [
+        "product.ux",
+        "product.narrative"
+      ],
+      "context": [
+        "docs"
+      ],
+      "id": "product",
+      "owns": [],
+      "skills": [],
+      "slug": "product",
+      "summary": "What a person is trying to do inside the product, and whether the product lets them.",
+      "trust_ceiling": "T2",
+      "upstream": "Product / UX / Interaction"
+    },
+    {
+      "capabilities": [
+        "knowledge.modeling",
+        "knowledge.epistemics",
+        "knowledge.synthesis"
+      ],
+      "context": [
+        "docs"
+      ],
+      "id": "repository",
+      "owns": [],
+      "skills": [
+        "research-method"
+      ],
+      "slug": "repository",
+      "summary": "the knowledge store: entities, relations, claims, evidence, contradictions and the epistemic status of each.",
+      "trust_ceiling": "T2",
+      "upstream": "Repository / Knowledge"
+    },
+    {
+      "capabilities": [
+        "data.connector",
+        "data.ingestion",
+        "data.quality",
+        "data.provenance"
+      ],
+      "context": [],
+      "id": "data_fabric",
+      "owns": [],
+      "skills": [
+        "req-client",
+        "finch-pools",
+        "broadway-ingestion"
+      ],
+      "slug": "data_fabric",
+      "summary": "Getting the outside world in: sources, connectors, raw retention, validation, resolution, provenance.",
+      "trust_ceiling": "T2",
+      "upstream": "Data Fabric"
+    },
+    {
+      "capabilities": [
+        "runtime.agents",
+        "runtime.context",
+        "runtime.memory",
+        "runtime.routing"
+      ],
+      "context": [],
+      "id": "runtime",
+      "owns": [],
+      "skills": [
+        "otp-concurrency",
+        "supervision-design"
+      ],
+      "slug": "runtime",
+      "summary": "Jido agents behind the agent port, context assembly, memory, tool use and model routing.",
+      "trust_ceiling": "T2",
+      "upstream": "Agent Runtime / Cognition"
+    },
+    {
+      "capabilities": [
+        "elixir.liveview",
+        "frontend.web",
+        "frontend.design_system"
+      ],
+      "context": [],
+      "id": "frontend",
+      "owns": [],
+      "skills": [
+        "phoenix-liveview",
+        "typescript-client"
+      ],
+      "slug": "frontend",
+      "summary": "LiveView, HEEx, the TypeScript client, the design system boundary.",
+      "trust_ceiling": "T2",
+      "upstream": "Frontend / Phoenix / Web"
+    },
+    {
+      "capabilities": [
+        "elixir.implementation",
+        "elixir.otp",
+        "elixir.ecto",
+        "elixir.ash",
+        "elixir.phoenix"
+      ],
+      "context": [
+        "tests"
+      ],
+      "id": "backend",
+      "owns": [],
+      "skills": [
+        "elixir-idioms",
+        "otp-concurrency",
+        "supervision-design",
+        "ecto-data-access",
+        "dependency-usage-rules"
+      ],
+      "slug": "backend",
+      "summary": "The BEAM side: Elixir, OTP, Ash, Ecto, Phoenix, TypeDB and Qdrant clients, deployment substrate.",
+      "trust_ceiling": "T2",
+      "upstream": "Backend / Elixir / OTP / Infrastructure"
+    },
+    {
+      "capabilities": [
+        "platform.api",
+        "platform.sdk",
+        "architecture.api"
+      ],
+      "context": [
+        "docs"
+      ],
+      "id": "platform",
+      "owns": [],
+      "skills": [
+        "phoenix-contexts-routing"
+      ],
+      "slug": "platform",
+      "summary": "The surfaces other people build against: API, SDK, MCP, developer experience.",
+      "trust_ceiling": "T2",
+      "upstream": "API / Platform / Dev Ecosystem"
+    }
+  ]
+}

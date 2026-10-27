@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "doc": "The runtime plane's prompt: the same composition and the same strict rendering as the development plane's, from templates written for a product's AI employee rather than for someone changing a repository. The constitution is prepended verbatim. Prompt.compose/2 reads this manifest for a runtime role and only for one, because it says plane runtime; it lives under .agents/runtime/ so that a root can hold both planes.",
+  "plane": "runtime",
+  "pack": {
+    "doc": "The pack's name and version, which `harness export` writes at the top of its file. The person releasing the pack sets the version; nothing derives one.",
+    "name": "editorial",
+    "version": "0.1.0"
+  },
+  "preamble": "../../constitution.md",
+  "defaults": {
+    "doc": "What a prompt says where a definition says nothing. The development plane's are development text (Prompt.development_defaults/0), so a runtime pack gives each of its own: the non-scope every role carries, the escalations when no workflow is selected, the lane when none is (null: none), and the evidence asked for when neither the archetype nor a capability says.",
+    "non_scope": [
+      "accepting work, yours or another role's: a person accepts it, or the product's own check;",
+      "publishing or sending anything outside the product;",
+      "changing a rule you work under: propose it, do not apply it;",
+      "work another role's capabilities cover, which is theirs."
+    ],
+    "escalations": [
+      "anything your role does not do: to a person;",
+      "facts that conflict, or a claim that could harm someone if it were wrong: to a person."
+    ],
+    "lane": null,
+    "evidence": "(the facts you used, each with where it came from, and what you could not verify)"
+  },
+  "sections": [
+    { "file": "00-identity.md", "required": true },
+    { "file": "01-mission.md", "required": true },
+    { "file": "02-tools.md", "required": true },
+    { "file": "03-working-loop.md", "required": true },
+    { "file": "04-evidence.md", "required": true },
+    { "file": "05-gates.md", "required": true },
+    { "file": "06-escalation.md", "required": true },
+    { "file": "07-completion.md", "required": true },
+    { "file": "08-task.md", "required": false }
+  ],
+  "placeholders": {
+    "doc": "The renderer's names this pack uses; the same list as the development plane's, of which it uses a part.",
+    "names": [
+      "agent.id", "agent.name", "agent.domain", "agent.domain_summary", "agent.domain_owns",
+      "agent.archetype", "agent.archetype_name", "agent.archetype_stance",
+      "agent.capabilities", "agent.capability_detail", "agent.non_scope",
+      "agent.skills", "agent.skill_detail", "agent.tools", "agent.tool_detail",
+      "agent.unavailable_tools", "agent.trust", "agent.trust_name", "agent.trust_summary",
+      "agent.trust_may", "agent.trust_may_not", "agent.tags", "agent.status",
+      "role.overlay", "loop", "loop_detail", "evidence", "prohibited", "completion",
+      "artifact_kinds", "lane", "lane_gates", "gate_detail",
+      "workflow.id", "workflow.name", "workflow.intent", "workflow.step_id",
+      "workflow.step_name", "workflow.inputs", "workflow.outputs", "workflow.escalations",
+      "workflow.completion", "workflow.retry_budget",
+      "context.bundle", "context.priorities", "memory.records",
+      "task.id", "task.title", "task.body", "task.terminal_states"
+    ]
+  }
+}

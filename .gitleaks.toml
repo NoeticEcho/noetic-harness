@@ -1,0 +1,12 @@
+# gitleaks reads this from the repository root. The default rules stay on;
+# the one allowance is a did:key's Ed25519 *public* key (multibase z6Mk…,
+# 48 characters), which the engine's identity tests and fixtures write out
+# and which is never a secret: gitleaks' generic-api-key rule reads the part
+# after `did:key:` as a token.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ed25519 did:key public keys"
+regexTarget = "secret"
+regexes = ['''^z6Mk[1-9A-HJ-NP-Za-km-z]{44}$''']

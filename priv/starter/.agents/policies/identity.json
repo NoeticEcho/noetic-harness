@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/identity.schema.json",
+  "version": 1,
+  "doc": "The keys whose signatures on a run's step and stop records this repository believes. A record signed by a key not listed here is not attested, however valid the signature: anyone can make a key, so a signature proves only that its signer holds that key, and this list is what says whose key it is. Empty until someone adds their own: a new repository trusts nobody's key by default.",
+  "trusted": []
+}

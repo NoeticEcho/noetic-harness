@@ -1,0 +1,22 @@
+{
+  "$schema": "../schemas/domains.schema.json",
+  "version": 1,
+  "doc": "One domain: the editorial team of a product's catalogue and letters.",
+  "domains": [
+    {
+      "id": "editorial",
+      "slug": "editorial",
+      "upstream": "Editorial",
+      "summary": "Product cards and letters, written from the facts given and checked before a person accepts them.",
+      "owns": [],
+      "capabilities": [],
+      "skills": [],
+      "context": [
+        "brief",
+        "facts",
+        "rules"
+      ],
+      "trust_ceiling": "T1"
+    }
+  ]
+}

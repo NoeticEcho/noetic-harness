@@ -1,0 +1,227 @@
+{
+  "$schema": "../schemas/domains.schema.json",
+  "version": 1,
+  "doc": "Areas of work. A domain's `owns` lists the paths it answers for; it is empty in a new repository, and filling it in lets a change's paths route to the right roles.",
+  "domains": [
+    {
+      "id": "engineering",
+      "slug": "engineering",
+      "upstream": "Engineering",
+      "summary": "Changing the code: features, fixes and refactors.",
+      "owns": [],
+      "capabilities": [
+        "code.implementation",
+        "code.refactor"
+      ],
+      "skills": [
+        "working-with-the-harness",
+        "testing-strategy"
+      ],
+      "context": [
+        "docs",
+        "tests"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "governance",
+      "slug": "governance",
+      "upstream": "Governance",
+      "summary": "Deciding what is done, in what order and by whom, and recording why.",
+      "owns": [],
+      "capabilities": [
+        "governance.routing",
+        "governance.planning",
+        "governance.risk",
+        "governance.decision_record",
+        "governance.escalation"
+      ],
+      "skills": [
+        "working-with-the-harness",
+        "decision-records"
+      ],
+      "context": [
+        "decisions",
+        "readme"
+      ],
+      "trust_ceiling": "T3"
+    },
+    {
+      "id": "architecture",
+      "slug": "architecture",
+      "upstream": "Architecture",
+      "summary": "The shape of the system: its parts, their boundaries and the interfaces between them.",
+      "owns": [],
+      "capabilities": [
+        "architecture.system",
+        "architecture.api",
+        "architecture.data",
+        "architecture.security"
+      ],
+      "skills": [
+        "decision-records"
+      ],
+      "context": [
+        "decisions",
+        "docs"
+      ],
+      "trust_ceiling": "T3"
+    },
+    {
+      "id": "research",
+      "slug": "research",
+      "upstream": "Research",
+      "summary": "Finding out what is known before building on it.",
+      "owns": [],
+      "capabilities": [
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "skills": [
+        "research-method"
+      ],
+      "context": [
+        "docs"
+      ],
+      "trust_ceiling": "T1"
+    },
+    {
+      "id": "docs",
+      "slug": "docs",
+      "upstream": "Documentation",
+      "summary": "Writing what a reader needs, and noticing when it has stopped being true.",
+      "owns": [],
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "skills": [
+        "documentation"
+      ],
+      "context": [
+        "docs",
+        "readme"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "qa",
+      "slug": "qa",
+      "upstream": "Quality",
+      "summary": "Showing that the software does what it claims, by something other than its author's word.",
+      "owns": [],
+      "capabilities": [
+        "qa.testing",
+        "qa.property",
+        "qa.regression",
+        "qa.e2e",
+        "qa.performance"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "context": [
+        "tests"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "security",
+      "slug": "security",
+      "upstream": "Security",
+      "summary": "What an attacker could do, and what a change exposes.",
+      "owns": [],
+      "capabilities": [
+        "security.review",
+        "security.secrets",
+        "security.dependencies"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "context": [
+        "security_policy",
+        "dependency_manifests"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "release",
+      "slug": "release",
+      "upstream": "Release",
+      "summary": "Getting a change out, and keeping the pipeline that does it working.",
+      "owns": [],
+      "capabilities": [
+        "ops.release",
+        "ops.ci"
+      ],
+      "skills": [
+        "release-practice"
+      ],
+      "context": [
+        "changelog",
+        "ci_config"
+      ],
+      "trust_ceiling": "T3"
+    },
+    {
+      "id": "operations",
+      "slug": "operations",
+      "upstream": "Operations",
+      "summary": "Running software: incidents, and the signals that show what it is doing.",
+      "owns": [],
+      "capabilities": [
+        "ops.incident",
+        "ops.observability"
+      ],
+      "skills": [
+        "observability"
+      ],
+      "context": [
+        "docs"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "data",
+      "slug": "data",
+      "upstream": "Data",
+      "summary": "Bringing data in from outside, and knowing where each piece came from.",
+      "owns": [],
+      "capabilities": [
+        "data.connector",
+        "data.quality",
+        "data.provenance"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "context": [
+        "docs"
+      ],
+      "trust_ceiling": "T2"
+    },
+    {
+      "id": "evolution",
+      "slug": "evolution",
+      "upstream": "Evolution",
+      "summary": "Improving how this repository develops itself, measured on work it has not seen.",
+      "owns": [],
+      "capabilities": [
+        "evolution.mutation",
+        "evolution.evaluation",
+        "evolution.holdout",
+        "evolution.anti_goodhart",
+        "evolution.promotion"
+      ],
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "context": [
+        "docs"
+      ],
+      "trust_ceiling": "T2"
+    }
+  ]
+}

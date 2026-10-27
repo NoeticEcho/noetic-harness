@@ -1,0 +1,183 @@
+{
+  "id": "WF-020",
+  "name": "Development evolution",
+  "family": "evolution",
+  "intent": "When the same work keeps failing the same way, change the development system rather than retrying the work.",
+  "trigger": {
+    "kinds": [
+      "evolution",
+      "meta"
+    ],
+    "keywords": [
+      "keeps failing",
+      "same mistake",
+      "keeps going wrong",
+      "third time",
+      "weakness cluster",
+      "evolution candidate",
+      "holdout",
+      "anti-goodhart"
+    ],
+    "risk": "high",
+    "note": "The keywords are failure *recurrence*, not the names of the things a development-system change touches. They were `workflow`, `routing` and `harness` for a release, and every piece of harness work therefore routed here — `build the harness workflow executor` scored 7 and went to the workflow whose intent is \"when the same work keeps failing the same way, change the development system rather than retrying the work\". Touching the harness is a place, not a kind of work; this workflow is for the kind."
+  },
+  "artifacts": {
+    "in": [
+      "EvaluationRun"
+    ],
+    "out": [
+      "Hypothesis",
+      "Experiment",
+      "WorkflowSpec",
+      "AgentSpec"
+    ]
+  },
+  "default_lane": "evolution",
+  "retry_budget": 2,
+  "steps": [
+    {
+      "id": "telemetry",
+      "name": "Gather development telemetry",
+      "capabilities": [
+        "evolution.evaluation",
+        "runtime.routing"
+      ],
+      "inputs": [
+        "memory:failures",
+        "beads",
+        "gate results",
+        "workflow runs"
+      ],
+      "outputs": [
+        "telemetry summary"
+      ],
+      "trust": "T0",
+      "note": "`noetic-harness telemetry --clusters` is this step. It refuses to report a cluster below ten recorded runs and says how many more it needs — three failures out of three observations is all the data there is, not a pattern, and an experiment opened against it optimises the measure of the process rather than the work. Below the floor, this workflow stops here."
+    },
+    {
+      "id": "cluster",
+      "name": "Find the weakness cluster — a task family, not an anecdote",
+      "capabilities": [
+        "evolution.evaluation"
+      ],
+      "inputs": [
+        "telemetry summary"
+      ],
+      "outputs": [
+        "weakness cluster"
+      ],
+      "trust": "T1",
+      "note": "Three failures of the same shape. One failure is a bug; the workflow is not the defect yet."
+    },
+    {
+      "id": "hypothesis",
+      "name": "What about the development system caused this",
+      "capabilities": [
+        "evolution.mutation",
+        "runtime.routing"
+      ],
+      "inputs": [
+        "weakness cluster"
+      ],
+      "outputs": [
+        "Hypothesis"
+      ],
+      "trust": "T1",
+      "note": "Example: repeated TypeDB migration regressions → a dedicated migration review is missing."
+    },
+    {
+      "id": "experiment",
+      "name": "Change one thing — a role, a gate, a context rule, a skill, a routing rule",
+      "capabilities": [
+        "evolution.mutation"
+      ],
+      "inputs": [
+        "Hypothesis"
+      ],
+      "outputs": [
+        "Experiment"
+      ],
+      "trust": "T2"
+    },
+    {
+      "id": "compare",
+      "name": "Run the weakness cluster against both",
+      "capabilities": [
+        "evolution.evaluation",
+        "evolution.holdout"
+      ],
+      "inputs": [
+        "Experiment"
+      ],
+      "outputs": [
+        "Benchmark",
+        "HoldoutResult"
+      ],
+      "trust": "T2",
+      "gates": [
+        "evo.benchmark",
+        "evo.holdout"
+      ]
+    },
+    {
+      "id": "archive",
+      "name": "Archive the lineage",
+      "capabilities": [
+        "evolution.archive"
+      ],
+      "inputs": [
+        "Benchmark",
+        "HoldoutResult"
+      ],
+      "outputs": [
+        "archive entry"
+      ],
+      "trust": "T2",
+      "gates": [
+        "evo.archive"
+      ]
+    },
+    {
+      "id": "route",
+      "name": "Update routing knowledge, not the constitution",
+      "capabilities": [
+        "evolution.promotion",
+        "runtime.routing"
+      ],
+      "inputs": [
+        "archive entry"
+      ],
+      "outputs": [
+        "WorkflowSpec"
+      ],
+      "trust": "T4",
+      "gates": [
+        "evo.promotion",
+        "review.independent",
+        "human.approval"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the hypothesis implicates the constitution, trust levels or gate definitions",
+      "to": "human_architect"
+    },
+    {
+      "when": "the weakness is a missing capability rather than a bad route",
+      "to": "WF-001"
+    }
+  ],
+  "completion": [
+    "the cluster is a family, not an anecdote",
+    "one variable changed",
+    "holdout run",
+    "routing updated with evidence attached"
+  ],
+  "memory": [
+    "the weakness cluster and what fixed it, so the next cluster is recognised sooner"
+  ],
+  "evaluation": [
+    "did the cluster stop recurring"
+  ]
+}

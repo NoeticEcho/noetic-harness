@@ -1,0 +1,178 @@
+{
+  "id": "WF-021",
+  "name": "Epic in a branch",
+  "family": "feature",
+  "intent": "A cloud worker carries one assigned epic from its brief to a ready handoff on its own branch, and stops there: the landing is the coordinator's.",
+  "note": "Started by a worker from a brief (`noetic-harness run --start WF-021 --agent <profile> --bead <epic> --title \"...\"`), never chosen for it by the router. It has no handoff step, because the ready handoff is written after `--finish`, and merge-check verifies it (plan §3–§4). It has no integrate step and no review step: both belong to the coordinator's landing, which runs on the workstation under rules the worker's branch cannot change. The lane runs over the path set merge-check reads, which is what `lane_paths` says. Trust, stated because the steps do not say it: committing to and pushing the worker's own `claude/<epic>-<slug>` branch, and opening or marking ready its pull request, are T3 acts in `.agents/policies/tools.json` (`git.write`, `git.push`, `github`) and `trust_levels.json`. No step is T3 on purpose, because T3 also grants merging into develop and closing beads, which a worker must never do. The authority for those acts is the person's opening message (`.agents/templates/worker/opening-message.md`), and `bin/worker-guard` narrows push to the checked-out `claude/*` branch by its own name. A prompt composed for a WF-021 step will therefore list those tools as withheld; the worker follows the opening message for them and for nothing else (an earlier change review).",
+  "trigger": {
+    "kinds": [],
+    "keywords": [],
+    "explicit": true,
+    "risk": "medium",
+    "note": "A worker names this workflow; the router must never choose it. No kinds and no keywords were not enough on their own. Measured on 2026-09-24 with the file present and nothing excluding it: 44 of the 438 routes over `.agents/decisions/corpus/routing.jsonl` (219 rows, title and bead mode) moved to WF-021, 24 of them from WF-002, and so did `edit .agents/policies/gates.json`. Every one was a capability-only tie won on least authority: its steps carry the commonest capabilities there are, and T2 with a three-gate lane is less authority than any workflow but WF-004. `explicit` asks the router to leave it out of scoring, and `Router.score_workflows/4` is what has to honour that."
+  },
+  "artifacts": {
+    "in": [
+      "WorkerBrief"
+    ],
+    "out": [
+      "CodePatch",
+      "EvaluationRun",
+      "Handoff"
+    ]
+  },
+  "default_lane": "handoff",
+  "lane_paths": {
+    "since": "merge-base",
+    "ref": "origin/develop",
+    "exclude": [
+      ".agents/runs/",
+      ".agents/handoff/"
+    ],
+    "committed_only": true
+  },
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "context",
+      "name": "Read the brief, the scope it grants and what earlier work learned",
+      "capabilities": [
+        "runtime.context"
+      ],
+      "inputs": [
+        "WorkerBrief",
+        "repository",
+        "memory"
+      ],
+      "outputs": [
+        "EpicContext"
+      ],
+      "trust": "T0",
+      "note": "The brief names the epic and its children, the scope and grants, the branch and any reserved ADR numbers. Nothing outside the scope and grants is this worker's to change: a change needed there is a `shared_change_requests` entry in the handoff, not an edit. Workers never write beads; the epic arrives in the brief and goes back in the handoff. For each child: `noetic-harness route --title \"<child>\" --explain`, `noetic-harness context`, `noetic-harness memory --query`. That route is what staffs the later steps with the child's own capabilities."
+    },
+    {
+      "id": "plan",
+      "name": "Order the children and open the branch with a working handoff",
+      "capabilities": [
+        "governance.planning"
+      ],
+      "inputs": [
+        "WorkerBrief",
+        "EpicContext"
+      ],
+      "outputs": [
+        "EpicPlan",
+        "Handoff"
+      ],
+      "trust": "T1",
+      "note": "The plan is the handoff's `children`, in the order they will be done. The first commit creates the branch, `git switch -c claude/<epic>-<slug> origin/develop`, and carries `.agents/handoff/<epic>.json` at status `working`, valid against `.agents/schemas/handoff.schema.json` (`noetic-harness validate` checks it). WIP is pushed every turn: the VM is ephemeral, and a commit that was not pushed is lost at a restart."
+    },
+    {
+      "id": "implement",
+      "name": "Implement each child, the smallest coherent change",
+      "capabilities": [
+        "elixir.implementation"
+      ],
+      "inputs": [
+        "EpicPlan",
+        "EpicContext"
+      ],
+      "outputs": [
+        "CodePatch"
+      ],
+      "trust": "T2",
+      "gates": [
+        "format",
+        "compile"
+      ],
+      "on_failure": "route:qa.regression",
+      "note": "One child at a time, committed when it is finished, its commits recorded against it in the handoff. `elixir.implementation` is the floor, not the team: a visual-world child is Babylon work, and the child's own route in `context` names what it needs. A child that turns out not to belong here is `deferred` or `reparented` in the handoff, never dropped; work found that is in no child goes in `discovered`."
+    },
+    {
+      "id": "test",
+      "name": "Tests that fail before and pass after",
+      "capabilities": [
+        "qa.testing"
+      ],
+      "inputs": [
+        "CodePatch"
+      ],
+      "outputs": [
+        "EvaluationRun"
+      ],
+      "trust": "T2",
+      "gates": [
+        "test.touched"
+      ],
+      "note": "A regression test is checked both ways: `noetic-harness environments --derive <sha>`, then `--verify <id>`. When the epic touches `.agents/` or `apps/noetic_harness/`, `harness.test` in the lane runs the harness suite in this VM without ci-local's PATH farm, so the tests that need `claude` run before the landing and not only after it. Not checked here: which of those tools a cloud VM has; each `test_helper.exs` prints what it excluded."
+    },
+    {
+      "id": "document",
+      "name": "Moduledocs, specs and the documentation the change made false",
+      "capabilities": [
+        "docs.authoring",
+        "docs.drift"
+      ],
+      "inputs": [
+        "CodePatch"
+      ],
+      "outputs": [
+        "documentation diff"
+      ],
+      "trust": "T2",
+      "gates": [
+        "docs"
+      ]
+    },
+    {
+      "id": "sync",
+      "name": "Merge origin/develop, regenerate what is generated, commit",
+      "capabilities": [
+        "ops.ci"
+      ],
+      "inputs": [
+        "CodePatch",
+        "EvaluationRun",
+        "documentation diff"
+      ],
+      "outputs": [
+        "EpicBranch"
+      ],
+      "trust": "T2",
+      "note": "`git fetch origin` and `git merge origin/develop`: a merge, never a rebase, because the branch is pushed and may have an open pull request. Then regenerate: `noetic-harness sync`, and `(cd apps/acme_web/assets && node build-tokens.mjs)` if design tokens changed. Commit, and leave the tree clean: `--finish` refuses uncommitted or untracked files outside `.agents/runs/` and `.agents/handoff/`, because its lane's verdict is recorded against HEAD. Pushing and the pull request are not this step; they come after `--finish`."
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the epic needs a change outside its scope or grants",
+      "to": "coordinator",
+      "note": "A `shared_change_requests` entry in the handoff. If the epic cannot go on without it, the handoff goes to `blocked` and the session ends `EPIC <id> BLOCKED <reason>`. The worker does not make the change."
+    },
+    {
+      "when": "the same step fails three times",
+      "to": "coordinator",
+      "on": "retry_budget_exhausted",
+      "note": "The handoff at `blocked`, the failure as a question, and `EPIC <id> BLOCKED <reason>`. WF-020 is the coordinator's to open, on the workstation, where the telemetry is."
+    },
+    {
+      "when": "a fenced or coordinator-held path would have to change",
+      "to": "human_architect",
+      "note": "It may be proposed in the branch. It lands only with the person's quoted approval, which the coordinator asks for (plan §4)."
+    }
+  ],
+  "completion": [
+    "the run ends at `noetic-harness run --finish`: every step recorded, the tree clean outside `.agents/runs/` and `.agents/handoff/`, and the `handoff` lane passed over merge-base(origin/develop, HEAD)..HEAD minus those two, with the head it ran at recorded in the run",
+    "after the finish and not before, the lane result (verdict, seconds, head, gates) is copied into `.agents/handoff/<epic>.json`, its status set to `ready`, and the handoff and the run file committed as the branch's last commit, S; S differs from the recorded head only by handoff and run files",
+    "every child is `done`, `deferred` or `reparented` in the handoff, and none is `open`",
+    "S is pushed and a pull request with `--base develop` is open, or a returned one is marked ready again",
+    "the session's last line is `EPIC <id> READY <S> <pr-url>`, or `EPIC <id> BLOCKED <reason>` with the handoff at `blocked`"
+  ],
+  "memory": [
+    "what the brief left out that the worker had to ask",
+    "a shared change request that belonged in the scope"
+  ],
+  "evaluation": [
+    "finish attempts per epic",
+    "returns per landing"
+  ]
+}

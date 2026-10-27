@@ -1,0 +1,35 @@
+{
+  "id": "WF-010",
+  "name": "Agent evolution",
+  "family": "evolution",
+  "intent": "Change what an agent is, with enough independent evidence that the change is an improvement rather than a fit to its own benchmark.",
+  "trigger": { "kinds": ["evolution"], "keywords": ["evolve", "improve the agent", "mutate", "candidate", "promote", "prompt change"], "risk": "high" },
+  "artifacts": { "in": ["Hypothesis"], "out": ["Experiment", "Benchmark", "HoldoutResult", "TransferTest", "EvaluationRun", "AgentSpec"] },
+  "default_lane": "evolution",
+  "retry_budget": 2,
+  "steps": [
+    { "id": "weakness", "name": "Identify the weakness from telemetry, not from intuition", "capabilities": ["evolution.evaluation"], "inputs": ["telemetry", "memory:failures", "beads"], "outputs": ["weakness cluster"], "trust": "T0" },
+    { "id": "hypothesis", "name": "A mutation hypothesis that could be disconfirmed", "capabilities": ["evolution.mutation"], "inputs": ["weakness cluster"], "outputs": ["Hypothesis"], "trust": "T1" },
+    { "id": "candidate", "name": "Build the candidate, with its lineage recorded", "capabilities": ["evolution.mutation"], "inputs": ["Hypothesis"], "outputs": ["candidate"], "trust": "T2" },
+    { "id": "sandbox", "name": "Run it without touching production behaviour", "capabilities": ["evolution.evaluation"], "inputs": ["candidate"], "outputs": ["sandbox run"], "trust": "T2", "gates": ["evo.sandbox"] },
+    { "id": "benchmark", "name": "The suite the mutation was aimed at", "capabilities": ["evolution.evaluation"], "inputs": ["sandbox run"], "outputs": ["Benchmark"], "trust": "T2", "gates": ["evo.benchmark"] },
+    { "id": "holdout", "name": "Tasks that were not visible during generation", "capabilities": ["evolution.holdout"], "inputs": ["candidate"], "outputs": ["HoldoutResult"], "trust": "T2", "gates": ["evo.holdout"], "independent_of": ["candidate"], "note": "A benchmark gain with a flat holdout is the Goodhart signature. Quarantine." },
+    { "id": "transfer", "name": "An adjacent task family", "capabilities": ["evolution.transfer"], "inputs": ["candidate"], "outputs": ["TransferTest"], "trust": "T2", "gates": ["evo.transfer"] },
+    { "id": "antigoodhart", "name": "Attack the measure on the candidate's behalf", "capabilities": ["evolution.anti_goodhart"], "archetype_preference": "adversary", "inputs": ["candidate", "Benchmark", "HoldoutResult"], "outputs": ["audit"], "trust": "T1", "independent_of": ["candidate", "hypothesis"], "gates": ["evo.antigoodhart"], "note": "This role did not write the candidate and may not modify the evaluator." },
+    { "id": "archive", "name": "Record the lineage, including the failures", "capabilities": ["evolution.archive"], "inputs": ["candidate", "Benchmark", "HoldoutResult", "TransferTest", "audit"], "outputs": ["archive entry"], "trust": "T2", "gates": ["evo.archive"] },
+    { "id": "promote", "name": "Promotion decision", "capabilities": ["evolution.promotion"], "inputs": ["archive entry"], "outputs": ["AgentSpec"], "trust": "T4", "gates": ["evo.promotion", "review.independent", "human.approval"] }
+  ],
+  "escalations": [
+    { "when": "benchmark improves and holdout does not", "to": "quarantine", "note": "Not a retry. The candidate is archived as a failure with its lineage." },
+    { "when": "the candidate would change the constitution, trust levels, gates or the security policy", "to": "human_architect", "note": "An evolution run may propose such a change and may never land one." },
+    { "when": "the evaluator itself looks wrong", "to": "human_architect", "note": "Evaluator changes carry separate provenance and separate review." }
+  ],
+  "completion": [
+    "every stage present, in order, none skipped",
+    "no single collapsed score — the fitness stays a vector",
+    "failed candidates archived with their reasons",
+    "promotion approved by a role that did not author the candidate"
+  ],
+  "memory": ["what the mutation actually did", "shortcuts the anti-Goodhart audit found"],
+  "evaluation": ["did promoted candidates hold up in production use, measured by the same task family"]
+}

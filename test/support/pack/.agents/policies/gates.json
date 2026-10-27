@@ -1,0 +1,436 @@
+{
+  "$schema": "../schemas/gates.schema.json",
+  "version": 1,
+  "doc": "Deterministic validation. A gate is a command, the tools it needs, and the conditions under which it applies. `mix harness.gates --lane <lane>` resolves the lane against the current change, runs what it can, and reports every gate as passed | failed | skipped | unavailable. `unavailable` is never folded into `passed`: a lane with an unavailable gate reports `partial`, and the work it guarded is unverified.",
+  "lanes": [
+    {
+      "id": "fast",
+      "doc": "Runs in under a minute. For an in-progress change, not for landing one.",
+      "gates": [
+        "format",
+        "compile",
+        "harness.validate",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "focused",
+      "doc": "The default before asking for review. Everything fast runs, plus the domain gates the change actually triggers.",
+      "gates": [
+        "format",
+        "compile",
+        "harness.validate",
+        "test.touched",
+        "assets.check",
+        "typeql.check",
+        "harness.test",
+        "shell.lint"
+      ]
+    },
+    {
+      "id": "full",
+      "doc": "Equivalent to `mix precommit` plus the quality tools. Before merging to develop.",
+      "gates": [
+        "format",
+        "compile",
+        "deps.unlock",
+        "test.all",
+        "assets.check",
+        "typeql.check",
+        "harness.test",
+        "harness.validate",
+        "credo",
+        "hex.audit",
+        "shell.lint"
+      ]
+    },
+    {
+      "id": "release",
+      "doc": "Before main. Adds the independent security scanners, the documentation build and the CI job bodies as CI actually runs them.",
+      "gates": [
+        "ci.local",
+        "full",
+        "docs",
+        "gitleaks",
+        "osv",
+        "trivy",
+        "semgrep",
+        "sobelow",
+        "dialyzer"
+      ]
+    },
+    {
+      "id": "protected",
+      "doc": "T4/T5. Everything in release, plus conditions no command can check — which is why they are listed as manual gates with named holders.",
+      "gates": [
+        "release",
+        "review.independent",
+        "rollback.stated",
+        "human.approval"
+      ]
+    },
+    {
+      "id": "evolution",
+      "doc": "Promoting any evolvable harness artifact. Stages are ordered and none may be skipped.",
+      "gates": [
+        "evo.sandbox",
+        "evo.benchmark",
+        "evo.holdout",
+        "evo.transfer",
+        "evo.antigoodhart",
+        "evo.archive",
+        "evo.promotion"
+      ]
+    },
+    {
+      "id": "data",
+      "doc": "Onboarding or changing a data source.",
+      "gates": [
+        "data.rights",
+        "data.schema",
+        "data.validation",
+        "data.provenance",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "handoff",
+      "doc": "A cloud worker's epic, before its ready handoff (WF-021). No new gate. `ci.local` asks the question CI asks: it runs CI's three job bodies, `mix test` with `claude` and `bwrap` hidden, because CI has neither. `harness.test` is the environment-dependent tests for the harness profile: it runs the harness suite unwrapped in the worker's VM, and applies only when the epic touches `.agents/` or `apps/noetic_harness/`. WF-021's `lane_paths` runs the lane over merge-base(origin/develop, HEAD)..HEAD minus `.agents/runs/` and `.agents/handoff/`, the path set merge-check reads.",
+      "gates": [
+        "ci.local",
+        "harness.validate",
+        "harness.test"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "format",
+      "name": "mix format --check-formatted",
+      "kind": "command",
+      "command": "mix format --check-formatted",
+      "requires": [
+        "mix.format"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "compile",
+      "name": "compile with warnings as errors",
+      "kind": "command",
+      "command": "mix compile --warnings-as-errors",
+      "requires": [
+        "mix.compile"
+      ],
+      "severity": "blocking",
+      "note": "Weakening this flag to land work is a constitution violation, not a build tweak."
+    },
+    {
+      "id": "deps.unlock",
+      "name": "no unused dependencies",
+      "kind": "command",
+      "command": "mix deps.unlock --check-unused",
+      "requires": [
+        "mix.compile"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "test.touched",
+      "name": "tests for the apps this change touched",
+      "kind": "command",
+      "command": "mix do --app {{app}} cmd mix test",
+      "per": "touched_app",
+      "requires": [
+        "mix.test"
+      ],
+      "severity": "blocking",
+      "note": "Product apps need a migrated acme_test; the harness app needs nothing."
+    },
+    {
+      "id": "test.all",
+      "name": "the whole suite",
+      "kind": "command",
+      "command": "mix test",
+      "requires": [
+        "mix.test"
+      ],
+      "severity": "blocking",
+      "note": "The root `test` alias migrates acme_test first. Tests tagged :qdrant need the vector store; excluding them is a partial run and is reported as one."
+    },
+    {
+      "id": "harness.test",
+      "name": "harness self-tests",
+      "kind": "command",
+      "command": "mix do --app noetic_harness cmd mix test",
+      "requires": [
+        "mix.test"
+      ],
+      "severity": "blocking",
+      "applies_when": [
+        "\\.agents/",
+        "apps/noetic_harness/"
+      ]
+    },
+    {
+      "id": "harness.validate",
+      "name": "harness definitions are internally consistent",
+      "kind": "command",
+      "command": "mix harness.validate",
+      "requires": [
+        "mix.compile"
+      ],
+      "severity": "blocking",
+      "note": "Registry parses, ids unique, every referenced skill/tool/capability/role/gate resolves, every workflow graph is well formed, every agent composes a prompt."
+    },
+    {
+      "id": "assets.check",
+      "name": "client type-checks and its own tests run",
+      "kind": "command",
+      "command": "mix do --app acme_web cmd mix assets.check",
+      "requires": [
+        "mix.compile"
+      ],
+      "severity": "blocking",
+      "applies_when": [
+        "apps/acme_web/assets/"
+      ],
+      "note": "esbuild only strips types. Without tsc --noEmit the client is unchecked, and it stayed unchecked long enough to hide two real defects."
+    },
+    {
+      "id": "typeql.check",
+      "name": "typeql-check",
+      "kind": "command",
+      "command": "for f in {{files}}; do case \"$f\" in *.tql) printf 'typeql-check %s\\n' \"$f\"; typeql-check < \"$f\" || exit 1 ;; esac; done",
+      "requires": [
+        "typeql.check"
+      ],
+      "severity": "blocking",
+      "applies_when": [
+        "\\.tql$",
+        "typeql",
+        "typedb"
+      ],
+      "note": "Mandatory for any TypeQL change. Unavailable means the change is UNCERTAIN, not DONE. typeql-check reads a query from its first argument or from stdin — it does not take file paths, so the command redirects each file in rather than listing them; the first version of this gate passed filenames and would have reported every .tql file as a parse error. It is not installed here: TypeDB ships it through apt and Homebrew only."
+    },
+    {
+      "id": "credo",
+      "name": "mix credo",
+      "kind": "command",
+      "command": "mix credo --strict",
+      "requires": [
+        "mix.credo"
+      ],
+      "severity": "advisory"
+    },
+    {
+      "id": "dialyzer",
+      "name": "mix dialyzer",
+      "kind": "command",
+      "command": "mix dialyzer",
+      "requires": [
+        "mix.dialyzer"
+      ],
+      "severity": "advisory"
+    },
+    {
+      "id": "hex.audit",
+      "name": "no retired dependencies",
+      "kind": "command",
+      "command": "mix hex.audit",
+      "requires": [
+        "mix.hex_audit"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "docs",
+      "name": "documentation builds",
+      "kind": "command",
+      "command": "mix docs",
+      "requires": [
+        "mix.docs"
+      ],
+      "severity": "blocking",
+      "note": "doc/ is the prose search index. A docs build failure hides every spec and ADR from search."
+    },
+    {
+      "id": "ci.local",
+      "name": "the CI job bodies, locally",
+      "kind": "command",
+      "command": "./scripts/ci-local.sh",
+      "requires": [
+        "mix.test"
+      ],
+      "severity": "blocking",
+      "note": "CI does not watch claude/** branches. This is the only thing that asks the question CI asks."
+    },
+    {
+      "id": "sobelow",
+      "name": "sobelow",
+      "kind": "command",
+      "command": "mix sobelow --root apps/acme_web --exit",
+      "requires": [
+        "sobelow"
+      ],
+      "severity": "blocking",
+      "note": "Scoped to apps/acme_web with --root, and that scope is the gate. Run from the umbrella root Sobelow prints “This does not appear to be a Phoenix application”, scans nothing and exits 0 — a gate that passes by scanning nothing is worse than no gate, and this one did for its first day. It is deliberately not run over the other four apps: Sobelow is a Phoenix scanner, and over a CLI that reads its own definition files it reports every File.read as directory traversal. Adding skips for those would be the weakening this note exists to prevent."
+    },
+    {
+      "id": "shell.lint",
+      "name": "shellcheck over the shell this repository runs",
+      "kind": "command",
+      "command": "for f in {{files}}; do case \"$f\" in bin/*|scripts/*|*.sh) printf 'shellcheck %s\\n' \"$f\"; shellcheck -x -S warning -- \"$f\" || exit 1 ;; esac; done",
+      "requires": [
+        "shellcheck"
+      ],
+      "severity": "blocking",
+      "applies_when": [
+        "^bin/",
+        "^scripts/",
+        "\\.sh$"
+      ],
+      "note": "an earlier change. `noetic-harness hook` runs on every prompt in every session here and its stdout is spliced into the agent's context; `scripts/lib/toolchain.sh` is sourced by everything. None of it was linted. `-x` so a sourced file is followed rather than reported as unfollowable, and `-S warning` because the three `info` findings in this tree are all deliberate single-quoted strings -- a floor is a decision, and raising it to silence a real finding would be a different one. What this gate does NOT catch, stated because the bead that asked for it assumed otherwise: `mkdir -p \"${log%/*}\"` against a path with no slash is valid shell with a logic error, and shellcheck has no rule for it. What it does catch is the class that cost a release -- `${!var:-}` and `${BASH_SOURCE[0]}` in a file that says `#!/bin/sh` are SC3053, SC3028 and SC3054."
+    },
+    {
+      "id": "gitleaks",
+      "name": "no secrets in the tree or history",
+      "kind": "command",
+      "command": "gitleaks detect --no-banner",
+      "requires": [
+        "gitleaks"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "osv",
+      "name": "dependency vulnerabilities",
+      "kind": "command",
+      "command": "osv-scanner --lockfile=mix.lock",
+      "requires": [
+        "osv-scanner"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "trivy",
+      "name": "filesystem and config scan",
+      "kind": "command",
+      "command": "trivy fs --scanners vuln,secret,misconfig .",
+      "requires": [
+        "trivy"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "id": "semgrep",
+      "name": "static analysis",
+      "kind": "command",
+      "command": "semgrep --config auto --error",
+      "requires": [
+        "semgrep"
+      ],
+      "severity": "advisory"
+    },
+    {
+      "id": "review.independent",
+      "name": "reviewed by a role that did not author it",
+      "kind": "review",
+      "severity": "blocking",
+      "note": "The same agent may not be the only authority evaluating its own work."
+    },
+    {
+      "id": "rollback.stated",
+      "name": "a rollback path exists and is written down",
+      "kind": "manual",
+      "severity": "blocking"
+    },
+    {
+      "id": "human.approval",
+      "name": "the human architect approved this specific action",
+      "kind": "manual",
+      "holder": "human_architect",
+      "severity": "blocking"
+    },
+    {
+      "id": "evo.sandbox",
+      "name": "candidate runs without touching production behaviour",
+      "kind": "evidence",
+      "severity": "blocking"
+    },
+    {
+      "id": "evo.benchmark",
+      "name": "benchmark suite",
+      "kind": "evidence",
+      "severity": "blocking",
+      "evidence": [
+        "Benchmark artifact with suite revision and tool versions"
+      ]
+    },
+    {
+      "id": "evo.holdout",
+      "name": "holdout tasks not visible during generation",
+      "kind": "evidence",
+      "severity": "blocking",
+      "evidence": [
+        "HoldoutResult artifact"
+      ],
+      "note": "A benchmark gain with a flat holdout is the Goodhart signature. Quarantine."
+    },
+    {
+      "id": "evo.transfer",
+      "name": "adjacent task family",
+      "kind": "evidence",
+      "severity": "blocking",
+      "evidence": [
+        "TransferTest artifact"
+      ]
+    },
+    {
+      "id": "evo.antigoodhart",
+      "name": "adversarial and independent evaluation",
+      "kind": "review",
+      "holder": "evolution.anti_goodhart_agent",
+      "severity": "blocking",
+      "note": "The evaluator is not authored or modified by the candidate's author."
+    },
+    {
+      "id": "evo.archive",
+      "name": "lineage recorded, including failures",
+      "kind": "evidence",
+      "severity": "blocking"
+    },
+    {
+      "id": "evo.promotion",
+      "name": "promotion approved by a gatekeeper role",
+      "kind": "review",
+      "holder": "evolution.evolution_safety_auditor",
+      "severity": "blocking"
+    },
+    {
+      "id": "data.rights",
+      "name": "licence and rights established before ingestion",
+      "kind": "review",
+      "holder": "data_fabric.license_data_rights_auditor",
+      "severity": "blocking"
+    },
+    {
+      "id": "data.schema",
+      "name": "schema analysed and mapped, not assumed",
+      "kind": "evidence",
+      "severity": "blocking"
+    },
+    {
+      "id": "data.validation",
+      "name": "raw payload validated before normalisation",
+      "kind": "evidence",
+      "severity": "blocking"
+    },
+    {
+      "id": "data.provenance",
+      "name": "every observation carries its source",
+      "kind": "evidence",
+      "severity": "blocking"
+    }
+  ]
+}

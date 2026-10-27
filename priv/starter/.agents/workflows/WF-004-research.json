@@ -1,0 +1,102 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-004",
+  "name": "Research",
+  "family": "research",
+  "intent": "Answer a question with sources and a stated confidence, before anything is built on the answer.",
+  "trigger": {
+    "kinds": [
+      "research"
+    ],
+    "keywords": [
+      "research",
+      "investigate",
+      "compare",
+      "which",
+      "evaluate"
+    ],
+    "risk": "low"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "ResearchNote"
+    ]
+  },
+  "default_lane": "fast",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "question",
+      "name": "State the question so an answer could be checked",
+      "capabilities": [
+        "research.discovery"
+      ],
+      "inputs": [
+        "request"
+      ],
+      "outputs": [
+        "question"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "gather",
+      "name": "Gather sources",
+      "capabilities": [
+        "research.discovery",
+        "research.prior_art"
+      ],
+      "inputs": [
+        "question"
+      ],
+      "outputs": [
+        "sources"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "check",
+      "name": "Check each claim against its source",
+      "capabilities": [
+        "research.evidence"
+      ],
+      "inputs": [
+        "sources"
+      ],
+      "outputs": [
+        "checked claims"
+      ],
+      "trust": "T1",
+      "independent_of": [
+        "gather"
+      ]
+    },
+    {
+      "id": "write",
+      "name": "Write the answer, its sources and its confidence",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "inputs": [
+        "checked claims"
+      ],
+      "outputs": [
+        "research note"
+      ],
+      "trust": "T1"
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the answer needs a decision rather than a fact",
+      "to": "WF-001"
+    }
+  ],
+  "completion": [
+    "every claim has a source and a confidence",
+    "what is still unknown is said"
+  ]
+}

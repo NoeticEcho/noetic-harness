@@ -1,0 +1,59 @@
+{
+  "$schema": "../schemas/project.schema.json",
+  "version": 1,
+  "doc": "The pack's project: context sources over the small tree in test/support/pack/tree/, which Noetic.Harness.Pack links into each test's root. Its files are .exs where they would be .ex, because test/support/ is compiled. No integration is on, and there is no layout: a test that needs either writes a project of its own.",
+  "name": "Pack",
+  "context": {
+    "adr_006": {
+      "kind": "files",
+      "title": "Read models",
+      "why": "the decision that governs this area",
+      "paths": ["decisions/read-models.md"]
+    },
+    "live_schema": {
+      "kind": "glob",
+      "title": "Schema",
+      "why": "the schema as the pack defines it",
+      "globs": ["**/*.tql"]
+    },
+    "typeql_files": {"same_as": "live_schema"},
+    "client_code": {
+      "kind": "glob",
+      "title": "Client",
+      "why": "the TypeScript the change reaches",
+      "globs": ["client/world/**/*.ts"]
+    },
+    "scene_code": {
+      "kind": "glob",
+      "title": "Scene",
+      "why": "the scene construction",
+      "globs": ["client/scene/**/*.ts"]
+    },
+    "client_spec": {
+      "kind": "files",
+      "title": "Client specification",
+      "why": "what the client is supposed to do",
+      "paths": ["client/SPEC.md"]
+    },
+    "migrations": {
+      "kind": "glob",
+      "title": "Migrations",
+      "why": "what the schema has already been through",
+      "globs": ["priv/migrations/*.exs"]
+    },
+    "schema": {"same_as": "migrations"},
+    "supervision_tree": {
+      "kind": "glob",
+      "title": "Supervision",
+      "why": "who owns what, and what restarts",
+      "globs": ["lib/**/application.exs"]
+    },
+    "application_ex": {"same_as": "supervision_tree"},
+    "changelog": {
+      "kind": "files",
+      "title": "Changelog",
+      "why": "what has shipped",
+      "paths": ["CHANGELOG.md"]
+    }
+  }
+}

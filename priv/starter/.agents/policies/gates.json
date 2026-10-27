@@ -1,0 +1,173 @@
+{
+  "$schema": "../schemas/gates.schema.json",
+  "version": 1,
+  "doc": "The gates a change must pass, grouped into lanes. A gate reports passed, failed, skipped or unavailable, and a lane with an unavailable blocking gate is partial, never passed. The project's own checks are the executables in .agents/bin/ (format, lint, build, test): a gate whose executable is not there reports unavailable and names it, so a new repository is honest about what it has not yet set up rather than green by default. Write those four for your language, or add them with `init --with <addon>`.",
+  "lanes": [
+    {
+      "id": "fast",
+      "doc": "Before every commit: cheap, and it runs on what the change touched.",
+      "gates": [
+        "conflict.markers",
+        "format",
+        "test.touched"
+      ]
+    },
+    {
+      "id": "focused",
+      "doc": "Before a change is handed on: fast, and the build, the linter and the harness's own definitions.",
+      "gates": [
+        "fast",
+        "lint",
+        "build",
+        "harness.validate"
+      ]
+    },
+    {
+      "id": "full",
+      "doc": "Before a merge to the main line, and for high-risk work: focused, the whole test suite, and the secret and dependency scanners.",
+      "gates": [
+        "focused",
+        "test.all",
+        "secrets.scan",
+        "deps.scan"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "conflict.markers",
+      "name": "no merge-conflict markers",
+      "kind": "command",
+      "command": "fs=$(for f in {{files}}; do [ -f \"$f\" ] && printf '%s\\n' \"$f\"; done); [ -n \"$(printf '%s' '{{files}}' | tr -d ' ')\" ] || fs=$(git ls-files); [ -z \"$fs\" ] && exit 0; ! printf '%s\\n' \"$fs\" | xargs grep -nE '^(<<<<<<<|>>>>>>>)( |$)' --",
+      "requires": [
+        "git.read"
+      ],
+      "severity": "blocking",
+      "doc": "Fails when a changed file, or any tracked file if no paths are known, still holds a <<<<<<< or >>>>>>> line. It needs only git and a POSIX shell, so it runs in any repository."
+    },
+    {
+      "id": "format",
+      "name": "formatting",
+      "kind": "command",
+      "command": ".agents/bin/format {{files}}",
+      "requires": [
+        "project.format"
+      ],
+      "severity": "blocking",
+      "doc": "The project's formatter, in check mode: .agents/bin/format <files>. Exit non-zero when a file is not formatted."
+    },
+    {
+      "id": "lint",
+      "name": "linter",
+      "kind": "command",
+      "command": ".agents/bin/lint {{files}}",
+      "requires": [
+        "project.lint"
+      ],
+      "severity": "blocking",
+      "doc": "The project's linter: .agents/bin/lint <files>."
+    },
+    {
+      "id": "build",
+      "name": "build",
+      "kind": "command",
+      "command": ".agents/bin/build",
+      "requires": [
+        "project.build"
+      ],
+      "severity": "blocking",
+      "doc": "The project's build, warnings treated as errors where the language allows: .agents/bin/build."
+    },
+    {
+      "id": "test.touched",
+      "name": "tests for the change",
+      "kind": "command",
+      "command": ".agents/bin/test {{files}}",
+      "requires": [
+        "project.test"
+      ],
+      "severity": "blocking",
+      "doc": "The project's tests for the files that changed: .agents/bin/test <files>. With no files it runs everything."
+    },
+    {
+      "id": "test.all",
+      "name": "all tests",
+      "kind": "command",
+      "command": ".agents/bin/test",
+      "requires": [
+        "project.test"
+      ],
+      "severity": "blocking",
+      "doc": "The project's whole test suite: .agents/bin/test with no arguments."
+    },
+    {
+      "id": "harness.validate",
+      "name": "harness definitions",
+      "kind": "command",
+      "command": "noetic-harness validate",
+      "requires": [
+        "harness"
+      ],
+      "severity": "blocking",
+      "doc": "The harness's own check of .agents/: every role, workflow, gate and schema consistent with the others. It needs the harness on PATH as `noetic-harness`, the name the release installs it under."
+    },
+    {
+      "id": "secrets.scan",
+      "name": "secret scanner",
+      "kind": "command",
+      "command": "gitleaks detect --no-banner",
+      "requires": [
+        "gitleaks"
+      ],
+      "severity": "blocking",
+      "doc": "Credentials in the tree or its history."
+    },
+    {
+      "id": "deps.scan",
+      "name": "dependency scanner",
+      "kind": "command",
+      "command": "osv-scanner -r .",
+      "requires": [
+        "osv-scanner"
+      ],
+      "severity": "blocking",
+      "doc": "Known vulnerabilities in the dependencies the lockfiles name."
+    },
+    {
+      "id": "review.independent",
+      "name": "independent review",
+      "kind": "review",
+      "severity": "blocking",
+      "doc": "A person or a role other than the author read the change and recorded what they checked."
+    },
+    {
+      "id": "human.approval",
+      "name": "human approval",
+      "kind": "manual",
+      "severity": "blocking",
+      "holder": "human_architect",
+      "doc": "A person approved this specific action, and the approval is recorded where the work is tracked."
+    },
+    {
+      "id": "rollback.stated",
+      "name": "rollback stated",
+      "kind": "manual",
+      "severity": "blocking",
+      "doc": "How the change is undone is written down before it is made."
+    },
+    {
+      "id": "benchmark.recorded",
+      "name": "benchmark recorded",
+      "kind": "evidence",
+      "severity": "blocking",
+      "doc": "The candidate's result on the tasks it targets, recorded in the evolution ledger."
+    },
+    {
+      "id": "holdout.recorded",
+      "name": "holdout recorded",
+      "kind": "evidence",
+      "severity": "blocking",
+      "doc": "The candidate's result on tasks it was not tuned on, recorded by someone other than its author."
+    }
+  ]
+}

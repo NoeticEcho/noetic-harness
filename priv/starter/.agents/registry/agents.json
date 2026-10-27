@@ -1,0 +1,784 @@
+{
+  "$schema": "../schemas/registry.schema.json",
+  "version": 1,
+  "doc": "The roles. Each has a domain, an archetype, its capabilities, and the skills, tools and gates those carry. The nucleus is the set the client adapters are generated for; here every role is in it.",
+  "provenance": {
+    "sources": []
+  },
+  "agents": [
+    {
+      "id": "engineering.implementer",
+      "name": "Implementer",
+      "domain": "engineering",
+      "archetype": "owner",
+      "capabilities": [
+        "code.implementation",
+        "qa.testing"
+      ],
+      "skills": [
+        "simplify",
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "format",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "engineering.refactorer",
+      "name": "Refactoring engineer",
+      "domain": "engineering",
+      "archetype": "owner",
+      "capabilities": [
+        "code.implementation",
+        "code.refactor"
+      ],
+      "skills": [
+        "simplify",
+        "testing-strategy",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "format",
+        "test.all",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "governance.work_lead",
+      "name": "Work lead",
+      "domain": "governance",
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.planning",
+        "governance.routing"
+      ],
+      "skills": [
+        "decision-records",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "governance.architecture_lead",
+      "name": "Architecture lead",
+      "domain": "governance",
+      "archetype": "coordinator",
+      "capabilities": [
+        "architecture.system",
+        "governance.decision_record",
+        "governance.risk"
+      ],
+      "skills": [
+        "decision-records",
+        "security-baseline",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "build"
+      ],
+      "max_trust": "T3",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "governance.product_lead",
+      "name": "Product lead",
+      "domain": "governance",
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.planning",
+        "governance.risk"
+      ],
+      "skills": [
+        "decision-records",
+        "security-baseline",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "governance.intake_triager",
+      "name": "Intake triager",
+      "domain": "governance",
+      "archetype": "coordinator",
+      "capabilities": [
+        "governance.escalation",
+        "governance.routing"
+      ],
+      "skills": [
+        "decision-records",
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "architecture.system_designer",
+      "name": "System designer",
+      "domain": "architecture",
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.data",
+        "architecture.system"
+      ],
+      "skills": [
+        "decision-records"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "build"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "architecture.api_designer",
+      "name": "API designer",
+      "domain": "architecture",
+      "archetype": "owner",
+      "capabilities": [
+        "architecture.api",
+        "code.implementation"
+      ],
+      "skills": [
+        "decision-records",
+        "simplify",
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "format",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "architecture.decision_recorder",
+      "name": "Decision recorder",
+      "domain": "architecture",
+      "archetype": "steward",
+      "capabilities": [
+        "docs.authoring",
+        "governance.decision_record"
+      ],
+      "skills": [
+        "decision-records",
+        "documentation"
+      ],
+      "tools": [
+        "edit",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "research.investigator",
+      "name": "Investigator",
+      "domain": "research",
+      "archetype": "investigator",
+      "capabilities": [
+        "research.discovery",
+        "research.evidence"
+      ],
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "browser",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "research.prior_art_scout",
+      "name": "Prior-art scout",
+      "domain": "research",
+      "archetype": "investigator",
+      "capabilities": [
+        "research.discovery",
+        "research.prior_art"
+      ],
+      "skills": [
+        "research-method"
+      ],
+      "tools": [
+        "browser",
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "docs.writer",
+      "name": "Technical writer",
+      "domain": "docs",
+      "archetype": "owner",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "skills": [
+        "documentation"
+      ],
+      "tools": [
+        "edit",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "docs.drift_checker",
+      "name": "Documentation drift checker",
+      "domain": "docs",
+      "archetype": "adversary",
+      "capabilities": [
+        "docs.drift"
+      ],
+      "skills": [
+        "documentation"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.test_architect",
+      "name": "Test architect",
+      "domain": "qa",
+      "archetype": "owner",
+      "capabilities": [
+        "qa.property",
+        "qa.testing"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.regression_tracker",
+      "name": "Regression tracker",
+      "domain": "qa",
+      "archetype": "investigator",
+      "capabilities": [
+        "qa.regression",
+        "qa.testing"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.all",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.release_verifier",
+      "name": "Release verifier",
+      "domain": "qa",
+      "archetype": "adversary",
+      "capabilities": [
+        "qa.e2e",
+        "qa.regression"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "browser",
+        "edit",
+        "git.read",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.all"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.property_tester",
+      "name": "Property tester",
+      "domain": "qa",
+      "archetype": "owner",
+      "capabilities": [
+        "qa.property"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.e2e_tester",
+      "name": "End-to-end tester",
+      "domain": "qa",
+      "archetype": "owner",
+      "capabilities": [
+        "qa.e2e"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "browser",
+        "edit",
+        "project.test",
+        "read"
+      ],
+      "gates": [
+        "test.all"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "qa.performance_analyst",
+      "name": "Performance analyst",
+      "domain": "qa",
+      "archetype": "investigator",
+      "capabilities": [
+        "qa.performance"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "security.code_auditor",
+      "name": "Code auditor",
+      "domain": "security",
+      "archetype": "adversary",
+      "capabilities": [
+        "architecture.security",
+        "security.review"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "review.independent",
+        "secrets.scan"
+      ],
+      "max_trust": "T1",
+      "tags": [
+        "high_risk"
+      ],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "security.dependency_auditor",
+      "name": "Dependency auditor",
+      "domain": "security",
+      "archetype": "adversary",
+      "capabilities": [
+        "security.dependencies"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "osv-scanner",
+        "read"
+      ],
+      "gates": [
+        "deps.scan"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "security.secrets_guard",
+      "name": "Secrets guard",
+      "domain": "security",
+      "archetype": "adversary",
+      "capabilities": [
+        "security.secrets"
+      ],
+      "skills": [
+        "security-baseline"
+      ],
+      "tools": [
+        "gitleaks",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "secrets.scan"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "release.release_captain",
+      "name": "Release captain",
+      "domain": "release",
+      "archetype": "steward",
+      "capabilities": [
+        "ops.release"
+      ],
+      "skills": [
+        "release-practice"
+      ],
+      "tools": [
+        "edit",
+        "git.push",
+        "git.write",
+        "github",
+        "read"
+      ],
+      "gates": [
+        "human.approval"
+      ],
+      "max_trust": "T3",
+      "tags": [
+        "high_risk"
+      ],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "release.ci_keeper",
+      "name": "CI keeper",
+      "domain": "release",
+      "archetype": "steward",
+      "capabilities": [
+        "ops.ci"
+      ],
+      "skills": [
+        "release-practice"
+      ],
+      "tools": [
+        "edit",
+        "github",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "review.independent"
+      ],
+      "max_trust": "T3",
+      "tags": [
+        "high_risk"
+      ],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "operations.incident_responder",
+      "name": "Incident responder",
+      "domain": "operations",
+      "archetype": "investigator",
+      "capabilities": [
+        "ops.incident"
+      ],
+      "skills": [
+        "observability"
+      ],
+      "tools": [
+        "git.read",
+        "read",
+        "search"
+      ],
+      "gates": [],
+      "max_trust": "T2",
+      "tags": [
+        "high_risk"
+      ],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "operations.observability_engineer",
+      "name": "Observability engineer",
+      "domain": "operations",
+      "archetype": "owner",
+      "capabilities": [
+        "ops.observability"
+      ],
+      "skills": [
+        "observability"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "data.connector_builder",
+      "name": "Connector builder",
+      "domain": "data",
+      "archetype": "owner",
+      "capabilities": [
+        "data.connector",
+        "data.provenance"
+      ],
+      "skills": [
+        "research-method",
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "review.independent",
+        "test.touched"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "data.quality_checker",
+      "name": "Data quality checker",
+      "domain": "data",
+      "archetype": "adversary",
+      "capabilities": [
+        "data.quality"
+      ],
+      "skills": [
+        "testing-strategy"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "test.touched"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "evolution.experiment_lead",
+      "name": "Experiment lead",
+      "domain": "evolution",
+      "archetype": "coordinator",
+      "capabilities": [
+        "evolution.evaluation",
+        "evolution.mutation"
+      ],
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "edit",
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "benchmark.recorded"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    },
+    {
+      "id": "evolution.holdout_referee",
+      "name": "Holdout referee",
+      "domain": "evolution",
+      "archetype": "adversary",
+      "capabilities": [
+        "evolution.anti_goodhart",
+        "evolution.holdout",
+        "evolution.promotion"
+      ],
+      "skills": [
+        "working-with-the-harness"
+      ],
+      "tools": [
+        "project.test",
+        "read",
+        "search"
+      ],
+      "gates": [
+        "holdout.recorded",
+        "human.approval",
+        "review.independent"
+      ],
+      "max_trust": "T2",
+      "tags": [],
+      "status": "active",
+      "nucleus": true
+    }
+  ]
+}

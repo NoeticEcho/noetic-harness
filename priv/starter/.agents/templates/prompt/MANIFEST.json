@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "doc": "A runtime subagent prompt is composed, never hand-written. The constitution is prepended verbatim and is not a template; the sections below are rendered in order with the values the Context Builder and the Router resolved. `required: true` sections must produce non-empty output or `harness validate` fails — that is what makes 'every registered agent can produce a prompt' a checkable claim rather than an aspiration.",
+  "preamble": "../../constitution.md",
+  "sections": [
+    { "file": "00-identity.md",     "required": true },
+    { "file": "01-mission.md",      "required": true },
+    { "file": "02-skills.md",       "required": true },
+    { "file": "03-tools.md",        "required": true },
+    { "file": "04-context.md",      "required": true },
+    { "file": "05-artifacts.md",    "required": true },
+    { "file": "06-working-loop.md", "required": true },
+    { "file": "07-evidence.md",     "required": true },
+    { "file": "08-gates.md",        "required": true },
+    { "file": "09-memory.md",       "required": false },
+    { "file": "10-provenance.md",   "required": false },
+    { "file": "11-escalation.md",   "required": true },
+    { "file": "12-security.md",     "required": false },
+    { "file": "13-completion.md",   "required": true },
+    { "file": "14-task.md",         "required": false }
+  ],
+  "placeholders": {
+    "doc": "Every placeholder the renderer understands. An unknown placeholder in a template is an error, not an empty string — a silently blank section is how a prompt loses its evidence contract.",
+    "names": [
+      "agent.id", "agent.name", "agent.domain", "agent.domain_summary", "agent.domain_owns",
+      "agent.archetype", "agent.archetype_name", "agent.archetype_stance",
+      "agent.capabilities", "agent.capability_detail", "agent.non_scope",
+      "agent.skills", "agent.skill_detail", "agent.tools", "agent.tool_detail",
+      "agent.unavailable_tools", "agent.trust", "agent.trust_name", "agent.trust_summary",
+      "agent.trust_may", "agent.trust_may_not", "agent.tags", "agent.status",
+      "role.overlay", "loop", "loop_detail", "evidence", "prohibited", "completion",
+      "artifact_kinds", "lane", "lane_gates", "gate_detail",
+      "workflow.id", "workflow.name", "workflow.intent", "workflow.step_id",
+      "workflow.step_name", "workflow.inputs", "workflow.outputs", "workflow.escalations",
+      "workflow.completion", "workflow.retry_budget",
+      "context.bundle", "context.priorities", "memory.records",
+      "task.id", "task.title", "task.body", "task.terminal_states"
+    ]
+  }
+}

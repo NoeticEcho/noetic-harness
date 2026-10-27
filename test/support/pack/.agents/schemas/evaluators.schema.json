@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluators.schema.json",
+  "title": "Evaluator fence",
+  "description": "What a dispatched run may not change. Constitution §4. Read by Noetic.Harness.Fence and asserted complete by mix harness.validate --only evaluator_fence.",
+  "type": "object",
+  "required": [
+    "version",
+    "doc",
+    "paths"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    },
+    "paths": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Every entry carries a reason. A path whose reason nobody could write is a path somebody added without deciding.",
+      "items": {
+        "type": "object",
+        "required": [
+          "glob",
+          "why"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "glob": {
+            "type": "string",
+            "description": "Repository-relative. `**` matches any depth; a trailing `/**` covers a directory's contents.",
+            "minLength": 1
+          },
+          "why": {
+            "type": "string",
+            "description": "What an agent editing this would be able to do to the thing that judges it. `minLength` is deliberate and is not a formality: \"because\" is not a reason, and the whole value of this file is that every entry carries one.",
+            "minLength": 20
+          },
+          "exemptible": {
+            "type": "boolean",
+            "description": "Whether a *scoring* attempt may be exempted from this path. `Dispatcher.attempt/3` narrows the fence by the files an environment's task named, so that an environment about the harness's own modules can be scored at all; `Fence.unexemptible/1` refuses an exemption naming any entry without this flag. Absent means false. It is not a weakening of the fence for anything that lands: `dispatch/2` cannot be given an exemption, and an exemption is subtracted from what is judged rather than switching the judging off. The ten modules under apps/noetic_harness/lib/ carry it; .agents/**, .github/workflows/** and scripts/ci-local.sh do not, because those say what passing means outside the worktree the solver was given."
+          }
+        }
+      }
+    }
+  },
+  "doc": "No `minLength` anywhere: the validator implements a documented subset and *reports* the keywords it cannot check rather than passing them, so a constraint it does not implement is a constraint that lies. That `why` is non-empty is asserted by a test instead."
+}

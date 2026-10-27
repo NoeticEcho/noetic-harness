@@ -1,0 +1,149 @@
+{
+  "$schema": "../schemas/workflow.schema.json",
+  "id": "WF-020",
+  "name": "Harness evolution",
+  "family": "evolution",
+  "intent": "Improve how this repository develops itself: a workflow, a route, a gate. Measured, and adopted only if it holds up on work it was not tuned on.",
+  "trigger": {
+    "kinds": [
+      "evolution"
+    ],
+    "keywords": [
+      "improve the harness",
+      "workflow keeps failing",
+      "routing is wrong",
+      "evolution"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "EvaluationRun"
+    ],
+    "out": [
+      "Experiment",
+      "Benchmark",
+      "HoldoutResult"
+    ]
+  },
+  "default_lane": "focused",
+  "retry_budget": 3,
+  "steps": [
+    {
+      "id": "evidence",
+      "name": "Show the problem with evidence from the run ledger",
+      "capabilities": [
+        "evolution.mutation"
+      ],
+      "inputs": [
+        "telemetry"
+      ],
+      "outputs": [
+        "problem"
+      ],
+      "trust": "T1",
+      "note": "Ten runs or more; three failures out of three observations is not a pattern yet."
+    },
+    {
+      "id": "candidate",
+      "name": "Propose a change",
+      "capabilities": [
+        "evolution.mutation"
+      ],
+      "inputs": [
+        "problem"
+      ],
+      "outputs": [
+        "candidate"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "benchmark",
+      "name": "Measure it on the work it targets",
+      "capabilities": [
+        "evolution.evaluation"
+      ],
+      "inputs": [
+        "candidate"
+      ],
+      "outputs": [
+        "benchmark"
+      ],
+      "trust": "T2",
+      "gates": [
+        "benchmark.recorded"
+      ]
+    },
+    {
+      "id": "holdout",
+      "name": "Measure it on work it was not tuned on",
+      "capabilities": [
+        "evolution.holdout"
+      ],
+      "inputs": [
+        "candidate"
+      ],
+      "outputs": [
+        "holdout result"
+      ],
+      "trust": "T2",
+      "gates": [
+        "holdout.recorded"
+      ],
+      "independent_of": [
+        "candidate"
+      ]
+    },
+    {
+      "id": "review",
+      "name": "Check the gain is real",
+      "capabilities": [
+        "evolution.anti_goodhart"
+      ],
+      "inputs": [
+        "benchmark",
+        "holdout result"
+      ],
+      "outputs": [
+        "review notes"
+      ],
+      "trust": "T2",
+      "independent_of": [
+        "candidate"
+      ]
+    },
+    {
+      "id": "adopt",
+      "name": "Adopt it",
+      "capabilities": [
+        "evolution.promotion"
+      ],
+      "inputs": [
+        "review notes"
+      ],
+      "outputs": [
+        "adoption"
+      ],
+      "trust": "T4",
+      "gates": [
+        "human.approval"
+      ],
+      "independent_of": [
+        "candidate"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the benchmark improves and the holdout does not",
+      "to": "quarantine",
+      "note": "That is what gaming a metric looks like."
+    }
+  ],
+  "completion": [
+    "the candidate held up on the holdout",
+    "someone other than its author recorded the holdout and the review"
+  ],
+  "note": "The candidate's author records neither the holdout nor the review: a result the author records about their own change is not independent evidence."
+}

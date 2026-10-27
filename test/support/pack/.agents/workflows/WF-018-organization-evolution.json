@@ -1,0 +1,23 @@
+{
+  "id": "WF-018",
+  "name": "Organization evolution",
+  "family": "governance",
+  "intent": "Change how the project itself is organised — direction, priorities, capability — as a decision with evidence rather than a mood.",
+  "trigger": { "kinds": ["governance", "strategy"], "keywords": ["strategy", "priorities", "roadmap", "organisation", "direction", "what should we build"], "risk": "high" },
+  "artifacts": { "in": ["Requirement"], "out": ["ResearchNote", "RFC", "ADR", "TaskGraph"] },
+  "default_lane": "fast",
+  "retry_budget": 2,
+  "steps": [
+    { "id": "state", "name": "Where the project actually is", "capabilities": ["governance.planning", "research.prior_art"], "inputs": ["beads", "git_history", "memory", "changelog"], "outputs": ["state of the project"], "trust": "T0", "note": "Evidence, not the roadmap's opinion of itself." },
+    { "id": "goal", "name": "The goal, stated so a failure is recognisable", "capabilities": ["governance.planning"], "inputs": ["state of the project"], "outputs": ["goal statement"], "trust": "T1" },
+    { "id": "capabilities", "name": "Which capabilities exist, which are missing", "capabilities": ["governance.planning"], "inputs": ["state of the project", "goal statement"], "outputs": ["capability gap"], "trust": "T1" },
+    { "id": "variants", "name": "Strategy variants with their costs and what each forecloses", "capabilities": ["governance.risk"], "inputs": ["capability gap"], "outputs": ["variants"], "trust": "T1" },
+    { "id": "decide", "name": "Human decision", "capabilities": ["governance.decision_record"], "inputs": ["variants"], "outputs": ["ADR"], "trust": "T2", "gates": ["human.approval"], "note": "Direction is the human architect's. This workflow prepares the decision; it does not make it." },
+    { "id": "plan", "name": "Turn the decision into a work graph", "capabilities": ["governance.planning"], "inputs": ["ADR"], "outputs": ["TaskGraph"], "trust": "T1" },
+    { "id": "learn", "name": "Record what the organisation learned", "capabilities": ["runtime.memory"], "inputs": ["ADR"], "outputs": ["memory record"], "trust": "T1" }
+  ],
+  "escalations": [{ "when": "any step produces a recommendation rather than options", "to": "human_architect", "note": "Agents execute and critique. They do not redefine the project." }],
+  "completion": ["at least two variants with what each forecloses", "an ADR recording the human decision", "a task graph, or an explicit decision to do nothing"],
+  "memory": ["the decision and the option it closed"],
+  "evaluation": ["did the strategy survive contact with the next quarter's evidence"]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gates.schema.json",
+  "title": "Gate lanes and definitions",
+  "type": "object",
+  "required": ["version", "lanes", "gates"],
+  "properties": {
+    "version": { "type": "integer" },
+    "doc": { "type": "string" },
+    "lanes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "gates"],
+        "properties": {
+          "id": { "type": "string" },
+          "doc": { "type": "string" },
+          "gates": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "Gate ids, or another lane id, which is expanded transitively." }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "kind", "severity"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "kind": { "type": "string", "enum": ["command", "evidence", "review", "manual"] },
+          "command": { "type": "string" },
+          "per": { "type": "string", "enum": ["touched_app"] },
+          "requires": { "type": "array", "items": { "type": "string" }, "description": "Tool ids. A gate whose tool probe fails reports unavailable, never passed." },
+          "severity": { "type": "string", "enum": ["blocking", "advisory"] },
+          "applies_when": { "type": "array", "items": { "type": "string" }, "description": "Regular expressions matched against changed paths." },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "holder": { "type": "string", "description": "An agent id, or human_architect." },
+          "skill": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

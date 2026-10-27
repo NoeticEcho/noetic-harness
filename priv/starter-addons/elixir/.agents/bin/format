@@ -1,0 +1,8 @@
+#!/bin/sh
+# The Elixir add-on's formatter check. With files, checks the Elixir ones among
+# them; with none, checks everything the project's .formatter.exs covers.
+set -eu
+if [ "$#" -eq 0 ]; then exec mix format --check-formatted; fi
+set -- $(for f in "$@"; do case "$f" in *.ex|*.exs|*.heex) [ -f "$f" ] && printf '%s\n' "$f" ;; esac; done)
+[ "$#" -eq 0 ] && exit 0
+exec mix format --check-formatted "$@"

@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/identity.schema.json",
+  "version": 1,
+  "doc": "Which signing keys the ledger believes. A record signed by a did:key not listed here is not attested, however valid the signature: anyone can make a key, so a signature proves only that its signer holds that key, and this list is what says whose key it is. The file is inside the evaluator fence, so a dispatched run cannot add its own key. `custody` says what a signature from the key proves: `local` means the key is a file on this machine, readable by anything running as its user — including an agent — so a signature proves 'this workspace on this machine', not 'this person'.",
+  "trusted": [
+    {
+      "did_key": "did:key:z6MkvkTFuKMdRpcnuAGjqsosdNDWmTT16mf28ARLrpmnyas7",
+      "custody": "local",
+      "added": "2026-09-30",
+      "why": "A test fixture. The key was generated for this file from a fresh Ed25519 pair whose private half was discarded, so nothing can sign as it. It names no workspace, no address and no machine: the fixture pack is copied into test roots and read by anyone who reads the tests."
+    }
+  ]
+}

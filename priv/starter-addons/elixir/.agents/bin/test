@@ -1,0 +1,8 @@
+#!/bin/sh
+# The Elixir add-on's tests. With files, runs the test files among them; if the
+# change touched no test file, or with no files at all, runs the whole suite.
+set -eu
+[ "$#" -eq 0 ] && exec mix test
+set -- $(for f in "$@"; do case "$f" in *_test.exs) [ -f "$f" ] && printf '%s\n' "$f" ;; esac; done)
+[ "$#" -eq 0 ] && exec mix test
+exec mix test "$@"

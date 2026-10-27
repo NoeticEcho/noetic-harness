@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "handoff.schema.json",
+  "title": "Epic handoff",
+  "description": "A cloud worker's claim about its epic: `.agents/handoff/<epic>.json`, one file per epic, on the epic's branch, changed as the epic moves (plan §3). It is a claim, not an authority. merge-check reads it at S and checks it against the bead database and the run files, and trusts the run file, not this copy of the lane result. `noetic-harness validate` checks it against this schema, and checks what the schema cannot state: the file is named for its `epic`; a `ready` handoff carries a `lane` whose verdict is `passed`, and no child still `open`; a `deferred` child has a `note` and a `reparented` one a `to`. Nothing here is checked against git or bd; that is merge-check's work.",
+  "type": "object",
+  "required": ["epic", "profile", "session", "branch", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {"type": "string"},
+    "epic": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*-[a-z0-9]+(\\.[0-9]+)*$",
+      "description": "The epic's bead id. The file's name without `.json` must equal it."
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["visual-world", "memory", "content", "knowledge", "avatar", "harness"],
+      "description": "The worker profile the epic is assigned to, which is `HARNESS_AGENT` in the worker's environment and the `--agent` of its WF-021 run."
+    },
+    "session": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The cloud session the assignment names. merge-check compares the two, because two sessions of one profile can exist and the profile alone does not say which one did the work."
+    },
+    "branch": {
+      "type": "string",
+      "pattern": "^claude/[^\\s]+$",
+      "description": "`claude/<epic>-<slug>`, created from origin/develop by the epic's first commit."
+    },
+    "base_develop": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Informational: origin/develop when the branch was created or last merged it. Nothing is checked against it; merge-check computes the merge-base itself."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["working", "blocked", "ready"],
+      "description": "`working` from the first commit. `blocked` while it waits on `questions`, and the session ends `EPIC <id> BLOCKED <reason>`. `ready` only in the branch's last commit, S, written after the WF-021 run finished, and the session ends `EPIC <id> READY <S> <pr-url>`."
+    },
+    "children": {
+      "type": "array",
+      "description": "Every child of the epic, and what became of it. `open` is a working state and never a ready one: `noetic-harness validate` refuses a `ready` handoff with an `open` child, and merge-check refuses the landing.",
+      "items": {
+        "type": "object",
+        "required": ["id", "outcome"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*-[a-z0-9]+(\\.[0-9]+)*$"},
+          "outcome": {
+            "type": "string",
+            "enum": ["done", "deferred", "reparented", "open"],
+            "description": "`done`: finished in this branch, and the landing closes it. `deferred`: not done here and left open for later, with the reason in `note` (required, checked by `noetic-harness validate`). `reparented`: belongs under another epic, named in `to` (required, checked the same way). `open`: not yet decided, which is allowed only before `ready`."
+          },
+          "commits": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "description": "Full shas of the commits that did it. A short sha can become ambiguous in a repository that keeps growing."
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*-[a-z0-9]+(\\.[0-9]+)*$",
+            "description": "For `reparented`: the bead the child moves under."
+          },
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "discovered": {
+      "type": "array",
+      "description": "Work found while doing this epic that is not part of it. Workers never write beads, so this is where a new bead comes from: the coordinator files each entry when it lands the epic.",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "additionalProperties": false,
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "paths": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "What the worker needs the coordinator or the person to answer. A `blocked` handoff is blocked on the ones marked `blocking`. The answer comes back as a message into the session, not as an edit to this file.",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "additionalProperties": false,
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "blocking": {"type": "boolean"}
+        }
+      }
+    },
+    "shared_change_requests": {
+      "type": "array",
+      "description": "Changes this epic needs in paths outside its scope and grants: another profile's, or one the coordinator holds. The worker does not make them; it names the paths and says why, and the coordinator relays each one.",
+      "items": {
+        "type": "object",
+        "required": ["text", "paths"],
+        "additionalProperties": false,
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "description": "The ids of this epic's harness runs, its WF-021 run among them. merge-check reads each one from S, and the run files, not this list, are what it believes.",
+      "items": {"type": "string", "pattern": "^run-[A-Za-z0-9._-]+$"}
+    },
+    "lane": {
+      "type": "object",
+      "description": "A copy of the finished WF-021 run's lane result, written after `--finish`. Required when `status` is `ready`, which `noetic-harness validate` checks because the schema cannot. merge-check reads the run file, not this copy.",
+      "required": ["verdict", "seconds", "head", "gates"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": ["passed", "failed", "partial"],
+          "description": "The run's `gates.status`."
+        },
+        "seconds": {"type": "number", "minimum": 0, "description": "The run's `gates.seconds`: the lane's wall clock."},
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "The run's `gates.head`: the commit the lane ran at. S may differ from it only by handoff and run files."
+        },
+        "gates": {
+          "type": "array",
+          "description": "The run's `gates.results`, id and outcome only.",
+          "items": {
+            "type": "object",
+            "required": ["id", "outcome"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "outcome": {"type": "string", "enum": ["passed", "failed", "skipped", "unavailable"]}
+            }
+          }
+        }
+      }
+    }
+  }
+}

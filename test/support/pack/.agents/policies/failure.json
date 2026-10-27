@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "note": "The dispatchable form of .agents/policies/failure.md. The Markdown is the explanation and this is what Noetic.Harness.Conductor reads; `mix harness.validate` asserts the two agree on the set of classes, because the alternative to duplication with a check is duplication without one. Patterns are anchored away from their own success strings: `\\d+ failures?` matched the `0 failures` that `mix test` prints when everything passes, and since `test_failed` is first, any evidence quoting a passing run routed to regression analysis.",
+  "retry_budget_default": 3,
+  "terminal_states": {
+    "done": {
+      "routing": "next",
+      "note": "Next workflow step. Evidence is attached or the step is not done."
+    },
+    "failed": {
+      "routing": "classify",
+      "note": "Route by failure class. The retry budget decrements."
+    },
+    "blocked": {
+      "routing": "escalate",
+      "note": "Emit the blocker as a bead with a discovered-from link, escalate to the named holder, stop. Do not work around it."
+    },
+    "uncertain": {
+      "routing": "verify",
+      "note": "Route to a verification role, or to the human if no evidence would settle it. Never promote."
+    },
+    "needs_review": {
+      "routing": "review",
+      "note": "Route to a reviewer role that did not author the work."
+    }
+  },
+  "classes": [
+    {
+      "id": "test_failed",
+      "observed": "Test failed",
+      "match": "test(s)? fail|assertion (with|failed)|[1-9]\\d* failures?|Failed: [1-9]\\d* test",
+      "route": "capability:qa.regression",
+      "then": "the implementing role",
+      "why": "The test may be right. Read it before changing it."
+    },
+    {
+      "id": "compile_error_unfamiliar",
+      "observed": "Compile error in unfamiliar code",
+      "match": "CompileError|undefined function|is not loaded|no function clause",
+      "route": "domain_owner",
+      "why": "Guessing at an unfamiliar module is how contracts break."
+    },
+    {
+      "id": "semantic_mismatch",
+      "observed": "Semantic mismatch (graph says something else)",
+      "match": "graph says|typedb returned|no such (type|relation)|schema mismatch",
+      "route": "capability:semantic.modeling",
+      "then": "capability:knowledge.modeling",
+      "why": "Not a code bug."
+    },
+    {
+      "id": "typeql_check",
+      "observed": "`typeql-check` failure",
+      "match": "typeql-check|typeql error",
+      "route": "capability:typedb.query",
+      "why": "Never fix generated TypeQL by pattern-matching the error. The TypeDB role loads the official skill first."
+    },
+    {
+      "id": "performance_regression",
+      "observed": "Performance regression",
+      "match": "slower|regress(ed|ion) in (time|latency|fps)|frame (time|budget)|performance budget",
+      "route": "capability:qa.performance",
+      "why": "A performance role with a benchmark, not an opinion."
+    },
+    {
+      "id": "rights_uncertainty",
+      "observed": "Licence or rights uncertainty",
+      "match": "licen[cs]e|copyright|rights (unclear|uncertain|holder)|attribution unclear",
+      "route": "capability:data.provenance",
+      "stop": true,
+      "why": "Hard stop until resolved."
+    },
+    {
+      "id": "flake_suspected",
+      "observed": "Flake suspected",
+      "match": "flake|flaky|intermittent|sometimes fails|passes on retry",
+      "route": "instrument",
+      "why": "Two flakes in this repository were a stale build and a real race. Flaky is a hypothesis, not a diagnosis."
+    },
+    {
+      "id": "goodhart",
+      "observed": "Benchmark gain with no holdout gain",
+      "match": "benchmark gain|holdout (flat|negative)|goodhart",
+      "route": "quarantine",
+      "stop": true,
+      "why": "This is the Goodhart signature."
+    },
+    {
+      "id": "repeated_failure",
+      "observed": "Same workflow fails three times",
+      "match": null,
+      "route": "workflow:WF-020",
+      "stop": true,
+      "why": "The workflow is the defect. Detected from the run ledger rather than from the text of a failure."
+    },
+    {
+      "id": "tool_unavailable",
+      "observed": "Missing tool or service",
+      "match": "not (installed|available|found)|command not found|connection refused|unavailable",
+      "route": "report_unavailable",
+      "why": "Report unavailable, continue what is still verifiable, name what is not. Never downgrade to a weaker check silently."
+    }
+  ]
+}

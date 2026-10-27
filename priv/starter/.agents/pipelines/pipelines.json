@@ -1,0 +1,64 @@
+{
+  "$schema": "../schemas/pipelines.schema.json",
+  "version": 1,
+  "doc": "The stages work passes through, and the gate or lane that closes each. A workflow's steps say who does what; a pipeline says what must be true between stages.",
+  "pipelines": [
+    {
+      "id": "P001",
+      "name": "Code",
+      "used_by": [
+        "WF-002",
+        "WF-003",
+        "WF-016"
+      ],
+      "stages": [
+        "plan",
+        "patch",
+        "test",
+        "review",
+        "merge"
+      ],
+      "gates": {
+        "patch": "format",
+        "test": "test.touched",
+        "review": "review.independent",
+        "merge": "full"
+      }
+    },
+    {
+      "id": "P002",
+      "name": "Release",
+      "used_by": [
+        "WF-015"
+      ],
+      "stages": [
+        "verify",
+        "rollback",
+        "publish"
+      ],
+      "gates": {
+        "verify": "full",
+        "rollback": "rollback.stated",
+        "publish": "human.approval"
+      }
+    },
+    {
+      "id": "P003",
+      "name": "Evolution",
+      "used_by": [
+        "WF-020"
+      ],
+      "stages": [
+        "candidate",
+        "benchmark",
+        "holdout",
+        "adopt"
+      ],
+      "gates": {
+        "benchmark": "benchmark.recorded",
+        "holdout": "holdout.recorded",
+        "adopt": "human.approval"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "../schemas/role_rules.schema.json",
+  "version": 1,
+  "doc": "Rules a registry generator can use to derive roles from names. The starter's roles are written directly, so the one rule here only documents a convention; the nucleus list is what the client adapters are generated for.",
+  "rules": [
+    {
+      "match": "auditor|checker|guard|referee|verifier",
+      "archetype": "adversary",
+      "note": "A role whose name says it checks work is an adversary: it did not write what it judges."
+    }
+  ],
+  "nucleus": {
+    "ids": [
+      "engineering.implementer",
+      "engineering.refactorer",
+      "governance.work_lead",
+      "governance.architecture_lead",
+      "governance.product_lead",
+      "governance.intake_triager",
+      "architecture.system_designer",
+      "architecture.api_designer",
+      "architecture.decision_recorder",
+      "research.investigator",
+      "research.prior_art_scout",
+      "docs.writer",
+      "docs.drift_checker",
+      "qa.test_architect",
+      "qa.regression_tracker",
+      "qa.release_verifier",
+      "qa.property_tester",
+      "qa.e2e_tester",
+      "qa.performance_analyst",
+      "security.code_auditor",
+      "security.dependency_auditor",
+      "security.secrets_guard",
+      "release.release_captain",
+      "release.ci_keeper",
+      "operations.incident_responder",
+      "operations.observability_engineer",
+      "data.connector_builder",
+      "data.quality_checker",
+      "evolution.experiment_lead",
+      "evolution.holdout_referee"
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "id": "WF-004",
+  "name": "Research",
+  "family": "research",
+  "intent": "Establish what is known, what is contested and what is unknown, with provenance intact.",
+  "trigger": {
+    "kinds": [
+      "question",
+      "research"
+    ],
+    "keywords": [
+      "research",
+      "investigate",
+      "compare",
+      "which of",
+      "prior art",
+      "evaluate options"
+    ],
+    "risk": "low"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "ResearchNote",
+      "Hypothesis",
+      "ProvenanceRecord"
+    ]
+  },
+  "default_lane": "fast",
+  "retry_budget": 2,
+  "steps": [
+    {
+      "id": "frame",
+      "name": "State the question so an answer could be wrong",
+      "capabilities": [
+        "research.discovery"
+      ],
+      "inputs": [
+        "question"
+      ],
+      "outputs": [
+        "framed question"
+      ],
+      "trust": "T0"
+    },
+    {
+      "id": "prior",
+      "name": "What this project already tried",
+      "capabilities": [
+        "research.prior_art"
+      ],
+      "inputs": [
+        "framed question",
+        "memory",
+        "adrs",
+        "git_history",
+        "beads"
+      ],
+      "outputs": [
+        "prior attempts"
+      ],
+      "trust": "T0",
+      "parallel_group": "gather"
+    },
+    {
+      "id": "sources",
+      "name": "Find sources, including ones likely to disagree",
+      "capabilities": [
+        "research.discovery"
+      ],
+      "inputs": [
+        "framed question",
+        "corpus",
+        "kb"
+      ],
+      "outputs": [
+        "source list"
+      ],
+      "trust": "T1",
+      "parallel_group": "gather"
+    },
+    {
+      "id": "extract",
+      "name": "What each source actually says, quoted and located",
+      "capabilities": [
+        "research.evidence"
+      ],
+      "inputs": [
+        "source list"
+      ],
+      "outputs": [
+        "extracted claims"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "contradict",
+      "name": "Hunt for conflict",
+      "capabilities": [
+        "knowledge.contradiction"
+      ],
+      "archetype_preference": "adversary",
+      "inputs": [
+        "extracted claims"
+      ],
+      "outputs": [
+        "contradictions or a statement that none were found and whether you looked"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "synthesize",
+      "name": "Answer, with every claim traceable",
+      "capabilities": [
+        "knowledge.synthesis"
+      ],
+      "inputs": [
+        "extracted claims",
+        "contradictions"
+      ],
+      "outputs": [
+        "ResearchNote"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "bound",
+      "name": "Name what remains unknown and what would settle it",
+      "capabilities": [
+        "knowledge.epistemics"
+      ],
+      "inputs": [
+        "ResearchNote"
+      ],
+      "outputs": [
+        "unknowns"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "record",
+      "name": "Record to memory and, if it is corpus knowledge, to the Catalog",
+      "capabilities": [
+        "runtime.memory",
+        "knowledge.modeling"
+      ],
+      "inputs": [
+        "ResearchNote",
+        "unknowns"
+      ],
+      "outputs": [
+        "memory record"
+      ],
+      "trust": "T1"
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the question cannot be answered with available evidence",
+      "to": "human_architect",
+      "note": "Report the boundary. Do not answer anyway."
+    },
+    {
+      "when": "sources contradict and nothing distinguishes them",
+      "to": "human_architect"
+    }
+  ],
+  "completion": [
+    "every claim is attributed to a source or explicitly marked as inference",
+    "the unknowns section is non-empty or its emptiness is argued",
+    "what was searched for and not found is recorded"
+  ],
+  "memory": [
+    "the answer",
+    "the sources that turned out to be unreliable",
+    "searches that returned nothing"
+  ],
+  "evaluation": [
+    "did a later task have to redo this research"
+  ],
+  "trigger_note": "`which` was a keyword until an earlier change. It is a relative pronoun, so any title with a subordinate clause scored a research trigger: \"SessionStart's 4 seconds are a Dolt open, which the resident server cannot remove\" — a measured defect with a known fix — tied WF-002 and won on the least-authority tie-break, landing an implementation task in Research at T1. `which of` keeps the case the keyword was for (\"which of the three drivers\") and drops the one it was never for."
+}

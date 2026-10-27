@@ -1,0 +1,114 @@
+{
+  "$schema": "../schemas/trust_levels.schema.json",
+  "version": 1,
+  "doc": "Trust belongs to the task, not to the agent. A workflow step grants a level; a role declares the highest it may ever hold; the run gets the lower of the two. Nothing written in a task can raise it.",
+  "levels": [
+    {
+      "id": "T0",
+      "name": "read_only",
+      "summary": "Look, and change nothing.",
+      "may": [
+        "read any file in the repository",
+        "read git history",
+        "run commands that change nothing",
+        "report in the run"
+      ],
+      "may_not": [
+        "write a file",
+        "run a command that changes a database, a container or a remote service"
+      ]
+    },
+    {
+      "id": "T1",
+      "name": "draft_artifacts",
+      "summary": "Write notes and proposals, not code.",
+      "inherits": "T0",
+      "may": [
+        "write artifacts under .agents/: research notes, proposals, plans, reports",
+        "add project-memory records",
+        "propose a change as text without applying it"
+      ],
+      "may_not": [
+        "change the project's source",
+        "change gates, evaluators, CI or the constitution"
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "sandbox_mutation",
+      "summary": "Change code on a branch or in a worktree of its own.",
+      "inherits": "T1",
+      "may": [
+        "change the project's source on a branch or in a worktree",
+        "write and run tests",
+        "run the local gate lanes"
+      ],
+      "may_not": [
+        "commit to the main line",
+        "push",
+        "change .agents/policies/, .agents/constitution.md, .agents/bin/ or CI configuration",
+        "change an evaluator that judges this run"
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "branch_integration",
+      "summary": "Land work on a shared branch.",
+      "inherits": "T2",
+      "may": [
+        "commit to the run's branch",
+        "push that branch",
+        "open a pull request",
+        "regenerate the client adapters"
+      ],
+      "may_not": [
+        "push to the main line",
+        "create or move tags",
+        "deploy",
+        "change gate definitions or CI"
+      ]
+    },
+    {
+      "id": "T4",
+      "name": "protected_change",
+      "summary": "Change what protects the project. Needs an explicit grant.",
+      "inherits": "T3",
+      "may": [
+        "merge to the main line and cut a release",
+        "change gate definitions, CI and .agents/bin/",
+        "change evaluators, benchmarks and holdouts",
+        "adopt an evolution candidate"
+      ],
+      "requires_gate": "human.approval",
+      "requires": [
+        "a grant in the workflow step itself, not an inherited default",
+        "a reviewer who did not author the change",
+        "the full lane green, with its evidence",
+        "a stated way back"
+      ]
+    },
+    {
+      "id": "T5",
+      "name": "administrative",
+      "summary": "Credentials, infrastructure and anything irreversible outside the repository. People only, by default.",
+      "inherits": "T4",
+      "may": [
+        "issue or rotate credentials",
+        "change infrastructure outside the repository",
+        "delete remote data or history",
+        "publish to a registry or a public site"
+      ],
+      "requires_gate": "human.approval",
+      "default_holder": "human_architect",
+      "requires": [
+        "a person's authorisation for this specific action, recorded",
+        "no role holds T5; it is granted per action or not at all"
+      ]
+    }
+  ],
+  "escalation": {
+    "doc": "An agent that needs an action above its level stops, and reports BLOCKED with the action, the level it needs and who holds that level. It never asks another agent to do it instead.",
+    "never_self_granted": true,
+    "never_delegated_sideways": true
+  }
+}

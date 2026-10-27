@@ -1,0 +1,4 @@
+#!/bin/sh
+# The Elixir add-on's build: compile with warnings as errors.
+set -eu
+exec mix compile --warnings-as-errors

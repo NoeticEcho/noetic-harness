@@ -1,0 +1,481 @@
+{
+  "$schema": "../schemas/signals.schema.json",
+  "version": 1,
+  "doc": "Capability extraction. The router turns a work item into a set of capabilities and only then into roles, so that 'modify the TypeDB schema' resolves to typedb.schema + semantic.modeling rather than to an agent whose name contains 'TypeDB'. A signal fires on the task text, on the paths the change touches, or on both; every firing signal contributes its capabilities. `mix harness.route --explain` prints which signals fired, so a bad route is a line in this file rather than a mystery. This file is an evolvable artifact: it is exactly the kind of thing WF-020 exists to improve, with evidence. Short alternatives are anchored with \\b: 'authorship' contains 'ship' and 'auth', and an unanchored signal routed a TypeDB schema change to the release workflow before those anchors existed.",
+  "weights": {
+    "doc": "A signal's weight decides the confidence the route reports, not whether the capability is included. A path signal outweighs a text signal because the paths are what the change actually touched, while the text is what someone said about it. A signal that also names a workflow family contributes `family` to workflow selection: the signal has already classified what kind of work this is, and a failure verb classifies more reliably than a domain noun — 'the product channel crashes' is a bug report that mentions the product, not a world feature that mentions a crash.",
+    "path": 3,
+    "text": 2,
+    "kind": 1,
+    "family": 5
+  },
+  "confidence": {
+    "doc": "The route's confidence is the sum of the fired signals' weights, compared with these. They were 6 and 2 in Router.confidence/2 and the sum was never returned, so a `:low` route — which the UserPromptSubmit hook injects nothing for — could not be told from one a point short of `:medium`. The score and these thresholds now travel on the route and `--explain` prints both.",
+    "high": 6,
+    "medium": 2
+  },
+  "signals": [
+    {
+      "id": "vector-store",
+      "text": "qdrant|vector store|vector search|nearest neighbour|nearest neighbor|embedding",
+      "path": "vectors|qdrant",
+      "capabilities": [
+        "data.connector",
+        "elixir.http"
+      ],
+      "note": "Qdrant has a client in `acme_knowledge` and a container in `docker-compose.yml`, and until an earlier change only the container had a signal. So every mention of it claimed `ops.deploy` and `ops.ci` through `infrastructure` and nothing claimed the code, which is how `fix the qdrant client auth header` routed to WF-015 Release at T4. `typedb` has had its own signal all along; this is the same shape for the vector store.",
+      "family": null
+    },
+    {
+      "id": "typedb",
+      "text": "typedb|typeql|\\.tql\\b|semantic schema|graph schema|ontology",
+      "path": "typeql|typedb|\\.tql$",
+      "capabilities": [
+        "typedb.schema",
+        "typedb.query",
+        "semantic.modeling"
+      ]
+    },
+    {
+      "id": "typedb-migration",
+      "text": "typedb migration|schema migration.*graph|migrate the graph",
+      "capabilities": [
+        "typedb.migration"
+      ]
+    },
+    {
+      "id": "otp",
+      "text": "genserver|supervisor|supervision|process|dynamicsupervisor|registry|ets|task\\.async|concurren|crash|restart",
+      "path": "application\\.ex|runtime/",
+      "capabilities": [
+        "elixir.otp"
+      ]
+    },
+    {
+      "id": "ecto",
+      "text": "\\becto\\b|migration|changeset|postgres|query plan|\\bindex(?:es|ing)?\\b|\\brepo\\b",
+      "path": "priv/repo|migrations/|repo\\.ex",
+      "capabilities": [
+        "elixir.ecto"
+      ]
+    },
+    {
+      "id": "ash",
+      "text": "\\bash\\b|resource|action\\b|domain module",
+      "path": "lib/acme/(worlds|echoes|journeys|events|catalog)",
+      "capabilities": [
+        "elixir.ash"
+      ]
+    },
+    {
+      "id": "phoenix",
+      "text": "controller|router|plug\\b|endpoint|request test",
+      "path": "acme_web/lib/acme_web/(router|controllers|endpoint)",
+      "capabilities": [
+        "elixir.phoenix"
+      ]
+    },
+    {
+      "id": "liveview",
+      "text": "liveview|heex|live component|assign\\b|mount\\b",
+      "path": "acme_web/lib/acme_web/live",
+      "capabilities": [
+        "elixir.liveview"
+      ]
+    },
+    {
+      "id": "channels",
+      "text": "channel|pubsub|presence|websocket|broadcast|nex\\b|envelope",
+      "path": "acme_web/lib/acme_web/channels|nex\\.ex",
+      "capabilities": [
+        "elixir.channels"
+      ]
+    },
+    {
+      "id": "http",
+      "text": "\\breq\\b|finch|mint|http client|connector|rate limit|retry-after|webhook",
+      "capabilities": [
+        "elixir.http"
+      ]
+    },
+    {
+      "id": "oban",
+      "text": "oban|background job|worker queue|scheduled job",
+      "capabilities": [
+        "elixir.oban"
+      ]
+    },
+    {
+      "id": "elixir",
+      "text": "elixir|refactor|module|function|pattern match|behaviour|protocol",
+      "path": "\\.exs?$",
+      "capabilities": [
+        "elixir.implementation"
+      ]
+    },
+    {
+      "id": "performance",
+      "text": "\\bp50\\b|\\bp95\\b|\\blatency\\b|\\bslow(er|ly)?\\b|too slow|speed ?up|\\bfaster\\b|\\boverhead\\b|\\bthroughput\\b|\\bprofil(e|ing)\\b|\\b\\d+ ?(ms|milliseconds?|seconds?|minutes?)\\b|wall clock|\\bbenchmark\\b|takes too long",
+      "capabilities": [
+        "qa.performance"
+      ],
+      "note": "There was no general performance signal — `render-perf` is visual only, so 'session_start costs four seconds' fired nothing and routed to Idea -> RFC at score 1. It carries no family on purpose: a latency problem can be a bug, a feature or research, and the `regression` signal already supplies the bug family when a failure verb is present. The numeric alternation is what makes it fire on a *measured* claim rather than on the word 'fast' in prose. It contributes `qa.performance` alone and deliberately not `architecture.performance`: adding the second tied WF-002 with WF-004 Research, and the least-authority tie-break then sent a measured defect with a known fix to a research workflow. Measuring a latency is a QA concern; re-architecting for one is a different item."
+    },
+    {
+      "id": "client",
+      "text": "typescript|\\bthe client\\b|web client|browser client|client bundle|client-side|store\\b|tsc|esbuild|hook\\.ts|hud",
+      "path": "assets/js|assets/test",
+      "capabilities": [
+        "frontend.web"
+      ]
+    },
+    {
+      "id": "design-system",
+      "text": "design system|smg\\.|acmeecho ui|design/",
+      "path": "^design/",
+      "capabilities": [
+        "frontend.design_system"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "text": "accessib|a11y|keyboard nav|screen reader|contrast",
+      "capabilities": [
+        "frontend.accessibility"
+      ]
+    },
+    {
+      "id": "data",
+      "text": "data source|ingest|dataset|connector|\\bfeed\\b|entity resolution|provenance|lineage",
+      "capabilities": [
+        "data.connector",
+        "data.provenance"
+      ],
+      "family": "data"
+    },
+    {
+      "id": "data-quality",
+      "text": "data quality|validation|anomal|reconcil",
+      "capabilities": [
+        "data.quality"
+      ]
+    },
+    {
+      "id": "knowledge",
+      "text": "catalog|knowledge base|\\bkb\\b|claim|evidence|retire|corpus",
+      "path": "docs/kb|acme/catalog",
+      "capabilities": [
+        "knowledge.modeling",
+        "knowledge.epistemics"
+      ]
+    },
+    {
+      "id": "test",
+      "text": "\\btest|exunit|coverage|assert|fixture",
+      "path": "test/|_test\\.exs$|\\.test\\.ts$",
+      "capabilities": [
+        "qa.testing"
+      ]
+    },
+    {
+      "id": "property",
+      "text": "property test|stream_data|invariant|generative test",
+      "capabilities": [
+        "qa.property"
+      ]
+    },
+    {
+      "id": "regression",
+      "text": "regress|bug|broken|break(s|ing)?\\b|fail|crash|flake|bisect|\\bnever (start|work|ran|run)|does ?n.t (start|work|run|fire|render|load)|stopped (work|start)|\\bfix(es|ed|ing)?\\b|refuses? to (start|run)|will ?not start|is ?n.t healthy|is not healthy|\\bunhealthy\\b|no longer|silently|wrong (answer|result|value)|exits? 0",
+      "capabilities": [
+        "qa.regression"
+      ],
+      "family": "bug",
+      "note": "The failure *verb*, which classifies more reliably than any domain noun — “the product channel crashes” is a bug report that mentions the product, not a world feature that mentions a crash. The longer alternations were added after real work items missed it: “docker compose never starts postgres” matched nothing and routed to Release, and “the gate exits 0 while scanning nothing” is the most important kind of bug this repository has and contained none of the original seven words. `refuses to start` / `will not start` / `is not healthy` were added by an earlier change for the same reason the earlier alternations were: `postgres 18 refuses to start on this volume` fired no failure verb, so it was classified by its nouns and routed to WF-015 Release at T4. The sentence above this one had already been written about `docker compose never starts postgres`; the list was short, not the principle wrong. `fix` was added by an earlier change, and it is the most common failure verb in this repository's own bead titles: 4 of 79, against 1 for `broken` and 0 each for `bug`, `fails` and `crash`. Without it `fix the qdrant client auth header so tests pass` carried no failure verb at all and produced a THREE-WAY tie between WF-005, WF-002 and WF-014 at two points of capability overlap, with no trigger evidence behind any of them -- a workflow chosen by whichever the tie-break happened to prefer. It is kept out of `infrastructure` and out of the workflow triggers on purpose: a verb classifies the KIND of work, which is what a `family` does, and a kind match is worth 4 where a capability is worth 1."
+    },
+    {
+      "id": "e2e",
+      "text": "playwright|end to end|e2e|browser test|walk the product",
+      "capabilities": [
+        "qa.e2e"
+      ]
+    },
+    {
+      "id": "dialyzer",
+      "text": "dialyzer|typespec|@spec|behaviour callback",
+      "capabilities": [
+        "qa.types"
+      ]
+    },
+    {
+      "id": "security",
+      "text": "security|vulnerab|secret|credential|token|\\bauth\\b|authoriz|authentic|injection|exploit|sanitiz|evaluator fence|allow.?list|deny.?list",
+      "capabilities": [
+        "security.review"
+      ],
+      "note": "`evaluator fence`, `allow-list` and `deny-list` are here because a fence is a security control and a change to what it permits is a security review, whatever else it is. Routed without them, an earlier change's work — widening what a dispatched solver may write — composed a team with no auditor in it."
+    },
+    {
+      "id": "secrets",
+      "text": "secret|api key|credential leak|gitleaks",
+      "capabilities": [
+        "security.secrets"
+      ]
+    },
+    {
+      "id": "dependencies",
+      "text": "dependenc|mix\\.lock|hex|upgrade.*package|osv|cve",
+      "path": "mix\\.lock|mix\\.exs|package(-lock)?\\.json",
+      "capabilities": [
+        "security.dependencies"
+      ]
+    },
+    {
+      "id": "release",
+      "text": "\\brelease\\b|version bump|\\btag\\b|changelog|deploy|\\bship\\b",
+      "path": "CHANGELOG\\.md|\\.github/workflows",
+      "capabilities": [
+        "ops.release"
+      ],
+      "note": "No `family` since an earlier change's second half. `release`, `tag`, `changelog` and `deploy` name where work is as often as what it is: \"the release roles lack the beads tool\" and \"add a test for the release workflow's step order\" both reached WF-015 Release at T4 with `git.push`, on family 5 + kind 4 + the bare keyword 3. The capability stays; the kind comes from `release-act`."
+    },
+    {
+      "id": "release-act",
+      "text": "\\bcut (a |the |an )?(new )?(release|version)|\\bcut v?\\d|\\bbump (the )?version|\\bversion bump|\\btag (the |a )?(release|version)|\\btag v?\\d|\\bpublish (the |a )?release|\\bship (it|the release|a release|v?\\d)|\\bdeploy (it|to|the release)|\\brelease v?\\d|\\b(make|prepare|do) (a |the )?release\\b",
+      "capabilities": [
+        "ops.release"
+      ],
+      "family": "release",
+      "note": "The release family is a kind of work — cutting, tagging, publishing, deploying — and only a verb says so. `cut v0.4.0` fired nothing before and routed to WF-001."
+    },
+    {
+      "id": "infrastructure",
+      "text": "docker|compose|container|healthcheck|dev-services|\\bimage\\b|\\bvolume\\b",
+      "path": "docker-compose|Dockerfile|bin/dev-services|scripts/install-tooling",
+      "capabilities": [
+        "ops.deploy"
+      ],
+      "note": "Nouns only, and `ops.deploy` only. Two narrowings, both from an earlier change. The bare service names (`postgres`, `qdrant`) meant that naming a service at all claimed deployment capabilities, so a one-line client fix routed to WF-015 Release. And `ops.ci` duplicated the `ci` signal, which already has `.github/workflows` and `scripts/ci-local`: carrying it here gave WF-015 two capability points for work that mentions a container, and two is what beat WF-003 on a title with no keyword or kind evidence at all. The *verbs* — `refuses to start`, `is not healthy` — belong to `regression`, which is where a failure verb classifies the kind of work rather than its domain."
+    },
+    {
+      "id": "ci",
+      "text": "\\bci\\b|pipeline|workflow file|github actions|ci-local",
+      "path": "\\.github/workflows|scripts/ci-local",
+      "capabilities": [
+        "ops.ci"
+      ]
+    },
+    {
+      "id": "incident",
+      "text": "incident|outage|production down|alert|postmortem|rollback",
+      "capabilities": [
+        "ops.incident"
+      ],
+      "family": "operations"
+    },
+    {
+      "id": "observability",
+      "text": "telemetry|logging|metric|trace|instrument|tidewave",
+      "capabilities": [
+        "ops.observability"
+      ]
+    },
+    {
+      "id": "docs",
+      "text": "document|readme|moduledoc|guide|spec\\b|exdoc",
+      "path": "^docs/|README|CHANGELOG|\\.md$",
+      "capabilities": [
+        "docs.authoring"
+      ],
+      "family": "docs"
+    },
+    {
+      "id": "drift",
+      "text": "outdated doc|stale doc|documentation drift",
+      "capabilities": [
+        "docs.drift"
+      ],
+      "family": "docs"
+    },
+    {
+      "id": "architecture",
+      "text": "architect|boundar|contract|adr\\b|coupling|depend.*direction|refactor.*structure",
+      "path": "^a design decision",
+      "capabilities": [
+        "architecture.system",
+        "governance.decision_record"
+      ]
+    },
+    {
+      "id": "api",
+      "text": "public api|sdk|external consumer|versioning|deprecat|backwards compat",
+      "capabilities": [
+        "architecture.api",
+        "platform.api"
+      ],
+      "family": "platform"
+    },
+    {
+      "id": "research",
+      "text": "research|investigate|compare|evaluate options|prior art|which (library|approach)|should we use",
+      "capabilities": [
+        "research.discovery",
+        "research.evidence",
+        "research.prior_art"
+      ],
+      "family": "research"
+    },
+    {
+      "id": "agents",
+      "text": "jido|agent runtime|oracle|echo voice|onlooker companion|tool use",
+      "path": "acme_agents/",
+      "capabilities": [
+        "runtime.agents"
+      ]
+    },
+    {
+      "id": "memory",
+      "text": "project memory|remember|lesson|what we learned",
+      "path": "^\\.agents/memory",
+      "capabilities": [
+        "runtime.memory"
+      ]
+    },
+    {
+      "id": "harness",
+      "text": "harness|agent registry|subagent|prompt template|operational overlay|role prompt|routing rule|routing signal|gate lane|run ledger|conductor|dispatch|dispatcher|evaluator fence|per-run worktree|dispatched (run|agent|step)|environment (verification|verifier|suite)|session[ _-]?start|user[ _-]?prompt|pre[ _-]?tool|session[ _-]?end|harness[ -]?hook|resident harness",
+      "path": "^\\.agents/|noetic_harness/",
+      "capabilities": [
+        "runtime.routing",
+        "runtime.context",
+        "governance.routing",
+        "qa.testing",
+        "docs.authoring"
+      ],
+      "note": "The harness is three things at once, and a route naming only the first composes the wrong team: definitions that decide routing (governance.routing), a runtime with its own suite (qa.testing), and prose a future agent has to find (docs.authoring). It carries no family on purpose — changing the harness can be a feature, a bug or a doc fix, and the rest of the work item says which. The vocabulary is the harness's own nouns and it kept missing ones: \"write operational overlays for the high-risk auditors\" matched nothing and routed on the word \"risk\" alone. Note what widening it did *not* fix — that title still selects WF-001 Idea → RFC, because the workflow is chosen by the verb and \"write\" is not one WF-002 triggers on. The signal decides the team; the trigger decides the workflow. And the bare word `overlay` was tried and removed: \"the HUD overlay renders behind the scene\" is a Babylon bug, and matching it here staffed that bug with a routing engineer and a documentation architect. A design decision added a fourth vocabulary this did not have: `dispatch`, `dispatcher`, `evaluator fence` and the per-run worktree. \"A dispatched run works in its own git worktree\" matched nothing and routed on no signal at all, which is the failure this signal exists to prevent. `worktree` alone is deliberately *not* matched: this repository runs every agent session in one, so the bare word appears in work items that have nothing to do with the harness. The executable environments are a fifth: they are both evolution machinery and a `noetic-harness` command with its own runtime and tests, so `environment verification` fires here *and* on `evolution`, and the team that comes back covers both. That is the one place the two vocabularies overlap on purpose. The hook event names were added by an earlier change: work on `session_start` is harness work, and naming the event is the most natural way to describe it."
+    },
+    {
+      "id": "evolution",
+      "text": "evolv|mutation|candidate|benchmark|holdout|transfer test|goodhart|promote|archive|lineage|reverse.patch|environment (suite|verification|verifier)|executable environments?",
+      "path": "^\\.agents/evolution",
+      "capabilities": [
+        "evolution.mutation",
+        "evolution.evaluation"
+      ],
+      "note": "The executable environments are half of this subsystem and none of their vocabulary was here: \"Environment verification reverse-patches the shared working tree\" fired no signal at all and routed on the fallback. The bare word `environment` is deliberately not matched — a dev environment and an environment variable are ordinary repository nouns — so the additions are the phrases this machinery actually uses: `reverse patch`, `environment suite`, `environment verification`, `environment verifier`, `executable environment`. It carries no `family` since an earlier change. Every word here names a part of the evolution subsystem — a candidate, a benchmark, environment verification — which is where the work is, not what kind it is; with the family it made any sentence about that subsystem a request to *run* it, and WF-020 won twice at 12 of 12 and 18 of 19 for a defect fix and a feature. The capabilities stay: work on the subsystem still needs people who know it. The kind comes from `evolution-run`, which matches operating the pipeline rather than naming its parts."
+    },
+    {
+      "id": "evolution-run",
+      "text": "\\bevolve (the|a|an|this)\\b|\\brun (an |the )?evolution|\\bevolution run|\\bact on (the|a|this) (weakness )?cluster|\\bfrom.cluster\\b|\\bpromote (the|a|an|this) candidate|\\bmutate (the|a|an|this)\\b",
+      "capabilities": [
+        "evolution.mutation",
+        "evolution.evaluation"
+      ],
+      "family": "evolution",
+      "note": "an earlier change: the evolution family is a kind of work — operating the pipeline: evolving an artifact, acting on a weakness cluster, promoting a candidate — and only a verb says that. The nouns are in `evolution`, which has no family."
+    },
+    {
+      "id": "evolution_machinery",
+      "text": "scoring (a |attempt|run|worktree)|score a candidate|solve rate|fitness (value|provenance|map)?|nondominated",
+      "capabilities": [
+        "evolution.evaluation",
+        "qa.testing"
+      ],
+      "note": "The verbs of *measuring* a candidate, deliberately kept apart from the `evolution` signal — which carries `family: \"evolution\"`, and a family decides the **kind**, which decides the workflow. WF-020's own note says it: touching the harness is a place, not a kind of work, and its intent is \"when the same work keeps failing the same way\". Widening `evolution` to match \"a scoring attempt carries an allow-list\" routed an ordinary implementation change to the workflow for a recurring-failure cluster, at trust T4 behind evo.promotion. So the capabilities are here and the family is not. Bare `score` is left out: a gate score and a test score are ordinary repository nouns."
+    },
+    {
+      "id": "evolution-promotion",
+      "text": "promote the candidate|promotion gate",
+      "capabilities": [
+        "evolution.promotion",
+        "evolution.anti_goodhart"
+      ],
+      "note": "No `family` since an earlier change: `promotion gate` names a part (\"add a check to a promotion gate\" is a feature) and `promote the candidate` is matched by `evolution-run`, which carries the kind."
+    },
+    {
+      "id": "planning",
+      "text": "\\bplan\\b|decompose|break down|task graph|roadmap|prioriti",
+      "capabilities": [
+        "governance.planning"
+      ]
+    },
+    {
+      "id": "risk",
+      "text": "risk|blast radius|what could break|impact analysis",
+      "capabilities": [
+        "governance.risk"
+      ]
+    },
+    {
+      "id": "product",
+      "text": "user|experience|onboarding|narrative|meaning|feel",
+      "capabilities": [
+        "product.ux",
+        "product.narrative"
+      ]
+    }
+  ],
+  "kind_signals": {
+    "doc": "A work item's declared kind contributes capabilities regardless of its wording.",
+    "bug": [
+      "qa.regression",
+      "qa.testing"
+    ],
+    "feature": [
+      "governance.planning"
+    ],
+    "task": [],
+    "epic": [
+      "governance.planning"
+    ],
+    "research": [
+      "research.discovery",
+      "research.evidence"
+    ],
+    "incident": [
+      "ops.incident"
+    ],
+    "release": [
+      "ops.release"
+    ],
+    "evolution": [
+      "evolution.mutation"
+    ],
+    "data": [
+      "data.connector"
+    ],
+    "docs": [
+      "docs.authoring"
+    ]
+  },
+  "kind_inference": {
+    "doc": "A work item's kind is worth 4 to workflow selection and pulls capabilities from `kind_signals`, and until now only a caller could supply one — in practice only from a bead's type. A free-text prompt had none, and a prompt is what the SessionStart/UserPromptSubmit hooks route, which is most of the routing this repository now does. So a kind is inferred from the families of the signals that fired, when and only when the caller declared none. The precedence exists because more than one family fires on a real sentence: 'the product channel crashes mid-ritual' fires `bug` and `visual` both. It is ordered by how reliably a family classifies the KIND of work rather than its subject — a failure verb and an operational verb say what kind of work this is, a domain noun only says where it is. That is the claim; an earlier change is where it was written down twice and true nowhere.",
+    "precedence": [
+      "bug",
+      "operations",
+      "release",
+      "evolution",
+      "research",
+      "data",
+      "docs",
+      "platform"
+    ],
+    "kinds": {
+      "bug": "bug",
+      "operations": "incident",
+      "release": "release",
+      "evolution": "evolution",
+      "research": "research",
+      "data": "data",
+      "docs": "docs",
+      "platform": "platform"
+    }
+  },
+  "fallback": {
+    "doc": "When nothing fires, the work item is under-specified. The router says so and routes to intake rather than guessing, because a route built on no signal is worse than an admission that the description is too thin to route.",
+    "capabilities": [
+      "governance.routing"
+    ],
+    "workflow": "WF-001"
+  }
+}

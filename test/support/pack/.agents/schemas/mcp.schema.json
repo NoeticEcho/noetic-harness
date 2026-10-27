@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mcp.schema.json",
+  "title": "MCP surface",
+  "description": "What `noetic-harness mcp` serves. Each tool is a harness task and the arguments it may be given; the server builds argv from this file and nothing else. Which tasks may appear at all, and which flag each must carry, is fixed in `Noetic.Harness.MCP` rather than here, so that widening the surface takes a code change and a review, not a line of data.",
+  "type": "object",
+  "required": ["version", "tools"],
+  "properties": {
+    "version": { "type": "integer" },
+    "doc": { "type": "string" },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "task", "description"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^harness_[a-z_]+$" },
+          "task": { "type": "string" },
+          "description": { "type": "string" },
+          "fixed": { "type": "array", "items": { "type": "string" } },
+          "args": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type", "description"],
+              "properties": {
+                "name": { "type": "string", "pattern": "^[a-z_]+$" },
+                "flag": { "type": ["string", "null"] },
+                "type": { "enum": ["string", "boolean", "integer", "array"] },
+                "required": { "type": "boolean" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

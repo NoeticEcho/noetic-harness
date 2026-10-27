@@ -1,0 +1,82 @@
+{
+  "$schema": "../schemas/project.schema.json",
+  "version": 1,
+  "doc": "What this repository tells the harness about itself. The context sources are where a role is pointed before it starts; edit the globs to match where your documents and tests live. No integration is on: add `\"integrations\": {\"beads\": true}` if you use the Beads tracker, and `\"knowledge_base\": true` beside it to have `kb` say whether your knowledge stores are up.",
+  "name": "starter",
+  "context": {
+    "docs": {
+      "kind": "docs",
+      "title": "Documentation",
+      "why": "documents whose text matches this task",
+      "glob": "docs/**/*.md"
+    },
+    "decisions": {
+      "kind": "glob",
+      "title": "Decision records",
+      "why": "what has already been decided",
+      "globs": [
+        "a design decision",
+        "docs/decisions/*.md",
+        "adr/*.md"
+      ]
+    },
+    "readme": {
+      "kind": "files",
+      "title": "README",
+      "why": "what the project says it is",
+      "paths": [
+        "README.md"
+      ]
+    },
+    "changelog": {
+      "kind": "files",
+      "title": "Changelog",
+      "why": "what has shipped",
+      "paths": [
+        "CHANGELOG.md"
+      ]
+    },
+    "tests": {
+      "kind": "glob",
+      "title": "Tests",
+      "why": "the tests near this change",
+      "globs": [
+        "test/**/*",
+        "tests/**/*",
+        "spec/**/*"
+      ]
+    },
+    "ci_config": {
+      "kind": "glob",
+      "title": "Continuous integration",
+      "why": "what the pipeline runs",
+      "globs": [
+        ".github/workflows/*",
+        ".gitlab-ci.yml"
+      ]
+    },
+    "dependency_manifests": {
+      "kind": "glob",
+      "title": "Dependency manifests",
+      "why": "what the project depends on, and at which versions",
+      "globs": [
+        "package.json",
+        "Cargo.toml",
+        "go.mod",
+        "pyproject.toml",
+        "requirements*.txt",
+        "Gemfile",
+        "pom.xml",
+        "build.gradle*"
+      ]
+    },
+    "security_policy": {
+      "kind": "files",
+      "title": "Security policy",
+      "why": "how vulnerabilities are reported and handled",
+      "paths": [
+        "SECURITY.md"
+      ]
+    }
+  }
+}

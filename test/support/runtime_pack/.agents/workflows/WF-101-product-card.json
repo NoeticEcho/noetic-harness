@@ -1,0 +1,222 @@
+{
+  "id": "WF-101",
+  "plane": "runtime",
+  "name": "Product card",
+  "family": "docs",
+  "note": "`family` is the development router's taxonomy, which has no family for a product's own work; `docs` is the nearest, and no router reads a runtime workflow's family. A family per plane is R2's.",
+  "intent": "Write a product card from a brief and its sources, check it, and hand it to a person to accept.",
+  "trigger": {
+    "kinds": [
+      "card"
+    ],
+    "keywords": [
+      "product card"
+    ],
+    "risk": "medium"
+  },
+  "artifacts": {
+    "in": [
+      "Requirement"
+    ],
+    "out": [
+      "ResearchNote"
+    ]
+  },
+  "default_lane": "card",
+  "retry_budget": 2,
+  "steps": [
+    {
+      "id": "brief",
+      "name": "Read the brief and say what is missing from it",
+      "capabilities": [
+        "sources.research"
+      ],
+      "inputs": [
+        "brief"
+      ],
+      "outputs": [
+        "brief notes"
+      ],
+      "trust": "T0"
+    },
+    {
+      "id": "research",
+      "name": "Gather the facts, each with its source",
+      "capabilities": [
+        "sources.research"
+      ],
+      "inputs": [
+        "brief notes",
+        "sources"
+      ],
+      "outputs": [
+        "facts"
+      ],
+      "trust": "T1",
+      "gates": [
+        "facts.cited"
+      ]
+    },
+    {
+      "id": "normalise",
+      "name": "Map ingredient names to reference names",
+      "capabilities": [
+        "inci.normalise"
+      ],
+      "inputs": [
+        "facts"
+      ],
+      "outputs": [
+        "normalised facts"
+      ],
+      "trust": "T1",
+      "gates": [
+        "inci.reference"
+      ]
+    },
+    {
+      "id": "draft",
+      "name": "Write the card from the facts",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "brief notes",
+        "normalised facts"
+      ],
+      "outputs": [
+        "draft"
+      ],
+      "trust": "T1"
+    },
+    {
+      "id": "lint",
+      "name": "Run the product's text lint",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "draft"
+      ],
+      "outputs": [
+        "linted draft"
+      ],
+      "trust": "T1",
+      "gates": [
+        "text.lint"
+      ]
+    },
+    {
+      "id": "seo",
+      "name": "Edit for search without changing a claim",
+      "capabilities": [
+        "seo.edit"
+      ],
+      "inputs": [
+        "linted draft"
+      ],
+      "outputs": [
+        "search draft"
+      ],
+      "trust": "T1",
+      "gates": [
+        "seo.rules"
+      ]
+    },
+    {
+      "id": "guardian",
+      "name": "Check voice, rules and every claim",
+      "capabilities": [
+        "brand.voice",
+        "facts.check"
+      ],
+      "inputs": [
+        "search draft",
+        "normalised facts"
+      ],
+      "outputs": [
+        "guardian verdict"
+      ],
+      "trust": "T1",
+      "gates": [
+        "guardian.review",
+        "facts.cited"
+      ]
+    },
+    {
+      "id": "proofread",
+      "name": "Proofread, reading only the draft",
+      "capabilities": [
+        "proof.read"
+      ],
+      "inputs": [
+        "search draft"
+      ],
+      "outputs": [
+        "proof verdict"
+      ],
+      "trust": "T1",
+      "gates": [
+        "proof.review"
+      ],
+      "independent_of": [
+        "draft"
+      ]
+    },
+    {
+      "id": "uniqueness",
+      "name": "Check the card is not a copy",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "inputs": [
+        "search draft"
+      ],
+      "outputs": [
+        "uniqueness result"
+      ],
+      "trust": "T1",
+      "gates": [
+        "uniqueness"
+      ]
+    },
+    {
+      "id": "accept",
+      "name": "A person accepts the card or returns it",
+      "capabilities": [
+        "rules.propose"
+      ],
+      "inputs": [
+        "search draft",
+        "guardian verdict",
+        "proof verdict",
+        "uniqueness result"
+      ],
+      "outputs": [
+        "accepted card"
+      ],
+      "trust": "T1",
+      "gates": [
+        "owner.accept"
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "when": "the facts conflict, or a claim cannot be supported",
+      "to": "owner",
+      "note": "A person decides; no role settles it."
+    }
+  ],
+  "completion": [
+    "every claim cites a fact",
+    "the guardian and the proofreader passed it",
+    "a person accepted it"
+  ],
+  "memory": [
+    "an owner's correction, as a proposed rule"
+  ],
+  "evaluation": [
+    "did the owner accept it without edits"
+  ]
+}

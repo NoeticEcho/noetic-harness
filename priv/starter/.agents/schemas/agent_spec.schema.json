@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "agent_spec.schema.json",
+  "title": "Agent specification",
+  "description": "The canonical contract for one registered role. Entries in registry/agents.json are generated to this shape; a file in registry/overrides/<id>.json is a hand-authored partial that the runtime merges over the generated entry. An override may narrow (fewer tools, lower trust) or add detail; it may not grant a trust level above the domain ceiling without also appearing in the trust policy.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "domain",
+    "archetype",
+    "capabilities",
+    "skills",
+    "tools",
+    "max_trust"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
+    },
+    "legacy_id": {
+      "type": "string",
+      "pattern": "^A[0-9]{3}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "plane": {
+      "type": "string",
+      "enum": [
+        "development",
+        "runtime"
+      ],
+      "description": "Which plane this definition belongs to. `development` is how a repository is built: its roles hold its tools, and its gates run commands. `runtime` is a product's AI employees: their definitions are data the product loads, they hold only runtime tools and capabilities, never more than draft trust (T1), and their gates are never commands. Absent means `development`."
+    },
+    "upstream_domain": {
+      "type": "string"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "steward",
+        "coordinator",
+        "adversary",
+        "investigator"
+      ]
+    },
+    "mission": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "non_responsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibited_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "escalation_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "memory_policy": {
+      "type": "string"
+    },
+    "provenance_policy": {
+      "type": "string"
+    },
+    "max_trust": {
+      "type": "string",
+      "enum": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5"
+      ]
+    },
+    "workflow_compatibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evolution_policy": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "dormant",
+        "quarantined",
+        "retired"
+      ]
+    },
+    "nucleus": {
+      "type": "boolean"
+    },
+    "derived_from": {
+      "type": "object"
+    }
+  }
+}

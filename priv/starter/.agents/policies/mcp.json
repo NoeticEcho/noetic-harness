@@ -1,0 +1,154 @@
+{
+  "$schema": "../schemas/mcp.schema.json",
+  "version": 1,
+  "doc": "The harness over MCP, for an agent that has no hooks. Read-only by construction: every tool describes work, and none records, dispatches or verifies. The engine holds the allow-list of tasks and flags, and `noetic-harness validate` refuses this file if a tool steps outside it.",
+  "tools": [
+    {
+      "name": "harness_route",
+      "task": "route",
+      "description": "Which workflow a piece of work routes to, which gate lane it will have to pass, and who should do it. Call it before starting non-trivial work.",
+      "fixed": [
+        "--explain"
+      ],
+      "args": [
+        {
+          "name": "title",
+          "flag": "--title",
+          "type": "string",
+          "required": true,
+          "description": "What you are about to do, in a sentence."
+        },
+        {
+          "name": "body",
+          "flag": "--body",
+          "type": "string",
+          "description": "More detail, if the title is thin."
+        },
+        {
+          "name": "paths",
+          "flag": "--paths",
+          "type": "array",
+          "description": "Files you expect to touch, repository-relative."
+        }
+      ]
+    },
+    {
+      "name": "harness_context",
+      "task": "context",
+      "description": "What you should read before starting: the specs, ADRs, prior memory and open work relevant to this task.",
+      "args": [
+        {
+          "name": "title",
+          "flag": "--title",
+          "type": "string",
+          "required": true,
+          "description": "What you are about to do, in a sentence."
+        },
+        {
+          "name": "body",
+          "flag": "--body",
+          "type": "string",
+          "description": "More detail, if the title is thin."
+        },
+        {
+          "name": "paths",
+          "flag": "--paths",
+          "type": "array",
+          "description": "Files you expect to touch, repository-relative."
+        }
+      ]
+    },
+    {
+      "name": "harness_prompt",
+      "task": "prompt",
+      "description": "The contract a specialist role works under: its mandate, trust level, skills and the gates it answers to.",
+      "args": [
+        {
+          "name": "agent",
+          "flag": null,
+          "type": "string",
+          "required": true,
+          "description": "A role id, e.g. qa.test_architect."
+        }
+      ]
+    },
+    {
+      "name": "harness_workflows",
+      "task": "workflows",
+      "description": "The workflows this repository develops itself by, or one workflow's steps in order with the gates each must pass.",
+      "args": [
+        {
+          "name": "show",
+          "flag": "--show",
+          "type": "string",
+          "description": "A workflow id such as WF-002. Omit it for the list."
+        }
+      ]
+    },
+    {
+      "name": "harness_gates_plan",
+      "task": "gates",
+      "description": "Which gates a change to these paths will have to pass, resolved without running any of them.",
+      "fixed": [
+        "--plan"
+      ],
+      "args": [
+        {
+          "name": "lane",
+          "flag": "--lane",
+          "type": "string",
+          "required": true,
+          "description": "fast, focused or full. `harness_route` names the lane."
+        },
+        {
+          "name": "paths",
+          "flag": "--paths",
+          "type": "array",
+          "description": "The paths the change touches."
+        }
+      ]
+    },
+    {
+      "name": "harness_memory",
+      "task": "memory",
+      "description": "What earlier work in this repository learned about a subject: lessons, decisions and their confidence.",
+      "args": [
+        {
+          "name": "query",
+          "flag": "--query",
+          "type": "string",
+          "required": true,
+          "description": "A word or phrase, e.g. release or flaky."
+        }
+      ]
+    },
+    {
+      "name": "harness_environment_brief",
+      "task": "environments",
+      "description": "The brief of one evaluation environment: a task derived from a real commit, as a dispatched agent would be given it.",
+      "args": [
+        {
+          "name": "id",
+          "flag": "--brief",
+          "type": "string",
+          "required": true,
+          "description": "An environment id."
+        }
+      ]
+    },
+    {
+      "name": "harness_classify",
+      "task": "conduct",
+      "description": "Where a failure routes: which failure class the evidence belongs to, and what the harness does about that class.",
+      "args": [
+        {
+          "name": "evidence",
+          "flag": "--classify",
+          "type": "string",
+          "required": true,
+          "description": "The failure text: a test failure, an error, a gate's output."
+        }
+      ]
+    }
+  ]
+}

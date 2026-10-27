@@ -1,0 +1,185 @@
+{
+  "$schema": "../schemas/registry.schema.json",
+  "version": 1,
+  "doc": "The editorial team: eight runtime roles. A fixture for the engine's tests of the runtime plane, with no client, brand, rule or data in it.",
+  "agents": [
+    {
+      "id": "editorial.researcher",
+      "name": "Researcher",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "investigator",
+      "capabilities": [
+        "sources.research"
+      ],
+      "skills": [],
+      "tools": [
+        "brief.read",
+        "sources.read",
+        "facts.write"
+      ],
+      "gates": [
+        "facts.cited"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.inci_normaliser",
+      "name": "Ingredient Normaliser",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "steward",
+      "capabilities": [
+        "inci.normalise"
+      ],
+      "skills": [],
+      "tools": [
+        "facts.read",
+        "reference.read"
+      ],
+      "gates": [
+        "inci.reference"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.card_copywriter",
+      "name": "Card Copywriter",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "owner",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "skills": [],
+      "tools": [
+        "brief.read",
+        "facts.read",
+        "draft.write"
+      ],
+      "gates": [
+        "text.lint"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.seo_editor",
+      "name": "Search Editor",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "owner",
+      "capabilities": [
+        "seo.edit"
+      ],
+      "skills": [],
+      "tools": [
+        "draft.read",
+        "draft.write",
+        "rules.read"
+      ],
+      "gates": [
+        "seo.rules"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.guardian",
+      "name": "Brand and Law Guardian",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "adversary",
+      "capabilities": [
+        "brand.voice",
+        "facts.check"
+      ],
+      "skills": [],
+      "tools": [
+        "rules.read",
+        "draft.read",
+        "facts.read"
+      ],
+      "gates": [
+        "guardian.review",
+        "facts.cited"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.proofreader",
+      "name": "Proofreader",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "adversary",
+      "capabilities": [
+        "proof.read"
+      ],
+      "skills": [],
+      "tools": [
+        "draft.read"
+      ],
+      "gates": [
+        "proof.review"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.letter_author",
+      "name": "Letter Author",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "owner",
+      "capabilities": [
+        "copy.draft"
+      ],
+      "skills": [],
+      "tools": [
+        "brief.read",
+        "facts.read",
+        "draft.write"
+      ],
+      "gates": [
+        "text.lint"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    },
+    {
+      "id": "editorial.rule_clerk",
+      "name": "Rule Clerk",
+      "domain": "editorial",
+      "plane": "runtime",
+      "archetype": "steward",
+      "capabilities": [
+        "rules.propose"
+      ],
+      "skills": [],
+      "tools": [
+        "rules.read",
+        "proposal.write"
+      ],
+      "gates": [
+        "owner.accept"
+      ],
+      "max_trust": "T1",
+      "tags": [],
+      "status": "active"
+    }
+  ],
+  "provenance": {
+    "sources": [],
+    "note": "Written directly for the engine's tests; derived from nothing."
+  }
+}
