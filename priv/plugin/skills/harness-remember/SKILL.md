@@ -1,18 +1,16 @@
 ---
 name: harness-remember
 description: Write what this session learned into the harness's append-only project memory, so that the next session does not repeat it. Invoke as /harness-remember followed by the lesson in one sentence.
-allowed-tools: Bash(noetic-harness:*), Bash(echo:*)
 ---
 
 Record this: **$ARGUMENTS**
 
-## What is already there
+First see what is already there. Run, with the Bash tool, in the repository
+you are working in, `noetic-harness memory --query '<the lesson>'`, passing
+the lesson above as **one** argument quoted for the shell, so that nothing in
+it is read as a command (the first 30 lines are enough).
 
-!`noetic-harness memory --query "$ARGUMENTS" 2>&1 | head -30`
-
----
-
-If the section above says `noetic-harness` was not found, the engine is not
+If the shell says `noetic-harness` was not found, the engine is not
 installed and there is no memory to write to. Say so, and give the user the
 record below as text, so that it can be added once the engine is installed.
 

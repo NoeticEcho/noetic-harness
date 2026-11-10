@@ -1,20 +1,19 @@
 ---
 name: harness-gates
 description: Run a harness gate lane over the working tree and report the result honestly, including what could not run. Invoke as /harness-gates, optionally followed by a lane from .agents/policies/gates.json, which is focused when none is given.
-allowed-tools: Bash(noetic-harness:*), Bash(echo:*), Bash(git status:*)
 ---
 
-## Changed files
+The lane asked for: **$ARGUMENTS** (when this is empty, the lane is `focused`).
 
-!`git status --porcelain 2>&1 | head -40`
+Run two things with the Bash tool, in the repository you are working in:
 
-## The lane
+1. **Changed files:** `git status --porcelain` (the first 40 lines are enough).
+2. **The lane:** `noetic-harness gates --lane <lane>`, with the lane's name
+   quoted for the shell. A lane's name is a word from
+   `.agents/policies/gates.json`; if what was asked for is not one, say so and
+   ask which lane was meant rather than running anything.
 
-!`lane="$ARGUMENTS"; noetic-harness gates --lane "${lane:-focused}" 2>&1 || echo "[noetic-harness did not answer: it is not installed, the lane failed, or it could not run, as shown above]"`
-
----
-
-If the lane section says `noetic-harness` was not found, the engine is not
+If the shell says `noetic-harness` was not found, the engine is not
 installed and **no gate ran**. Say exactly that. Do not run the commands in
 `.agents/policies/gates.json` yourself and call the result the lane's.
 
