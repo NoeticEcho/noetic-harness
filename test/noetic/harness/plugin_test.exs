@@ -118,6 +118,10 @@ defmodule Noetic.Harness.PluginTest do
   @forbidden_paths ~w(bin hooks hooks.json .mcp.json .lsp.json monitors scripts)
   @top_level ~w(.claude-plugin README.md LICENSE skills agents)
 
+  # The one file that is not text: the icon the plugin directory asks for, a
+  # square PNG of 512 to 2048 px. Its checks are "the icon" below.
+  @icon ".claude-plugin/icon.png"
+
   @slash ~w(harness-route harness-gates harness-check harness-remember)
   # The Agent Skills specification's keys: anything else fails a claude.ai upload.
   @skill_keys ~w(name description license compatibility metadata allowed-tools)
@@ -179,6 +183,7 @@ defmodule Noetic.Harness.PluginTest do
 
     binary =
       cond do
+        relative(path) == @icon -> []
         not String.valid?(content) -> ["not text"]
         String.starts_with?(content, "#!") -> ["a script"]
         true -> []
@@ -384,6 +389,17 @@ defmodule Noetic.Harness.PluginTest do
   describe "the files" do
     test "only the plugin layout at the top" do
       assert File.ls!(@plugin) -- @top_level == []
+    end
+
+    test "the icon is a square PNG of 512 to 2048 px, the only file that is not text" do
+      assert <<0x89, "PNG", 0x0D, 0x0A, 0x1A, 0x0A, _len::32, "IHDR", width::32, height::32,
+               _::binary>> = File.read!(Path.join(@plugin, @icon))
+
+      assert width == height
+      assert width in 512..2048
+
+      assert for(path <- files(), not String.valid?(File.read!(path)), do: relative(path)) ==
+               [@icon]
     end
 
     test "regular files, fewer than 512, each under 256 KiB, no executable bit" do
@@ -602,10 +618,16 @@ defmodule Noetic.Harness.PluginTest do
   # links to the public repository anywhere, and the README's copyright line.
   defp scan_text(path) do
     text =
-      if path == @manifest,
-        do:
-          manifest() |> Map.drop(~w(author homepage repository) ++ @page_fields) |> JSON.encode!(),
-        else: path |> File.read!() |> String.replace(@copyright, "")
+      cond do
+        relative(path) == @icon ->
+          ""
+
+        path == @manifest ->
+          manifest() |> Map.drop(~w(author homepage repository) ++ @page_fields) |> JSON.encode!()
+
+        true ->
+          path |> File.read!() |> String.replace(@copyright, "")
+      end
 
     String.replace(text, ~r{#{Regex.escape(@repository)}[^\s)>"]*}, "")
   end
