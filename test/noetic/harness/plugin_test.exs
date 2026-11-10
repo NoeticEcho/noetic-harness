@@ -350,7 +350,7 @@ defmodule Noetic.Harness.PluginTest do
       assert text =~ "**The plugin collects nothing and sends nothing to NoeticEcho.**"
       assert text =~ "no server, no telemetry, no analytics and no account"
       assert text =~ "no hooks, no MCP server and no executable"
-      for command <- ~w(noetic-harness git echo), do: assert(text =~ "`#{command}")
+      for command <- ~w(noetic-harness git), do: assert(text =~ "`#{command}")
       assert text =~ @repository <> "/issues"
     end
 
@@ -514,25 +514,41 @@ defmodule Noetic.Harness.PluginTest do
   end
 
   describe "the slash skills" do
-    test "are the four, and each runs only the engine, git status and echo" do
+    # The plugin directory accepts inline shell, and allowed-tools beyond
+    # Read, Grep, Glob and LS, only from Verified organizations (its review of
+    # 0.6.0, 10.11). So a slash skill runs nothing when it loads and
+    # pre-approves no tool: it tells Claude what to run, and Claude Code asks.
+    test "are the four, run nothing when they load, pre-approve no tool, and name only the engine and git status" do
       refute File.exists?(Path.join(@plugin, "commands"))
 
       for command <- @slash do
         path = Path.join(@plugin, "skills/#{command}/SKILL.md")
         text = File.read!(path)
         {:ok, pairs} = front_matter(path)
-        allowed = pairs |> List.keyfind!("allowed-tools", 0) |> elem(1)
-        assert allowed =~ "Bash(noetic-harness:*)", command
 
-        runs = Regex.scan(~r/^!`(.*)`$/m, text, capture: :all_but_first) |> List.flatten()
-        assert runs != [], "#{command} asks the engine nothing"
+        refute List.keyfind(pairs, "allowed-tools", 0), "#{command} pre-approves tools"
+        refute text =~ ~r/!`/, "#{command} has inline shell"
 
-        for run <- runs,
-            segment <- String.split(run, ~r/\s*(?:\|\||\||;)\s*/),
-            segment = String.trim(segment),
-            segment != "" do
-          assert segment =~ ~r/^(noetic-harness |git status |echo |head |tail |lane=)/,
-                 "#{command} runs #{inspect(segment)}"
+        runs =
+          Regex.scan(~r/`((?:noetic-harness|git) [^`]*)`/, text, capture: :all_but_first)
+          |> List.flatten()
+
+        assert Enum.any?(runs, &String.starts_with?(&1, "noetic-harness ")),
+               "#{command} asks the engine nothing"
+
+        for run <- runs do
+          assert run =~ ~r/^(noetic-harness |git status )/, "#{command} runs #{inspect(run)}"
+        end
+      end
+    end
+
+    test "an argument reaches the shell as one quoted argument, never pasted into a command" do
+      for command <- @slash do
+        text = File.read!(Path.join(@plugin, "skills/#{command}/SKILL.md"))
+        refute text =~ ~r/`[^`]*\$ARGUMENTS[^`]*`/, "#{command} puts $ARGUMENTS in a command"
+
+        if text =~ "$ARGUMENTS" and command != "harness-gates" do
+          assert String.replace(text, ~r/\s+/, " ") =~ "quoted for the shell", command
         end
       end
     end

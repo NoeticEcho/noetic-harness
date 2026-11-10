@@ -11,12 +11,14 @@ own, and it asks you for no token or password.
 to work. It has no hooks, no MCP server and no executable, so installing it
 runs nothing.
 
-**What it runs.** Four of its skills are slash skills. When you invoke one,
-it runs, in the repository Claude is working in:
+**What it runs.** Four of its skills are slash skills. They run nothing by
+themselves: no command is written into them to run when they load, and they
+pre-approve no tool. When you invoke one, it asks Claude to run, in the
+repository Claude is working in and with your permission as Claude Code asks
+for it:
 
 - `noetic-harness`, the engine, if you have installed it;
-- `git status`, to show what changed;
-- `echo`, to say when the engine did not answer.
+- `git status`, to show what changed.
 
 The fifth, `harness`, is a method. It asks Claude to check whether the
 engine and an `.agents/` directory are there, and to run the engine's

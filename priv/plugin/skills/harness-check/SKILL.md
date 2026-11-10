@@ -1,20 +1,15 @@
 ---
 name: harness-check
 description: Check the harness definitions in .agents/ for consistency, and the generated adapters for drift. Invoke as /harness-check.
-allowed-tools: Bash(noetic-harness:*), Bash(echo:*)
 ---
 
-## Definitions
+Run two things with the Bash tool, in the repository you are working in:
 
-!`noetic-harness validate 2>&1 | tail -30`
+1. **Definitions:** `noetic-harness validate` (the last 30 lines are enough).
+2. **Generated adapters:** `noetic-harness sync --check` (the last 20 lines
+   are enough).
 
-## Generated adapters
-
-!`noetic-harness sync --check 2>&1 | tail -20`
-
----
-
-If the sections above say `noetic-harness` was not found, the engine is not
+If the shell says `noetic-harness` was not found, the engine is not
 installed and nothing was checked. Say so, and stop.
 
 Otherwise:
